@@ -52,7 +52,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($songs as $index => $song)    
+                                @foreach ($songs as $index => $song)
                                 @foreach ($categories as $category)
                                 @foreach ($category->albums as $newAlbum)
                                 @foreach ($newAlbum->songs as $newSong1)
@@ -67,7 +67,7 @@
                                         <td>{{ $album->name }}</td>
                                         <td>{{ $category->name }}</td>
                                         <td>
-                                            <audio src="http://192.168.43.114:8000/api/song/file/{{$song->id}}" type="audio/mp3" controls controlslist   ></audio>
+                                            <audio src="{{asset('storage/'.$song->file)}}" controls controlslist   ></audio>
                                         </td>
 
                                         <td>

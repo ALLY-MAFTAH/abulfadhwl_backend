@@ -231,7 +231,7 @@
                            <td>{{$song->description}}</td>
                            <td>
 
-                           <audio src="http://192.168.43.114:8000/api/song/file/{{$song->id}}" type="audio/mp3" controls controlslist></audio>
+                           <audio src="{{asset('storage/'.$song->file)}}" controls controlslist ></audio>
 
 
                            </td>

@@ -155,7 +155,7 @@ class BookController extends Controller
                 'error' => 'Book not exists'
             ], 404);
         }
-        $pathToFile = storage_path('/app/' . $book->file);
+        $pathToFile = storage_path('/app/public/' . $book->file);
 
         return response()->download($pathToFile);
     }
@@ -169,7 +169,7 @@ class BookController extends Controller
             ], 404);
         }
 
-        $pathToFile = storage_path('/app/' . $book->cover);
+        $pathToFile = storage_path('/app/public/' . $book->cover);
         return response()->download($pathToFile);
     }
 }

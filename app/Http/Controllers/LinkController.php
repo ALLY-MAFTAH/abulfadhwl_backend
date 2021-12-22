@@ -125,7 +125,7 @@ class LinkController extends Controller
             ], 404);
         }
 
-        $pathToFile = storage_path('/app/' . $link->icon);
+        $pathToFile = storage_path('/app/public' . $link->icon);
         return response()->download($pathToFile);
     }
 }

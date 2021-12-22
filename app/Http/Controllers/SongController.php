@@ -147,7 +147,7 @@ class SongController extends Controller
                 'error' => 'Song not exists'
             ], 404);
         }
-        $pathToFile = storage_path('/app/' . $song->file);
+        $pathToFile = storage_path('/app/public/' . $song->file);
         return response()->download($pathToFile);
     }
 }

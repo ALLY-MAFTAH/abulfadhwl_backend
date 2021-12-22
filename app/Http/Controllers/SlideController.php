@@ -100,7 +100,7 @@ class SlideController extends Controller
                 'error' => 'Slide not exists'
             ], 404);
         }
-        $pathToFile = storage_path('/app/' . $slide->file);
+        $pathToFile = storage_path('/app/public/' . $slide->file);
         return response()->download($pathToFile);
     }
 }

@@ -100,7 +100,7 @@ class ArticleController extends Controller
 
         ]);
         $article->save();
-        
+
         if (REQ::is('api/*'))
             return response()->json([
                 'article' => $article
@@ -135,7 +135,7 @@ class ArticleController extends Controller
                 'error' => 'Article not exists'
             ], 404);
         }
-        $pathToFile = storage_path('/app/' . $article->file);
+        $pathToFile = storage_path('/app/public/' . $article->file);
         return response()->download($pathToFile);
     }
 
@@ -148,7 +148,7 @@ class ArticleController extends Controller
             ], 404);
         }
 
-        $pathToFile = storage_path('/app/' . $article->cover);
+        $pathToFile = storage_path('/app/public/' . $article->cover);
         return response()->download($pathToFile);
     }
 }

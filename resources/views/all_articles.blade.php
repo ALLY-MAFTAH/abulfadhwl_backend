@@ -58,7 +58,7 @@
 
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td><img src="http://192.168.43.114:8000/api/article/cover/{{$article->id}}" alt="Article cover" style="width: 30px"></td>
+                                        <td><img src={{asset('storage/'.$article->cover)}} alt="Article cover" style="width: 30px"></td>
                                         <td>{{ $article->title }}</td>
                                         <td>{{ $article->pub_year }}</td>
 

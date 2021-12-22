@@ -123,7 +123,7 @@ class StreamController extends Controller
             ], 404);
         }
 
-        $pathToFile = storage_path('/app/' . $stream->timetable);
+        $pathToFile = storage_path('/app/public/' . $stream->timetable);
         return response()->download($pathToFile);
     }
 }

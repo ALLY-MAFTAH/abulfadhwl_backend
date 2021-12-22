@@ -75,28 +75,21 @@
                             <hr>
                         </div>
                         <div class="col-3" style="background-color:rgb(224, 224, 228); text-align:center">
-                            <div class="bg-dark text-white" style="padding: 10px; margin-bottom:8px">
-                            </div>
-                            <div style=""><img src="http://192.168.43.114:8000/api/article/cover/{{$article->id}}" alt="Article Cover" width="100%"></div>
-
+                            <div class="text-center"style="padding: 10px;">
+                                <form action="{{asset('storage/'.$article->file)}}" target="_blank">
+                                    <button type="submit" class="btn btn-outline-primary">
+                                    <i class="fas fa-file"> Open</i>
+                                    </button>
+                                </form>
                         </div>
+                        <div style=""><img src={{asset('storage/'.$article->cover)}} alt="Article Cover" width="100%"></div>
+
+                    </div>
                     </div>
 
                     <hr>
                    <div class="row">
-                    <div class="col-9"></div>
-                    <div style="padding-top: 5px;" class="col-3">
-                       <div class="row" style="text-align: center">
-                        <div class="col-12" style="text-align-last: left">
-                        <form action="http://192.168.43.114:8000/api/article/cover/{{$article->id}}" target="_blank">
-                            <button type="submit" class="btn btn-outline-primary">
-                            <i class="fas fa-file"> Open</i>
-                            </button>
-                        </form>
-                        </div>
 
-                       </div>
-                    </div>
                    </div>
                 </div>
 

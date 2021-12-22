@@ -60,7 +60,7 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>
-                                        <a href="#" data-toggle="modal" data-target="#viewTimetable-{{$stream->id}}"><img src="http://192.168.43.114:8000/api/stream/timetable/{{$stream->id}}" alt="Stream timetable" style="width: 50px;height:50px;"></a>
+                                        <a href="#" data-toggle="modal" data-target="#viewTimetable-{{$stream->id}}"><img src={{asset('storage/'.$stream->timetable)}} alt="Stream timetable" style="width: 50px;height:50px;"></a>
                                         <!-- EDIT STREAM MODAL -->
             <div class="modal fade" id="viewTimetable-{{$stream->id}}">
                 <div class="modal-dialog modal-lg">
@@ -73,7 +73,7 @@
                         </div>
                         <div class="modal-body">
                                    <div class="int-div">
-                                        <img src="http://192.168.43.114:8000/api/stream/timetable/{{$stream->id}}" alt="Ratiba ya masomo" style="width: 75%;padding:5px">
+                                        <img src={{asset('storage/'.$stream->timetable)}} alt="Ratiba ya masomo" style="width: 75%;padding:5px">
                                    </div>
                         </div>
                     </div>
@@ -82,7 +82,9 @@
                                      </td>
                                         <td>{{ $stream->title }}</td>
                                         <td>{{ $stream->description }}</td>
-                                        <td>{{ $stream->url }}</td>
+                                        <td>
+                                            <audio src="{{$stream->url}}" controls controlslist ></audio>
+                                        </td>
                                         <td>
                                             <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#editStreamModal-{{$stream->id}}" >
                                                 <i class="fas fa-edit">

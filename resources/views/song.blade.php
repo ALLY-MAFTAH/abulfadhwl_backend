@@ -96,7 +96,7 @@
 
                             <hr>
                             <div class="row">
-                                <audio src="http://192.168.43.114:8000/api/song/file/{{$song->id}}" type="audio/mp3" controls controlslist style="width:100% "></audio>
+                                <audio src="{{asset('storage/'.$song->file)}}" type="audio/mp3" controls controlslist style="width:100% "></audio>
                             </div>
                     <hr>
 

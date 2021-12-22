@@ -49,7 +49,7 @@
                                     @foreach ($slides as $index => $slide)
                                      <div class="col-4 " style="padding: 2px;">
                                        <div class="int-div">
-                                            <img src="http://192.168.43.114:8000/api/slide/file/{{$slide->id}}" alt="Slide cover" style="width: 100%;padding:5px">
+                                            <img src={{asset('storage/'.$slide->file)}} alt="Slide file" style="width: 100%;padding:5px">
                                         <div class="row" style="padding: 5px">
                                             <div class="col-6">
                                             <h5>Slide No: <span style="color: blue">{{$slide->number}}</span></h4>

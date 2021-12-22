@@ -75,12 +75,7 @@
                 <h5><i class="fas fa-comments"> </i>Comments</h5>
             </a>
         </li>
-        <li class="nav-item  list-unstyled">
-            <a class="nav-link left-menu-link" href="{{ route('announcements') }}">
 
-                <h5><i class="fas fa-microphone"> </i>Announcements</h5>
-            </a>
-        </li>
         <li class="nav-item  list-unstyled">
             <a class="nav-link left-menu-link" href="{{ route('links') }}">
 
@@ -90,23 +85,22 @@
         <li class="nav-item  list-unstyled">
             <a class="nav-link left-menu-link" href="{{ route('questions') }}">
 
-                <h5><i class="fas fa-question"> </i>Maswali</h5>
+                <h5><i class="fas fa-question"> </i>Questions</h5>
             </a>
         </li>
         <li class="nav-item  list-unstyled">
             <a class="nav-link left-menu-link" href="{{ route('answers') }}">
 
-                <h5><i class="fas fa-answer"> </i>Maswali & Majibu</h5>
+                <h5><i class="fas fa-question"> </i>Answers</h5>
+            </a>
+        </li>
+        <li class="nav-item  list-unstyled">
+            <a class="nav-link left-menu-link" href="{{ route('announcements') }}">
+
+                <h5><i class="fas fa-volume"> </i>Announcements</h5>
             </a>
         </li>
         <hr>
-        <h5 style="font-size: 23px; padding-left:5px" class="nav-item-heading">User Preferences </h5>
-        <li class="nav-item  list-unstyled">
-            <a class="nav-link left-menu-link">
-                <h5> <i class="fas fa-key" aria-hidden="true"></i>
 
-                   Logout</h5>
-            </a>
-        </li>
     </div>
 </div>

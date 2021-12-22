@@ -34,7 +34,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: "Nunito", sans-serif;
+  --font-family-sans-serif: "Tmes New Roman", sans-serif;
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -67,7 +67,7 @@ section {
 body {
   margin: 0;
   font-family: 'Times New Roman', Times, serif;
-  font-size: 0.9rem;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.6;
   color: #212529;

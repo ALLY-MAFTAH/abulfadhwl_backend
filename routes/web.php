@@ -123,7 +123,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('answer/{answerId}', ['uses' => 'AnswerController@getSingleAnswer'])->name('answer');
     Route::post('answer', ['uses' => 'AnswerController@postAnswer'])->name('add_answer');
     Route::get('delete_answer/{answerId}', ['uses' => 'AnswerController@deleteAnswer'])->name('delete_answer');
-    Route::get('edit_answer/{answerId}', ['uses' => 'AnswerController@putAnswer'])->name('edit_answer');
+    Route::put('edit_answer/{answerId}', ['uses' => 'AnswerController@putAnswer'])->name('edit_answer');
 
 
     // // USERS ROUTES
