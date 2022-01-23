@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    <div class="col-md-10 py-3">
+    <div class=" py-3">
         <div class="container">
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
@@ -18,16 +18,26 @@
                     {{ session('errors') }}
                 </div>
             @endif
-
+            @if (Session::has('message'))
+            <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}
+            </p>
+        @endif
             <!-- ACTIONS -->
-            <section id="actions" class="py-2 mb-4 bg-light">
+            <section id="actions" class=" mb-2">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal" data-target="#addCategoryModal">
-                                <i class="fas fa-plus"></i> Add Category
+                    <div class="row"
+                        style="margin:2px;padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                        <div class="col">
+                            <button onclick="history.back()" class="btn btn-primary btn-outline">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                        </div>
+                        <div class="col-2"></div>
+                        <div class="col-2 text-right">
+                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal"
+                                data-target="#addCategoryModal">
+                                <i class="fas fa-plus"></i> New Category
                             </a>
-
                         </div>
                     </div>
                 </div>
@@ -35,12 +45,9 @@
 
             <section id="categories">
                 <div class="container">
-                    @if (Session::has('message'))
-                        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
-                    @endif
                     <div class="card">
                         <div class="card-header">
-                            <h4>CATEGORIES</h4>
+                            <h4>AUDIO CATEGORIES ({{count($categories)}})</h4>
                         </div>
                         <table class="table table-striped">
                             <thead class="thead-dark">
@@ -55,16 +62,14 @@
                             </thead>
                             <tbody>
                                 @foreach ($categories as $index => $category)
-
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $category->name }}</td>
                                         <td>{{ $category->description }}</td>
                                         <td>{{ count($category->albums) }}</td>
-
-
                                         <td>
-                                            <a href="{{ route('category', $category->id) }}" class="btn btn-outline-primary">
+                                            <a href="{{ route('category', $category->id) }}"
+                                                class="btn btn-outline-primary">
                                                 <i class="fas fa-info-circle">
                                                     View</i>
                                             </a>
@@ -109,9 +114,9 @@
                                             class="form-control @error('name') is-invalid @enderror" name="name"
                                             value="{{ old('name') }}" required autocomplete="name" autofocus>
                                         @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -120,12 +125,13 @@
                                         class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
                                     <div class="col-md-6">
                                         <input id="description" type="text"
-                                            class="form-control @error('description') is-invalid @enderror" name="description"
-                                            value="{{ old('description') }}" required autocomplete="description" >
+                                            class="form-control @error('description') is-invalid @enderror"
+                                            name="description" value="{{ old('description') }}" required
+                                            autocomplete="description">
                                         @error('description')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -142,29 +148,6 @@
                     </div>
                 </div>
             </div>
-            <!--FOOTER  -->
-            <footer id="main-footer" class="bg-light text-dark mb-3">
-                <div class="container">
-                    <div class="col">
-                        <hr>
-                        <p class="lead text-center">
-                            Copyright &copy; <span id="year"></span> ABUL FADHWL
-                        </p>
-                    </div>
-                </div>
-            </footer>
-
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-                integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-                crossorigin="anonymous" />
-
-            <script>
-                // Get the current year for the copyright
-                $('#year').text(new Date().getFullYear());
-                        </script>
         </div>
     </div>
 @endsection

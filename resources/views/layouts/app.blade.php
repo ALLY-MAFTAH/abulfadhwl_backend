@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,29 +8,34 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('', 'ABUL FADHWL SERVER APP') }}</title>
+    <title>{{ config('', 'Abulfadhwl App') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+
     <style>
-         .card-header {
+        .card-header {
             color: white;
+            width: 100%;
             text-align: center;
             font-weight: 900;
             font-size: 18px;
-            background: rgb(114, 108, 108)
+            background: rgb(240, 157, 4)
         }
 
         .card-body {
-            background: rgb(240, 236, 236);
+            background: rgba(207, 166, 77, 0.459);
+            width: auto;
+            width: 100%;
         }
 
         h3 {
@@ -40,88 +46,228 @@
             padding-top: 70px;
             padding-bottom: 10px;
         }
-        h4{
-            padding-top: 20px;
-            font-size: 30px
 
-        }
-        .music-icon{
-            color: rgb(224, 116, 15);
-            font-size: 25px;
-        }
-        .left-menu-link{
-            color: rgb(100, 59, 5);
-        }
-
-        .attachements {
-            display: flex;
+        .nav-items-2 {
             justify-content: center;
-            border: 1px solid rgb(224, 224, 228);
-            text-align: left;
-        }
-        .left-menu-link .fas{
-            width: 30px;
-        }
-        .nav-item > a:hover {
-  color: rgb(248, 250, 250);
-}
+            color: rgb(3, 22, 107);
+            text-shadow: 2px 2px 4px #e8e7f3;
+            font-weight: 900;
 
-        .ext-div{
+        }
+
+        .nav-items-2:hover {
+            color: rgb(18, 3, 100);
+            text-shadow: 2px 2px 4px #0a0263;
+        }
+
+        .active {
+            color: #fff !important;
+            font-weight: 900;
+        }
+
+
+        .zoom {
+            transition: transform .2s;
+        }
+
+        .zoom:hover {
+            transform: scale(1.3);
+            /* (130% zoom)*/
+        }
+
+
+        .hide {
+            display: none;
+        }
+
+        .row-height {
+            height: 15px;
+        }
+
+        .checkbox-size {
+            display: flex;
+            width: 100%;
+            height: calc(1em + 0.3rem + 1px);
+            padding: 0.2rem 0.5rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #041055;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #eea508;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        .summary-cards {
+            box-shadow: 4px 4px 6px #1a07e9;
+            border-radius: 12px;
+            width: 90%;
+            min-height: 100px;
+            max-height: 120px;
             padding: 20px;
+            margin: 20px;
+            background: white;
         }
-        .int-div{
 
-  background-color: rgb(229, 243, 225);
-  border: 1px solid rgba(31, 99, 4, 0.952);
-  border-radius: 0.25rem;
-  text-align: center
-   }
+        .summary-cards:hover {
+            box-shadow: 6px 6px 4px 6px #f6f6f8;
+            background: #df831a;
+        }
+
+        .summary-cards .summary-content {
+            color: rgb(5, 5, 105);
+            font-weight: bolder;
+            padding: 5px;
+            font-size: 12px;
+        }
+
+        .summary-cards:hover .summary-content {
+            color: var(--white);
+        }
+
     </style>
 </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-light shadow-lg">
-            <div class="container">
-                 <h4><b> ABUL FADHWL APP DASHBOARD</b></h4>
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+<body>
+
+    <div id="app" style="background-color: rgba(247, 215, 185, 0.212);">
+        <nav id="navbar_top" class="navbar navbar-expand-md navbar-light shadow-lg"
+            style="background-color:rgb(247, 142, 5)">
+            <div class="container">
+                <a href="#" class=""> <img src="{{ asset('/asset/images/logo.png') }} "
+                        height="40px"></a>
+                <h2 style=" color: white; text-shadow: 2px 2px 4px #1709e0;"> <b> Abulfadhwl App</b></h2>
+                <button class="navbar-toggler" style="background-color: rgb(255, 255, 255)" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    @guest
+                        @if (Route::has('login'))
+                            <div></div>
+                        @endif
 
-                    </ul>
+                        @if (Route::has('register'))
+                            <div></div>
+                        @endif
+                    @else
 
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item list-unstyled">
+                                <a class="nav-link  " href="{{ route('home') }}">
+                                    <p class="nav-items-2 {{ request()->routeIs('home') ? 'active' : '' }}"> Home
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item list-unstyled dropdown">
+                                <a class="nav-link nav-items-2 dropdown-toggle  {{ request()->routeIs('songs') || request()->routeIs('albums') || request()->routeIs('album') || request()->routeIs('categories') || request()->routeIs('category') || request()->routeIs('articles') || request()->routeIs('article') || request()->routeIs('books') || request()->routeIs('book') ? 'active' : '' }}"
+                                    href="#" data-bs-toggle="dropdown">Turaath</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('songs') || request()->routeIs('albums') || request()->routeIs('album') || request()->routeIs('categories') || request()->routeIs('category') ? 'active' : '' }}"
+                                            href="{{ route('categories') }}">Audio</a></li>
+                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('books') || request()->routeIs('book') ? 'active' : '' }}"
+                                            href="{{ route('books') }}">Books</a></li>
+                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('articles') || request()->routeIs('article') ? 'active' : '' }}"
+                                            href="{{ route('articles') }}">Articles</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item list-unstyled dropdown">
+                                <a class="nav-link nav-items-2 dropdown-toggle  {{ request()->routeIs('announcements') || request()->routeIs('questions') || request()->routeIs('answers') || request()->routeIs('comments') ? 'active' : '' }}"
+                                    href="#" data-bs-toggle="dropdown">Feeds</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('announcements') ? 'active' : '' }}"
+                                            href="{{ route('announcements') }}">Announcements</a></li>
+                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('questions') ? 'active' : '' }}"
+                                            href="{{ route('questions') }}">Questions</a></li>
+                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('answers') ? 'active' : '' }}"
+                                            href="{{ route('answers') }}">Answers</a></li>
+                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('comments') ? 'active' : '' }}"
+                                            href="{{ route('comments') }}">Comments</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item  list-unstyled">
+                                <a class="nav-link   " href="{{ route('slides') }}">
+                                    <p class="nav-items-2 {{ request()->routeIs('slides') ? 'active' : '' }}">
+                                        Slides</p>
+                                </a>
+
+                            </li>
+                            <li class="nav-item  list-unstyled">
+
+                                <a class="nav-link" href="{{ route('histories') }}">
+                                    <p class="nav-items-2 {{ request()->routeIs('histories')||request()->routeIs('history') ? 'active' : '' }}">
+                                        History</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item  list-unstyled">
+                                <a class="nav-link  " href="{{ route('streams') }}">
+
+                                    <p class="nav-items-2 {{ request()->routeIs('streams') ? 'active' : '' }}">
+                                        Streams</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item  list-unstyled">
+                                <a class="nav-link  " href="{{ route('links') }}">
+                                    <p class="nav-items-2 {{ request()->routeIs('links') ? 'active' : '' }}">
+                                        Links</p>
+                                </a>
+                            </li>
+                        </ul>
+                    @endguest
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a style="color: blue" class="nav-link"
+                                        href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
+
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a style="color: blue" class="nav-link"
+                                        href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a style="color: blue; font-size: 17px" id="navbarDropdown" class="nav-link dropdown-toggle"
+                                    href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                <div style="background-color: white" class="dropdown-menu dropdown-menu-right"
+                                    aria-labelledby="navbarDropdown">
+                                    <a style="color: rgb(241, 10, 10)" class="dropdown-item"
+                                        href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fas fa-power-off"></i> {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
                                         @csrf
                                     </form>
+                                    {{-- <a style="color: rgb(241, 10, 10)" class="dropdown-item"
+                                        href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('change-password-form').submit();">
+                                        <i class="fas fa-key"></i> {{ __('Change Password') }}
+                                    </a>
+
+                                    <form id="change-password-form" action="{{ route('change_password') }}" method="GET"
+                                        class="d-none">
+                                        @csrf
+                                    </form> --}}
                                 </div>
                             </li>
                         @endguest
@@ -129,13 +275,59 @@
                 </div>
             </div>
         </nav>
-
         <main>
-            <div class="row">
-                @yield('sidebar')
+            <div  style="min-height: 100vh">
                 @yield('content')
             </div>
         </main>
+        <footer id="main-footer" class="bg-light text-dark mb-3">
+            <div class="container">
+                <div class="col">
+                    <hr>
+                    <p class="lead text-center">
+                        &copy; <span id="year"></span> Abulfadhwl App
+                    </p>
+                </div>
+            </div>
+        </footer>
     </div>
+    <script>
+        $('#year').text(new Date().getFullYear());
+    </script>
+
+    <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/ripple.js') }}"></script>
+    <script src="{{ asset('js/pcoded.js') }}"></script>
+    <script src="{{ asset('js/moment.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/daterangepicker.js') }}"></script>
+    <script src="{{ asset('js/plugins/timepicker.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+        integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+        crossorigin="anonymous" />
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 1) {
+                    document.getElementById('navbar_top').classList.add('fixed-top');
+                    // add padding top to show content behind navbar
+                    navbar_height = document.querySelector('.navbar').offsetHeight;
+                    document.body.style.paddingTop = navbar_height + 'px';
+                } else {
+                    document.getElementById('navbar_top').classList.remove('fixed-top');
+                    // remove padding top from body
+                    document.body.style.paddingTop = '0';
+                }
+            });
+        });
+    </script>
+
+    @yield('scripts')
 </body>
+
 </html>

@@ -1,46 +1,52 @@
 @extends('layouts.app')
-@section('sidebar')
-    <div class="col-md-2">
-        @include('components.left_nav')
-    </div>
-@endsection
+
 
 @section('content')
-    <div class="col-md-10 py-3">
+    <div class=" py-3">
         <div class="container">
             @if (session('status'))
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-info" role="alert">
                     {{ session('status') }}
                 </div>
             @endif
             @if (session('errors'))
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-danger" role="alert">
                     {{ session('errors') }}
                 </div>
             @endif
-
+            @if (Session::has('message'))
+            <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}
+            </p>
+        @endif
             <!-- ACTIONS -->
-            <section id="actions" class="py-2 mb-4 bg-light">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal" data-target="#addArticleModal">
-                                <i class="fas fa-plus"></i> Add Article
-                            </a>
 
+            <section id="actions" class=" mb-2">
+                <div class="container">
+                    <div class="row"
+                        style="margin:2px;padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                        <div class="col">
+                            <button onclick="history.back()" class="btn btn-primary btn-outline">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
                         </div>
+
+                        <div class="col-2"></div>
+                        <div class="col-2 text-right">
+                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal" data-target="#addBookModal">
+                                <i class="fas fa-plus"></i> Add Book
+                            </a>
+                        </div>
+
+
                     </div>
                 </div>
             </section>
 
-            <section id="articles">
+            <section id="books">
                 <div class="container">
-                    @if (Session::has('message'))
-                        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
-                    @endif
-                    <div class="card">
+                                      <div class="card">
                         <div class="card-header">
-                            <h4>ARTICLES</h4>
+                            <h4>BOOKS ({{$books->count()}})</h4>
                         </div>
                         <table class="table table-striped">
                             <thead class="thead-dark">
@@ -48,30 +54,32 @@
                                     <th>#</th>
                                     <th>Cover</th>
                                     <th>Title</th>
+                                    <th>Edition</th>
                                     <th>Year of Publish</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($articles as $index => $article)
+                                @foreach ($books as $index => $book)
 
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td><img src={{asset('storage/'.$article->cover)}} alt="Article cover" style="width: 30px"></td>
-                                        <td>{{ $article->title }}</td>
-                                        <td>{{ $article->pub_year }}</td>
+                                        <td><img src="{{asset('storage/'.$book->cover)}}" alt="Book cover" style="width: 30px"></td>
+                                        <td>{{ $book->title }}</td>
+                                        <td>{{ $book->edition }}</td>
+                                        <td>{{ $book->pub_year }}</td>
 
 
                                         <td>
-                                            <a href="{{ route('article', $article->id) }}" class="btn btn-outline-primary">
+                                            <a href="{{ route('book', $book->id) }}" class="btn btn-outline-primary">
                                                 <i class="fas fa-info-circle">
                                                     View</i>
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="{{ route('delete_article', $article->id) }}"
-                                                onclick="return confirm('This article will be deleted')"
+                                            <a href="{{ route('delete_book', $book->id) }}"
+                                                onclick="return confirm('This book will be deleted')"
                                                 class="btn btn-outline-danger">
                                                 <i class="fas fa-trash"> Delete</i>
                                             </a>
@@ -84,21 +92,18 @@
                 </div>
             </section>
 
-
-            <!-- MODALS -->
-
-            <!-- ADD ARTICLE MODAL -->
-            <div class="modal fade" id="addArticleModal">
-                <div class="modal-dialog modal-lg">
+            <!-- ADD BOOK MODAL -->
+            <div class="modal fade" id="addBookModal">
+                <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title">Add Article</h5>
+                            <h5 class="modal-title">Add Book</h5>
                             <button class="close" data-dismiss="modal">
                                 <span>&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="{{ route('add_article') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('add_book') }}" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="form-group row">
@@ -109,6 +114,34 @@
                                             class="form-control @error('title') is-invalid @enderror" name="title"
                                             value="{{ old('title') }}" required autocomplete="title" autofocus>
                                         @error('title')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="description"
+                                        class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
+                                    <div class="col-md-6">
+                                        <input id="description" type="text"
+                                            class="form-control @error('description') is-invalid @enderror" name="description"
+                                            value="{{ old('description') }}" required autocomplete="description" >
+                                        @error('description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="edition"
+                                        class="col-md-4 col-form-label text-md-right">{{ __('Edition') }}</label>
+                                    <div class="col-md-6">
+                                        <input id="edition" type="number"
+                                            class="form-control @error('edition') is-invalid @enderror" name="edition"
+                                            value="{{ old('edition') }}" required autocomplete="edition" >
+                                        @error('edition')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -130,21 +163,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="cover"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Cover') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="cover" type="file"
-                                        class="form-control @error('cover') is-invalid @enderror" name="cover"
-                                        value="{{ old('cover') }}" required autocomplete="cover" >
-                                        @error('cover')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
                                     <label for="file"
                                         class="col-md-4 col-form-label text-md-right">{{ __('File') }}</label>
                                     <div class="col-md-6">
@@ -158,6 +176,21 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="cover"
+                                        class="col-md-4 col-form-label text-md-right">{{ __('Cover') }}</label>
+                                    <div class="col-md-6">
+                                        <input id="cover" type="file"
+                                            class="form-control @error('cover') is-invalid @enderror" name="cover"
+                                            value="{{ old('cover') }}" required autocomplete="cover" >
+                                        @error('cover')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
                                 <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">
                                         <button type="submit" class="btn btn-primary">
@@ -170,29 +203,7 @@
                     </div>
                 </div>
             </div>
-            <!--FOOTER  -->
-            <footer id="main-footer" class="bg-light text-dark mb-3">
-                <div class="container">
-                    <div class="col">
-                        <hr>
-                        <p class="lead text-center">
-                            Copyright &copy; <span id="year"></span> ABUL FADHWL
-                        </p>
-                    </div>
-                </div>
-            </footer>
 
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-                integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-                crossorigin="anonymous" />
-
-            <script>
-                // Get the current year for the copyright
-                $('#year').text(new Date().getFullYear());
-                        </script>
         </div>
     </div>
 @endsection

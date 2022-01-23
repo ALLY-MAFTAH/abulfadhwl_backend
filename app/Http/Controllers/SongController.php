@@ -21,7 +21,7 @@ class SongController extends Controller
                 'songs' => $songs
             ], 200, [], JSON_NUMERIC_CHECK);
 
-        return view('all_songs')->with(['songs' => $songs, 'albums' => $albums, 'categories' => $categories]);
+        return view('audios/all_songs')->with(['songs' => $songs, 'albums' => $albums, 'categories' => $categories]);
     }
 
     public function getSingleSong($songId)
@@ -39,7 +39,7 @@ class SongController extends Controller
             return response()->json([
                 'song' => $song
             ], 200);
-        return view('song')->with(['song' => $song, 'albums' => $albums, 'categories' => $categories]);
+        return view('audios/song')->with(['song' => $song, 'albums' => $albums, 'categories' => $categories]);
     }
 
     public function postSong(Request $request, $albumId)

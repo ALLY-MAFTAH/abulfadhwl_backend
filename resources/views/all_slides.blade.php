@@ -1,71 +1,76 @@
 @extends('layouts.app')
-@section('sidebar')
-    <div class="col-md-2">
-        @include('components.left_nav')
-    </div>
-@endsection
 
 @section('content')
-    <div class="col-md-10 py-3">
+    <div class=" py-3">
         <div class="container">
             @if (session('status'))
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-info" role="alert">
                     {{ session('status') }}
                 </div>
             @endif
             @if (session('errors'))
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-danger" role="alert">
                     {{ session('errors') }}
                 </div>
             @endif
-
+            @if (Session::has('message'))
+            <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}
+            </p>
+        @endif
             <!-- ACTIONS -->
-            <section id="actions" class="py-2 mb-4 bg-light">
+
+            <section id="actions" class=" mb-2">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal" data-target="#addSlideModal">
+                    <div class="row"
+                        style="margin:2px;padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                        <div class="col">
+                            <button onclick="history.back()" class="btn btn-primary btn-outline">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                        </div>
+
+                        <div class="col-2"></div>
+                        <div class="col-2 text-right">
+                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal"
+                                data-target="#addSlideModal">
                                 <i class="fas fa-plus"></i> Add Slide
                             </a>
-
                         </div>
                     </div>
                 </div>
             </section>
-
             <section id="slides">
                 <div class="container">
-                    @if (Session::has('message'))
-                        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
-                    @endif
-                    <div class="card">
+                                       <div class="card">
                         <div class="card-header">
-                            <h4>SLIDES</h4>
+                            <h4>SLIDES ({{ $slides->count() }})</h4>
                         </div>
-                        <table class="table">
+                        <table class="table table-striped">
                             <tbody>
-
-                               <div class="row ext-div" >
+                                <div class="row " style="margin: 2px">
                                     @foreach ($slides as $index => $slide)
-                                     <div class="col-4 " style="padding: 2px;">
-                                       <div class="int-div">
-                                            <img src={{asset('storage/'.$slide->file)}} alt="Slide file" style="width: 100%;padding:5px">
-                                        <div class="row" style="padding: 5px">
-                                            <div class="col-6">
-                                            <h5>Slide No: <span style="color: blue">{{$slide->number}}</span></h4>
-                                            </div>
-                                            <div class="col-6" style="text-align-last: right">
-                                                <a href="{{ route('delete_slide', $slide->id) }}"
-                                                    onclick="return confirm('This slide will be deleted')"
-                                                    class="btn btn-outline-danger">
-                                                    <i class="fas fa-trash"> Delete</i>
-                                                </a>
+                                        <div class="col-3 " style="padding: 2px;">
+                                            <div>
+                                                <img src={{ asset('storage/' . $slide->file) }} alt="Slide file"
+                                                    style="width: 100%;padding:5px">
+                                                <div class="row" style="padding: 5px">
+                                                    <div class="col-md-6">
+                                                        <h5>Slide No: <span
+                                                                style="color: blue">{{ $slide->number }}</span>
+                                                            </h4>
+                                                    </div>
+                                                    <div class="col-md-6" style="text-align-last: right">
+                                                        <a href="{{ route('delete_slide', $slide->id) }}"
+                                                            onclick="return confirm('This slide will be deleted')"
+                                                            class="btn btn-outline-danger">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                       </div>
-                                    </div>
                                     @endforeach
-                               </div>
+                                </div>
                             </tbody>
                         </table>
                     </div>
@@ -77,7 +82,7 @@
 
             <!-- ADD SLIDE MODAL -->
             <div class="modal fade" id="addSlideModal">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Slide</h5>
@@ -97,9 +102,9 @@
                                             class="form-control @error('number') is-invalid @enderror" name="number"
                                             value="{{ old('number') }}" required autocomplete="number" autofocus>
                                         @error('number')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -110,15 +115,15 @@
                                     <div class="col-md-6">
                                         <input id="file" type="file"
                                             class="form-control @error('file') is-invalid @enderror" name="file"
-                                            value="{{ old('file') }}" required autocomplete="file" >
+                                            value="{{ old('file') }}" required autocomplete="file">
                                         @error('file')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
-                                            <div class="form-group row mb-0">
+                                <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">
                                         <button type="submit" class="btn btn-primary">
                                             Add
@@ -130,29 +135,7 @@
                     </div>
                 </div>
             </div>
-            <!--FOOTER  -->
-            <footer id="main-footer" class="bg-light text-dark mb-3">
-                <div class="container">
-                    <div class="col">
-                        <hr>
-                        <p class="lead text-center">
-                            Copyright &copy; <span id="year"></span> ABUL FADHWL
-                        </p>
-                    </div>
-                </div>
-            </footer>
 
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-                integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-                crossorigin="anonymous" />
-
-            <script>
-                // Get the current year for the copyright
-                $('#year').text(new Date().getFullYear());
-                        </script>
         </div>
     </div>
 @endsection

@@ -25,7 +25,7 @@ class CategoryController extends Controller
             'categories' => $categories
         ], 200,[],JSON_NUMERIC_CHECK);
 
-        return view('all_categories')->with('categories', $categories);
+        return view('audios/all_categories')->with('categories', $categories);
     }
 
     // Get a single category
@@ -43,7 +43,7 @@ class CategoryController extends Controller
         return response()->json([
             'category' => $category
         ], 200);
-        return view('category')->with('category', $category);
+        return view('audios/category')->with('category', $category);
 
     }
 

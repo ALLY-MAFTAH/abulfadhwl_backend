@@ -104,7 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('edit_link/{linkId}', ['uses' => 'LinkController@putLink'])->name('edit_link');
     Route::get('link/{linkId}', ['uses' => 'LinkController@getSingleLink'])->name('link');
     Route::get('delete_link/{linkId}', ['uses' => 'LinkController@deleteLink'])->name('delete_link');
-    Route::get('link/icon/{linkId}', ['uses' => 'LinkController@viewCoverFile'])->name('link_icon');
+    Route::get('link/icon/{linkId}', ['uses' => 'LinkController@viewIconFile'])->name('link_icon');
 
 
     // COMMENTS ROUTES
@@ -125,6 +125,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('delete_answer/{answerId}', ['uses' => 'AnswerController@deleteAnswer'])->name('delete_answer');
     Route::put('edit_answer/{answerId}', ['uses' => 'AnswerController@putAnswer'])->name('edit_answer');
 
+    // USERS ROUTES
+    Route::get('users', ['uses' => 'UserController@getAllUsers'])->name('users');
+    Route::get('user/{userId}', ['uses' => 'UserController@getSingleUser'])->name('user');
+    Route::post('user', ['uses' => 'UserController@postUser'])->name('add_user');
+    Route::get('delete_user/{userId}', ['uses' => 'UserController@deleteUser'])->name('delete_user');
+    Route::put('edit_user/{userId}', ['uses' => 'UserController@putUser'])->name('edit_user');
 
     // // USERS ROUTES
     // Route::post('login', ['uses' => 'UserController@login']);

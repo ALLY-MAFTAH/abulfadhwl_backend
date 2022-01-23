@@ -18,7 +18,10 @@
                     {{ session('errors') }}
                 </div>
             @endif
-
+            @if (Session::has('message'))
+            <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}
+            </p>
+        @endif
             <!-- ACTIONS -->
             <section id="actions" class="py-5 mb-4 bg-light">
                 <div class="container">
@@ -32,9 +35,7 @@
 
             <section id="categories">
                 <div class="container">
-                    @if (Session::has('message'))
-                        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
-                    @endif
+                   
                     <div class="card">
                         <div class="card-header">
                             <h4>ALBUMS</h4>

@@ -18,7 +18,7 @@ class ArticleController extends Controller
             return response()->json([
                 'articles' => $articles
             ], 200);
-        return view('all_articles')->with('articles', $articles);
+        return view('documents/all_articles')->with('articles', $articles);
     }
 
     // Get a single article
@@ -34,7 +34,7 @@ class ArticleController extends Controller
             return response()->json([
                 'article' => $article
             ], 200);
-        return view('article')->with('article', $article);
+        return view('documents/article')->with('article', $article);
     }
 
     // Post article
