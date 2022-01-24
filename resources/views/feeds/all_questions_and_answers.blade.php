@@ -14,7 +14,7 @@
                 </div>
             @endif
             @if (Session::has('message'))
-                <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+                <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}</p>
             @endif
 
             <section id="actions" class=" mb-2">
@@ -79,11 +79,11 @@
                                                                     <label for="qn"
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Swali Lililoulizwa') }}</label>
                                                                     <div class="col-md-6">
-                                                                        <input id="qn" type="text"
+                                                                        <textarea id="qn" type="text"
                                                                             class="form-control @error('qn') is-invalid @enderror"
                                                                             name="qn"
-                                                                            value="{{ old('qn', $answer->qn) }}" required
-                                                                            autocomplete="qn">
+                                                                            value="" required
+                                                                            autocomplete="qn">{{ old('qn', $answer->qn) }}</textarea>
                                                                         @error('qn')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
@@ -95,11 +95,11 @@
                                                                     <label for="ans"
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Jibu') }}</label>
                                                                     <div class="col-md-6">
-                                                                        <input id="ans" type="text" style="height: 40px"
+                                                                        <textarea id="ans" type="text"
                                                                             class="form-control @error('ans') is-invalid @enderror"
                                                                             name="ans"
-                                                                            value="{{ old('ans', $answer->ans) }}"
-                                                                            required autocomplete="ans">
+                                                                            value=""
+                                                                            required autocomplete="ans">{{ old('ans', $answer->ans) }}</textarea>
                                                                         @error('ans')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
@@ -154,8 +154,8 @@
                                     <label for="qn"
                                         class="col-md-4 col-form-label text-md-right">{{ __('Swali Lililoulizwa') }}</label>
                                     <div class="col-md-6">
-                                        <input id="qn" type="text" class="form-control @error('qn') is-invalid @enderror"
-                                            name="qn" value="{{ old('qn') }}" required autocomplete="qn">
+                                        <textarea id="qn" type="text" class="form-control @error('qn') is-invalid @enderror"
+                                            name="qn" value="{{ old('qn') }}" required autocomplete="qn"></textarea>
                                         @error('qn')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -167,9 +167,9 @@
                                     <label for="ans"
                                         class="col-md-4 col-form-label text-md-right">{{ __('Jibu') }}</label>
                                     <div class="col-md-6">
-                                        <input id="ans" type="text" style="height: 40px"
+                                        <textarea id="ans" type="text" style="height: 40px"
                                             class="form-control @error('ans') is-invalid @enderror" name="ans"
-                                            value="{{ old('ans') }}" required autocomplete="ans">
+                                            value="{{ old('ans') }}" required autocomplete="ans"></textarea>
                                         @error('ans')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

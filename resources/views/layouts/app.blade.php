@@ -100,7 +100,7 @@
             transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
         .summary-cards {
-            box-shadow: 4px 4px 6px #1a07e9;
+            box-shadow: 4px 4px 6px #df831a;
             border-radius: 12px;
             width: 90%;
             min-height: 100px;
@@ -111,7 +111,7 @@
         }
 
         .summary-cards:hover {
-            box-shadow: 6px 6px 4px 6px #f6f6f8;
+            box-shadow: 4px 4px 6px #0505bb;
             background: #df831a;
         }
 
@@ -240,7 +240,7 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a style="color: blue; font-size: 17px" id="navbarDropdown" class="nav-link dropdown-toggle"
+                                <a style="color: white; font-size: 17px" id="navbarDropdown" class="nav-link dropdown-toggle"
                                     href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                     v-pre>
                                     {{ Auth::user()->name }}

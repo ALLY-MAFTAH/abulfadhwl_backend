@@ -17,7 +17,7 @@ class BookController extends Controller
         return response()->json([
             'books' => $books
         ], 200);
-        return view('documents/all_books')->with('books',$books);
+        return view('turaath/documents/all_books')->with('books',$books);
     }
 
     // Get a single book
@@ -33,7 +33,7 @@ class BookController extends Controller
         return response()->json([
             'book' => $book
         ], 200);
-        return view('documents/book')->with('book', $book);
+        return view('turaath/documents/book')->with('book', $book);
     }
 
     // Post book

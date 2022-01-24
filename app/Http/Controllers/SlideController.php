@@ -19,7 +19,7 @@ class SlideController extends Controller
             return response()->json([
                 'slides' => $slides
             ], 200);
-        return view('all_slides')->with('slides', $slides);
+        return view('others/all_slides')->with('slides', $slides);
     }
 
     // Get a single slide

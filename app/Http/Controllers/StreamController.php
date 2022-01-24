@@ -16,7 +16,7 @@ class StreamController extends Controller
             return response()->json([
                 'streams' => $streams
             ], 200);
-        return view('all_streams')->with('streams', $streams);
+        return view('others/all_streams')->with('streams', $streams);
     }
     public function getSingleStream($streamId)
     {
@@ -31,7 +31,7 @@ class StreamController extends Controller
             return response()->json([
                 'stream' => $stream
             ], 200);
-        return view('stream')->with('stream', $stream);
+        return view('others/stream')->with('stream', $stream);
     }
 
     public function postStream(Request $request)

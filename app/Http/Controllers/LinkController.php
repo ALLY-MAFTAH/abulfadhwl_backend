@@ -17,7 +17,7 @@ class LinkController extends Controller
             return response()->json([
                 'links' => $links
             ], 200);
-        return view('all_links')->with('links', $links);
+        return view('others/all_links')->with('links', $links);
     }
     public function getSingleLink($linkId)
     {
@@ -32,7 +32,7 @@ class LinkController extends Controller
             return response()->json([
                 'link' => $link
             ], 200);
-        return view('link')->with('link', $link);
+        return view('others/link')->with('link', $link);
     }
 
     public function postLink(Request $request)

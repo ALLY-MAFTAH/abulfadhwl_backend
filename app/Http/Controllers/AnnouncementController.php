@@ -16,7 +16,7 @@ class AnnouncementController extends Controller
         return response()->json([
             'announcements' => $announcements
         ], 200);
-        return view('all_announcements')->with('announcements', $announcements);
+        return view('feeds/all_announcements')->with('announcements', $announcements);
     }
 
     public function getSingleAnnouncement($announcementId)

@@ -17,7 +17,7 @@ class AnswerController extends Controller
             return response()->json([
                 'answers' => $answers
             ], 200);
-        return view('all_questions_and_answers')->with('answers', $answers);
+        return view('feeds/all_questions_and_answers')->with('answers', $answers);
     }
 
     public function getSingleAnswer($answerId)

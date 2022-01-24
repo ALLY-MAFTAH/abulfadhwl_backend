@@ -25,7 +25,7 @@ class CategoryController extends Controller
             'categories' => $categories
         ], 200,[],JSON_NUMERIC_CHECK);
 
-        return view('audios/all_categories')->with('categories', $categories);
+        return view('turaath/audios/all_categories')->with('categories', $categories);
     }
 
     // Get a single category
@@ -43,7 +43,7 @@ class CategoryController extends Controller
         return response()->json([
             'category' => $category
         ], 200);
-        return view('audios/category')->with('category', $category);
+        return view('turaath/audios/category')->with('category', $category);
 
     }
 

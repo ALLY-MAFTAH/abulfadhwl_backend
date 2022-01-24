@@ -16,7 +16,7 @@ class HistoryController extends Controller
             return response()->json([
                 'histories' => $histories
             ], 200);
-        return view('history/all_histories')->with('histories', $histories);
+        return view('others/history/all_histories')->with('histories', $histories);
     }
 
     public function getSingleHistory($historyId)
@@ -32,7 +32,7 @@ class HistoryController extends Controller
             return response()->json([
                 'history' => $history
             ], 200);
-        return view('history/history')->with('history', $history);
+        return view('others/history/history')->with('history', $history);
     }
 
     public function postHistory(Request $request)

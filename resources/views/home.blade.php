@@ -63,10 +63,10 @@
                         ( {{ count($comments) }} )
                     </div>
                 </a>
-                <a href="{{ route('questions') }}" class="card btn summary-cards  col-md">
+                <a href="{{ route('answers') }}" class="card btn summary-cards  col-md">
                     <div class="summary-content"><i class="fas fa-question"></i>
                         QUESTIONS <br>
-                        ( {{ count($questions) }} )
+                        ( {{ count($answers) }} )
                     </div>
                 </a>
                 <a href="{{ route('slides') }}" class="card btn summary-cards  col-md">

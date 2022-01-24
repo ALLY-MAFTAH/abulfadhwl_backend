@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Album;
 use App\Announcement;
+use App\Answer;
 use App\Article;
 use App\Book;
 use App\Category;
@@ -44,12 +45,13 @@ class HomeController extends Controller
         $articles = Article::all();
         $streams = Stream::all();
         $questions = Question::all();
+        $answers = Answer::all();
         $slides = Slide::all();
         $histories = History::all();
         $announcements = Announcement::all();
         $comments = Comment::all();
         $users = User::all();
 
-        return view('home')->with(['users'=>$users,'categories' => $categories, 'albums' => $albums, 'songs' => $songs, 'books' => $books, 'links' => $links, 'articles' => $articles,'comments' => $comments, 'streams' => $streams, 'questions' => $questions, 'histories' => $histories, 'slides' => $slides, 'announcements' => $announcements,]);
+        return view('home')->with(['users' => $users, 'categories' => $categories, 'albums' => $albums, 'songs' => $songs, 'books' => $books, 'links' => $links, 'articles' => $articles, 'comments' => $comments, 'streams' => $streams, 'answers' => $answers, 'questions' => $questions, 'histories' => $histories, 'slides' => $slides, 'announcements' => $announcements,]);
     }
 }

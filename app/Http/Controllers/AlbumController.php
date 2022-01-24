@@ -25,7 +25,7 @@ class AlbumController extends Controller
         return response()->json([
             'albums' => $albums
         ], 200);
-        return view('audios/all_albums')->with(['albums'=>$albums,'categories'=>$categories]);
+        return view('turaath/audios/all_albums')->with(['albums'=>$albums,'categories'=>$categories]);
     }
 
     // Get a single album
@@ -42,7 +42,7 @@ class AlbumController extends Controller
         return response()->json([
             'album' => $album
         ], 200);
-        return view('audios/album')->with('album',$album);
+        return view('turaath/audios/album')->with('album',$album);
     }
 
     // Post an Album

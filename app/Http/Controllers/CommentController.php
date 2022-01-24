@@ -16,7 +16,7 @@ class CommentController extends Controller
         return response()->json([
             'comments' => $comments
         ], 200);
-        return view('all_comments')->with('comments',$comments);
+        return view('feeds/all_comments')->with('comments',$comments);
     }
 
     public function getSingleComment($commentId)
