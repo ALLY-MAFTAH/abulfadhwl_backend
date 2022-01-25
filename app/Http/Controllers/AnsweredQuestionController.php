@@ -14,7 +14,8 @@ class AnsweredQuestionController extends Controller
     {
         $type = 'all';
         $questions = null;
-        $allQuestions = AnsweredQuestion::all();
+        $allQuestions = AnsweredQuestion::orderBy('updated_at', 'DESC')->get();
+
 
         $type = $request->get('type', $type);
 
@@ -34,7 +35,6 @@ class AnsweredQuestionController extends Controller
 
             $questions = $allQuestions;
         }
-        // dd($type);
 
         return view('feeds/all_questions_and_answers')->with(['questions' => $questions, 'type' => $type]);
     }
@@ -42,7 +42,8 @@ class AnsweredQuestionController extends Controller
     {
 
         $answeredQuestions = [];
-        $questions = AnsweredQuestion::all();
+        $questions = AnsweredQuestion::orderBy('updated_at', 'DESC')->get();
+
 
         foreach ($questions as $question) {
             if ($question->textAns != null || $question->audioAns != null) {
