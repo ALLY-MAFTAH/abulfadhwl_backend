@@ -176,15 +176,13 @@
                                 </ul>
                             </li>
                             <li class="nav-item list-unstyled dropdown">
-                                <a class="nav-link nav-items-2 dropdown-toggle  {{ request()->routeIs('announcements') || request()->routeIs('questions') || request()->routeIs('answers') || request()->routeIs('comments') ? 'active' : '' }}"
+                                <a class="nav-link nav-items-2 dropdown-toggle  {{ request()->routeIs('announcements') || request()->routeIs('allQuestions') || request()->routeIs('comments') ? 'active' : '' }}"
                                     href="#" data-bs-toggle="dropdown">Feeds</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('announcements') ? 'active' : '' }}"
                                             href="{{ route('announcements') }}">Announcements</a></li>
-                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('questions') ? 'active' : '' }}"
-                                            href="{{ route('questions') }}">Questions</a></li>
-                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('answers') ? 'active' : '' }}"
-                                            href="{{ route('answers') }}">Answers</a></li>
+                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('allQuestions') ? 'active' : '' }}"
+                                            href="{{ route('allQuestions') }}">Questions & Answers</a></li>
                                     <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('comments') ? 'active' : '' }}"
                                             href="{{ route('comments') }}">Comments</a></li>
                                 </ul>
@@ -327,7 +325,8 @@
         });
     </script>
 
-    @yield('scripts')
+@yield('scripts')
+
 </body>
 
 </html>

@@ -1,5 +1,16 @@
 @extends('layouts.app')
 
+@section('scripts')
+    <script>
+        $("#filter-form").on("submit", function(e) {
+            e.preventDefault();
+            var url = $("#filter-form").attr("action");
+            var newUrl = `${url}?type=${$(e.target).val()}`;
+            window.location.assign(newUrl);
+        });
+    </script>
+
+@endsection
 @section('content')
     <div class=" py-3">
         <div class="container">
@@ -26,34 +37,73 @@
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
                         </div>
+                        <div class="col-6 ">
+                            <form action="{{ route('allQuestions') }}" method="GET" id="filter-form" style="float:right">
+                                @csrf
+
+                                <select name="type" id="type" class="dropdown-select form-control" style="width: 100px"
+                                    onchange="document.getElementById('filter-form').submit()">
+                                    <option value="all" {{ $type == 'all' ? 'selected' : '' }}>All</option>
+                                    <option value="answered" {{ $type == 'answered' ? 'selected' : '' }}>Answered
+                                    </option>
+                                    <option value="unanswered" {{ $type == 'unanswered' ? 'selected' : '' }}>Unanswered
+                                    </option>
+                                </select>
+
+                            </form>
+                        </div>
                     </div>
                 </div>
             </section>
+
 
             <section id="comments">
                 <div class="container">
 
                     <div class="card">
                         <div class="card-header">
-                            <h4>MASWALI YALIYOJIBIWA ({{ $answers->count() }})</h4>
+                            @if ($questions == null)
+                                <h4>MASWALI YALIYOJIBIWA (0)</h4>
+                            @else
+                                @if ($type == 'all')
+                                    <h4>MASWALI YOTE ({{ count($questions) }})</h4>
+                                @elseif ($type == 'unanswered')
+                                    <h4>MASWALI YASIYOJIBIWA ({{ count($questions) }})</h4>
+                                @else
+                                    <h4>MASWALI YALIYOJIBIWA ({{ count($questions) }})</h4>
+                                @endif
+                            @endif
                         </div>
                         <table class="table table-striped">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
                                     <th>Swali</th>
-                                    <th>Jibu</th>
+                                    <th>Jibu la maandihsi</th>
+                                    <th>Jibu la sauti</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($answers as $index => $answer)
+                                @foreach ($questions as $index => $answer)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $answer->qn }}</td>
-                                        <td>{{ $answer->ans }}</td>
+                                        <td>{{ $answer->textAns ?? '--' }}</td>
+
                                         <td>
+                                            @if ($answer->audioAns != '')
+
+
+                                                <audio src="{{ asset('storage/' . $answer->audioAns) }}" controls
+                                                    controlslist></audio>
+                                            @else
+                                                {{ '--' }}
+                                            @endif
+                                        </td>
+                                        <td>
+
                                             <a href="#" target="modal" data-toggle="modal"
                                                 data-target="#editAnswerModal-{{ $answer->id }}"
                                                 class="btn btn-outline-primary">
@@ -72,7 +122,8 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <form method="POST"
-                                                                action="{{ route('edit_answer', $answer->id) }}">
+                                                                action="{{ route('edit_answer', $answer->id) }}"
+                                                                enctype="multipart/form-data">
                                                                 @csrf
                                                                 @method('PUT')
                                                                 <div class="form-group row">
@@ -81,8 +132,7 @@
                                                                     <div class="col-md-6">
                                                                         <textarea id="qn" type="text"
                                                                             class="form-control @error('qn') is-invalid @enderror"
-                                                                            name="qn"
-                                                                            value="" required
+                                                                            name="qn" value="" required
                                                                             autocomplete="qn">{{ old('qn', $answer->qn) }}</textarea>
                                                                         @error('qn')
                                                                             <span class="invalid-feedback" role="alert">
@@ -92,15 +142,29 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label for="ans"
-                                                                        class="col-md-4 col-form-label text-md-right">{{ __('Jibu') }}</label>
+                                                                    <label for="textAns"
+                                                                        class="col-md-4 col-form-label text-md-right">{{ __('Jibu la maandishi') }}</label>
                                                                     <div class="col-md-6">
-                                                                        <textarea id="ans" type="text"
-                                                                            class="form-control @error('ans') is-invalid @enderror"
-                                                                            name="ans"
-                                                                            value=""
-                                                                            required autocomplete="ans">{{ old('ans', $answer->ans) }}</textarea>
-                                                                        @error('ans')
+                                                                        <textarea id="textAns" type="text"
+                                                                            class="form-control @error('textAns') is-invalid @enderror"
+                                                                            name="textAns" value=""
+                                                                            autocomplete="textAns">{{ old('textAns', $answer->textAns) }}</textarea>
+                                                                        @error('textAns')
+                                                                            <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $message }}</strong>
+                                                                            </span>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="audioAns"
+                                                                        class="col-md-4 col-form-label text-md-right">{{ __('Jibu la sauti') }}</label>
+                                                                    <div class="col-md-6">
+                                                                        <input id="audioAns" type="file"
+                                                                            class="form-control @error('audioAns') is-invalid @enderror"
+                                                                            name="audioAns" value=""
+                                                                            autocomplete="audioAns">{{ old('audioAns', $answer->audioAns) }}
+                                                                        @error('audioAns')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
                                                                             </span>

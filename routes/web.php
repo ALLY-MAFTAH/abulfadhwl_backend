@@ -119,11 +119,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('edit_question/{questionId}', ['uses' => 'QuestionController@putQuestion'])->name('edit_question');
 
     // ANSWERS AND QUESTIONS ROUTES
-    Route::get('answers', ['uses' => 'AnswerController@getAllAnswers'])->name('answers');
-    Route::get('answer/{answerId}', ['uses' => 'AnswerController@getSingleAnswer'])->name('answer');
-    Route::post('answer', ['uses' => 'AnswerController@postAnswer'])->name('add_answer');
-    Route::get('delete_answer/{answerId}', ['uses' => 'AnswerController@deleteAnswer'])->name('delete_answer');
-    Route::put('edit_answer/{answerId}', ['uses' => 'AnswerController@putAnswer'])->name('edit_answer');
+    Route::get('allQuestions', ['uses' => 'AnsweredQuestionController@getAllQuestions'])->name('allQuestions');
+    Route::get('answer/{answerId}', ['uses' => 'AnsweredQuestionController@getSingleAnswer'])->name('answer');
+    Route::post('answer', ['uses' => 'AnsweredQuestionController@postAnswer'])->name('add_answer');
+    Route::get('delete_answer/{answerId}', ['uses' => 'AnsweredQuestionController@deleteAnswer'])->name('delete_answer');
+    Route::put('edit_answer/{answerId}', ['uses' => 'AnsweredQuestionController@putAnsweredQuestion'])->name('edit_answer');
 
     // USERS ROUTES
     Route::get('users', ['uses' => 'UserController@getAllUsers'])->name('users');

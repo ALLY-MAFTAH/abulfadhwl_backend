@@ -62,14 +62,12 @@ Route::get('history/{historyId}', ['uses' => 'HistoryController@getSingleHistory
 Route::delete('history/{historyId}', ['uses' => 'HistoryController@deleteHistory']);
 
 
-//  Routes for Questions
-Route::post('question', ['uses' => 'QuestionController@postQuestion']);
-Route::get('answeredQuestions', ['uses' => 'QuestionController@getAllAnsweredQuestions']);
+//  Routes for Questions and Answers
+Route::get('answeredQuestions', ['uses' => 'AnsweredQuestionController@getAllAnsweredQuestions']);
+Route::post('question', ['uses' => 'AnsweredQuestionController@postQuestion']);
 Route::get('questions', ['uses' => 'QuestionController@getAllQuestions']);
+Route::get('answer/audioAns/{questionId}', ['uses' => 'AnsweredQuestionController@viewAudioAnswer']);
 
-
-//  Routes for Answers
-Route::get('answers', ['uses' => 'AnswerController@getAllAnswers']);
 
 
 //  Routes for Slides
