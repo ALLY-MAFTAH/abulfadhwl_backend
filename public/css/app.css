@@ -3958,6 +3958,93 @@ input[type=button].btn-block {
     padding-left: 2.25rem;
 }
 
+
+/**====== Radio & Checked css end ======**/
+
+
+/**  =====================
+      Switches css start
+==========================  **/
+
+.switch input[type=checkbox] {
+    opacity: 0;
+    position: absolute;
+}
+
+.switch input[type=checkbox]+.cr {
+    position: relative;
+    display: inline-block;
+    transition: 0.4s ease;
+    height: 20px;
+    width: 45px;
+    border: 1px solid #e9eaec;
+    border-radius: 60px;
+    cursor: pointer;
+    z-index: 0;
+    /* top: 12px; */
+}
+
+.switch input[type=checkbox]+.cr:after,
+.switch input[type=checkbox]+.cr:before {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+}
+
+.switch input[type=checkbox]+.cr:before {
+    transition: 0.2s cubic-bezier(0.24, 0, 0.5, 1);
+    height: 20px;
+    width: 45px;
+    border-radius: 30px;
+}
+
+.switch input[type=checkbox]+.cr:after {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0 0 rgba(0, 0, 0, 0.04), 0 4px 9px rgba(0, 0, 0, 0.13), 0 3px 3px rgba(0, 0, 0, 0.05);
+    transition: 0.35s cubic-bezier(0.54, 1.6, 0.5, 1);
+    background: #f7f7f7;
+    height: 19px;
+    width: 19px;
+    border-radius: 60px;
+}
+
+.switch input[type=checkbox]:checked+.cr:before {
+    background: #4680ff;
+    transition: width 0.2s cubic-bezier(0, 0, 0, 0.1);
+}
+
+.switch input[type=checkbox]:checked+.cr:after {
+    left: 26px;
+}
+
+.switch input[type=checkbox]:disabled+label {
+    opacity: 0.5;
+    -webkit-filter: grayscale(0.4);
+    filter: grayscale(0.4);
+    cursor: not-allowed;
+}
+
+.switch.switch-danger input[type=checkbox]:checked+.cr:before {
+    background: #ff5252;
+}
+
+.switch.switch-success input[type=checkbox]:checked+.cr:before {
+    background: #9ccc65;
+}
+
+.switch.switch-warning input[type=checkbox]:checked+.cr:before {
+    background: #ffba57;
+}
+
+.switch.switch-info input[type=checkbox]:checked+.cr:before {
+    background: #00bcd4;
+}
+
+.switch.switch-purple input[type=checkbox]:checked+.cr:before {
+    background: #536dfe;
+}
+
 .custom-switch .custom-control-label::before {
     left: -2.25rem;
     width: 1.75rem;

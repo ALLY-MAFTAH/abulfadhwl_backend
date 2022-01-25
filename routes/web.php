@@ -86,16 +86,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('edit_announcement/{announcementId}', ['uses' => 'AnnouncementController@putAnnouncement'])->name('edit_announcement');
     Route::get('announcement/{announcementId}', ['uses' => 'AnnouncementController@getSingleAnnouncement'])->name('announcement');
     Route::get('delete_announcement/{announcementId}', ['uses' => 'AnnouncementController@deleteAnnouncement'])->name('delete_announcement');
-
-
+    
+    
     // STREAMS ROUTES
     Route::get('streams', ['uses' => 'StreamController@getAllStreams'])->name('streams');
     Route::post('stream', ['uses' => 'StreamController@postStream'])->name('add_stream');
-    Route::get('edit_stream/{streamId}', ['uses' => 'StreamController@putStream'])->name('edit_stream');
     Route::get('stream/{streamId}', ['uses' => 'StreamController@getSingleStream'])->name('stream');
     Route::get('delete_stream/{streamId}', ['uses' => 'StreamController@deleteStream'])->name('delete_stream');
     Route::get('stream/timetable/{streamId}', ['uses' => 'StreamController@viewTimetableFile'])->name('timetable');
-
+    Route::put('stream/{stream}/status', ['uses' => 'StreamController@toggleStatus'])->name('toggle_status');
+    Route::put('edit_stream/{streamId}', ['uses' => 'StreamController@putStream'])->name('edit_stream');
 
 
     // LINKS ROUTES

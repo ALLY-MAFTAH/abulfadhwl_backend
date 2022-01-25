@@ -22,6 +22,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 
+
     <style>
         .card-header {
             color: white;
@@ -82,22 +83,6 @@
 
         .row-height {
             height: 15px;
-        }
-
-        .checkbox-size {
-            display: flex;
-            width: 100%;
-            height: calc(1em + 0.3rem + 1px);
-            padding: 0.2rem 0.5rem;
-            font-size: 1rem;
-            font-weight: 400;
-            line-height: 1.6;
-            color: #041055;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid #eea508;
-            border-radius: 0.25rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
         .summary-cards {
             box-shadow: 4px 4px 6px #df831a;

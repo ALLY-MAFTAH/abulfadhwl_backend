@@ -36,65 +36,60 @@ class StreamController extends Controller
 
     public function postStream(Request $request)
     {
-        $this->path = null;
-
-        $validator = Validator::make($request->all(), [
-            'timetable' => 'required',
+        $attributes = $this->validate($request, [
+            'timetable' => ['required', 'file'],
             'url' => 'required',
             'title' => 'required',
             'description' => 'required'
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
+        $timetable = $attributes['timetable'];
+        $attributes['timetable'] = $timetable->storeAs(
+            'streams',
+            time() . '.' . $timetable->getClientOriginalExtension(),
+            'public'
+        );
+        $attributes['status'] = true;
+        Stream::create($attributes);
 
-        if ($request->hasFile('timetable')) {
-            $this->timetable_path = $request->file('timetable')->store('streams');
-        } else return response()->json([
-            'message' => 'Add a timetable file'
-        ], 404);
-
-
-        $stream = new Stream();
-        $stream->url = $request->input('url');
-        $stream->title = $request->input('title');
-        $stream->description = $request->input('description');
-        $stream->timetable = $this->timetable_path;
-
-        $stream->save();
-        if (REQ::is('api/*'))
-
-            return response()->json([
-                'stream' => $stream
-            ], 200);
         return back()->with('message', 'Stream Added successfully');
     }
 
     public function putStream(Request $request, $streamId)
     {
         $stream = Stream::find($streamId);
-        if (!$stream) {
-            return response()->json([
-                'error' => 'Stream not found'
-            ], 404);
+        if (!$stream) return back()->with('message', 'Stream not found');
+        
+        $attributes = $this->validate($request, [
+            'timetable' => 'sometimes|file',
+            'url' => 'required',
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+
+        if (isset($attributes['timetable'])) {
+            $timetable = $attributes['timetable'];
+            $attributes['timetable'] = $timetable->storeAs(
+                'streams/timetable',
+                time() . '.' . $timetable->getClientOriginalExtension(),
+                'public'
+            );
         }
+        $stream->update($attributes);
+        return back()->with('message', 'Stream edited successfully');
+    }
+
+    public function toggleStatus(Request $request, Stream $stream)
+    {
 
         $stream->update([
-            'url' => $request->input('url'),
-            'title' => $request->input('title'),
-            'description' => $request->input('description')
-        ]);
-        $stream->save();
-        if (REQ::is('api/*'))
+            'status' => $request->input('status'),
 
-            return response()->json([
-                'stream' => $stream
-            ], 200);
-        return back()->with('message', 'Stream edited successfully');
+        ]);
+
+        $stream->save();
+
+        return back()->with('message', 'Stream Switched Successfully');
     }
 
     public function deleteStream($streamId)

@@ -19,6 +19,7 @@ class CreateStreamsTable extends Migration
             $table->string('url');
             $table->string('title');
             $table->string('description');
+            $table->boolean('status');
             $table->timestamps();
             $table->softDeletes();
         });

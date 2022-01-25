@@ -43,7 +43,7 @@
                 <div class="container">
                     <div class="card">
                         <div class="card-header">
-                            <h4>STREAMS ({{$streams->count()}})</h4>
+                            <h4>STREAMS ({{ $streams->count() }})</h4>
                         </div>
                         <table class="table table-striped">
                             <thead class="thead-dark">
@@ -53,6 +53,7 @@
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Url</th>
+                                    <th>Switch</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -92,6 +93,21 @@
                                         <td>
                                             <audio src="{{ $stream->url }}" controls controlslist></audio>
                                         </td>
+                                        <td class="text-center">
+                                            <form id="toggle-status-form-{{ $stream->id }}" method="post"
+                                                action="{{ route('toggle_status', $stream) }}">
+                                                <div class="switch switch-warning d-inline m-r-10">
+                                                    <input type="hidden" name="status" value="0">
+                                                    <input type="checkbox" name="status"
+                                                        id="stream-status-switch-{{ $stream->id }}"
+                                                        class="status-switch" @if ($stream->status) checked @endif value="1"
+                                                        onclick="this.form.submit()" />
+                                                    <label for="stream-status-switch-{{ $stream->id }}"
+                                                        class="cr"></label>
+                                                </div>
+                                                @csrf @method('put')
+                                            </form>
+                                        </td>
                                         <td>
                                             <a href="#" class="btn btn-outline-primary" data-toggle="modal"
                                                 data-target="#editStreamModal-{{ $stream->id }}">
@@ -110,10 +126,11 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form method="PUT"
-                                                                action="{{ route('edit_stream', $stream->id) }}">
+                                                            <form method="POST"
+                                                                action="{{ route('edit_stream', $stream->id) }}"
+                                                                enctype="multipart/form-data">
                                                                 @csrf
-
+                                                                @method('PUT')
                                                                 <div class="form-group row">
                                                                     <label for="title"
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
@@ -135,7 +152,7 @@
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
                                                                     <div class="col-md-6">
                                                                         <input id="description" type="text"
-                                                                            class="form-control @error('year') is-invalid @enderror"
+                                                                            class="form-control @error('description') is-invalid @enderror"
                                                                             name="description"
                                                                             value="{{ old('description', $stream->description) }}"
                                                                             required autocomplete="description">
@@ -151,11 +168,26 @@
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Url') }}</label>
                                                                     <div class="col-md-6">
                                                                         <input id="url" type="text"
-                                                                            class="form-control @error('year') is-invalid @enderror"
+                                                                            class="form-control @error('url') is-invalid @enderror"
                                                                             name="url"
                                                                             value="{{ old('url', $stream->url) }}"
                                                                             required autocomplete="url">
                                                                         @error('url')
+                                                                            <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $message }}</strong>
+                                                                            </span>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="timetable"
+                                                                        class="col-md-4 col-form-label text-md-right">{{ __('Timetable') }}</label>
+                                                                    <div class="col-md-6">
+                                                                        <input id="timetable" type="file"
+                                                                            class="form-control @error('timetable') is-invalid @enderror"
+                                                                            name="timetable" 
+                                                                            autocomplete="timetable">{{ old('timetable', $stream->timetable) }}
+                                                                        @error('timetable')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
                                                                             </span>
