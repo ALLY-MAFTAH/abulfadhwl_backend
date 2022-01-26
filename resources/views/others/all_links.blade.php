@@ -42,7 +42,7 @@
                 <div class="container">
                     <div class="card">
                         <div class="card-header">
-                            <h4>LINKS ({{$links->count()}})</h4>
+                            <h4>LINKS ({{ $links->count() }})</h4>
                         </div>
                         <table class="table table-striped">
                             <thead class="thead-dark">
@@ -51,21 +51,36 @@
                                     <th>Icon</th>
                                     <th>Title</th>
                                     <th>Url</th>
+                                    <th>TYpe</th>
+                                    <th>Switch</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($links as $index => $link)
-
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td><img src="{{ asset('storage/' . $link->icon) }}" alt="Link icon"
                                                 style="width: 30px;height:30px"></td>
                                         <td>{{ $link->title }}</td>
                                         <td>{{ $link->url }}</td>
+                                        <td>{{ $link->type }}</td>
 
-
+                                        <td class="text-center">
+                                            <form id="toggle-status-form-{{ $link->id }}" method="post"
+                                                action="{{ route('toggle_status', $link) }}">
+                                                <div class="switch switch-warning d-inline m-r-10">
+                                                    <input type="hidden" name="status" value="0">
+                                                    <input type="checkbox" name="status"
+                                                        id="link-status-switch-{{ $link->id }}" class="status-switch"
+                                                        @if ($link->status) checked @endif value="1" onclick="this.form.submit()" />
+                                                    <label for="link-status-switch-{{ $link->id }}"
+                                                        class="cr"></label>
+                                                </div>
+                                                @csrf @method('put')
+                                            </form>
+                                        </td>
                                         <td>
                                             <a href="#" role="alert" class="btn btn-outline-primary" data-toggle="modal"
                                                 data-target="#editLinkModal-{{ $link->id }}"
@@ -93,9 +108,32 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form method="PUT" action="{{ route('edit_link', $link->id) }}">
+                                                            <form method="POST"
+                                                                action="{{ route('edit_link', $link->id) }}"
+                                                                enctype="multipart/form-data">
                                                                 @csrf
+                                                                @method('PUT')
+                                                                <div class="form-group row">
+                                                                    <label for="title"
+                                                                        class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
+                                                                    <div class="col-md-6">
+                                                                        <select required name="type"
+                                                                            class="dropdown-select form-control livesearch">
 
+                                                                            <option value="Ours" @if ($link->type == 'Ours') selected @endif>
+                                                                                {{ 'Ours' }}
+                                                                            </option>
+                                                                            <option value="Others" @if ($link->type == 'Others') selected @endif>
+                                                                                {{ 'Others' }}
+                                                                            </option>
+                                                                        </select>
+                                                                        @error('type')
+                                                                            <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $message }}</strong>
+                                                                            </span>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
                                                                 <div class="form-group row">
                                                                     <label for="title"
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
@@ -117,7 +155,7 @@
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Url') }}</label>
                                                                     <div class="col-md-6">
                                                                         <input id="url" type="text"
-                                                                            class="form-control @error('year') is-invalid @enderror"
+                                                                            class="form-control @error('url') is-invalid @enderror"
                                                                             name="url"
                                                                             value="{{ old('url', $link->url) }}" required
                                                                             autocomplete="url">
@@ -128,7 +166,21 @@
                                                                         @enderror
                                                                     </div>
                                                                 </div>
-
+                                                                <div class="form-group row">
+                                                                    <label for="icon"
+                                                                        class="col-md-4 col-form-label text-md-right">{{ __('Icon') }}</label>
+                                                                    <div class="col-md-6">
+                                                                        <input id="icon" type="file"
+                                                                            class="form-control @error('icon') is-invalid @enderror"
+                                                                            name="icon" value="{{ old('icon') }}"
+                                                                            autocomplete="icon">{{ old('icon', $link->icon) }}
+                                                                        @error('icon')
+                                                                            <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $message }}</strong>
+                                                                            </span>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
                                                                 <div class="form-group row mb-0">
                                                                     <div class="col-md-6 offset-md-4">
                                                                         <button type="submit" class="btn btn-primary">
@@ -163,6 +215,23 @@
                             <form method="POST" action="{{ route('add_link') }}" enctype="multipart/form-data">
                                 @csrf
 
+                                <div class="form-group row">
+                                    <label for="title"
+                                        class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
+                                    <div class="col-md-6">
+                                        <select required name="type" class="dropdown-select form-control livesearch">
+                                            <option value="">--Select--</option>
+                                            <option value="Ours">{{ 'Ours' }}</option>
+                                            <option value="Others">{{ 'Others' }}</option>
+                                        </select>
+                                        @error('type')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                </div>
                                 <div class="form-group row">
                                     <label for="title"
                                         class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>

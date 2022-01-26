@@ -12,12 +12,13 @@ class LinkController extends Controller
 
     public function getAllLinks()
     {
-        $links = Link::all();
+        $apiLinks = Link::where('status', 1)->latest()->get();
+        $webLinks = Link::latest()->get();
         if (REQ::is('api/*'))
             return response()->json([
-                'links' => $links
+                'links' => $apiLinks
             ], 200);
-        return view('others/all_links')->with('links', $links);
+        return view('others/all_links')->with('links', $webLinks);
     }
     public function getSingleLink($linkId)
     {
@@ -37,64 +38,57 @@ class LinkController extends Controller
 
     public function postLink(Request $request)
     {
-        $this->path = null;
-
-        $validator = Validator::make($request->all(), [
+        $attributes = $this->validate($request, [
+            'type' => 'required',
             'title' => 'required',
             'url' => 'required',
-            'icon' => 'required'
-
+            'icon' => ['required', 'file'],
         ]);
 
-        if ($validator->fails()) {
+        $icon = $attributes['icon'];
+        $attributes['icon'] = $icon->storeAs(
+            'links',
+            time() . '.' . $icon->getClientOriginalExtension(),
+            'public'
+        );
+        $attributes['status'] = false;
+        Link::create($attributes);
 
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
-
-        if ($request->hasFile('icon')) {
-            $this->icon_path = $request->file('icon')->store('links');
-        } else return response()->json([
-            'message' => 'Add a icon file'
-        ], 404);
-
-        $link = new Link();
-        $link->title = $request->input('title');
-        $link->url = $request->input('url');
-        $link->icon = $this->icon_path;
-
-
-        $link->save();
-        if (REQ::is('api/*'))
-
-            return response()->json([
-                'link' => $link
-            ], 200);
         return back()->with('message', 'Link added successfully');
     }
 
     public function putLink(Request $request, $linkId)
     {
         $link = Link::find($linkId);
-        if (!$link) {
-            return response()->json([
-                'error' => 'Link not found'
-            ], 404);
-        }
-        $link->update([
-            'title' => $request->input('title'),
-            'url' => $request->input('url'),
+        if (!$link) return back()->with('message', 'Stream not found');
+
+        $attributes = $this->validate($request, [
+            'icon' => 'sometimes|file',
+            'url' => 'required',
+            'title' => 'required',
+            'type' => 'required'
         ]);
-        $link->save();
-        if (REQ::is('api/*'))
 
-        return response()->json([
-            'link' => $link
-        ], 200);
+        if (isset($attributes['icon'])) {
+            $icon = $attributes['icon'];
+            $attributes['icon'] = $icon->storeAs(
+                'links/icon',
+                time() . '.' . $icon->getClientOriginalExtension(),
+                'public'
+            );
+        }
+        $link->update($attributes);
         return back()->with('message', 'Link edited successfully');
+    }
 
+    public function toggleStatus(Request $request, Link $link)
+    {
+        $link->update([
+            'status' => $request->input('status'),
+        ]);
+
+        $link->save();
+        return back()->with('message', 'Link Switched Successfully');
     }
 
     public function deleteLink($linkId)
@@ -109,11 +103,10 @@ class LinkController extends Controller
         $link->delete();
         if (REQ::is('api/*'))
 
-        return response()->json([
-            'message' => 'Link deleted successfully'
-        ], 200);
+            return response()->json([
+                'message' => 'Link deleted successfully'
+            ], 200);
         return back()->with('message', 'Link deleted successfully');
-
     }
 
     public function viewIconFile($linkId)

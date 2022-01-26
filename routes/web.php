@@ -96,14 +96,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('stream/timetable/{streamId}', ['uses' => 'StreamController@viewTimetableFile'])->name('timetable');
     Route::put('stream/{stream}/status', ['uses' => 'StreamController@toggleStatus'])->name('toggle_status');
     Route::put('edit_stream/{streamId}', ['uses' => 'StreamController@putStream'])->name('edit_stream');
-
-
+    
+    
     // LINKS ROUTES
     Route::get('links', ['uses' => 'LinkController@getAllLinks'])->name('links');
     Route::post('link', ['uses' => 'LinkController@postLink'])->name('add_link');
-    Route::get('edit_link/{linkId}', ['uses' => 'LinkController@putLink'])->name('edit_link');
+    Route::put('edit_link/{linkId}', ['uses' => 'LinkController@putLink'])->name('edit_link');
     Route::get('link/{linkId}', ['uses' => 'LinkController@getSingleLink'])->name('link');
     Route::get('delete_link/{linkId}', ['uses' => 'LinkController@deleteLink'])->name('delete_link');
+    Route::put('link/{link}/status', ['uses' => 'LinkController@toggleStatus'])->name('toggle_status');
     Route::get('link/icon/{linkId}', ['uses' => 'LinkController@viewIconFile'])->name('link_icon');
 
 

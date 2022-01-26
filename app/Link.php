@@ -10,9 +10,11 @@ class Link extends Model
     use SoftDeletes;
 
     protected $fillable=[
+        'type',
         'title',
         'url',
-        'icon'
+        'icon',
+        'status',
     ];
     protected $dates=[
         'deleted_at'
