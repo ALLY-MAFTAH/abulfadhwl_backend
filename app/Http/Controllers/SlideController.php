@@ -14,7 +14,7 @@ class SlideController extends Controller
     // Get all slides
     public function getAllSlides()
     {
-        $slides = Slide::all();
+        $slides = Slide::latest()->get();
         if (REQ::is('api/*'))
             return response()->json([
                 'slides' => $slides

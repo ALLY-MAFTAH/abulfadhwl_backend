@@ -11,7 +11,7 @@ class CommentController extends Controller
 {
     public function getAllComments()
     {
-        $comments = Comment::all();
+        $comments = Comment::latest()->get();
         if(REQ::is('api/*'))
         return response()->json([
             'comments' => $comments
