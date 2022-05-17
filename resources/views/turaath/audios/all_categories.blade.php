@@ -1,9 +1,4 @@
 @extends('layouts.app')
-@section('sidebar')
-    <div class="col-md-2">
-        @include('components.left_nav')
-    </div>
-@endsection
 
 @section('content')
     <div class=" py-3">
