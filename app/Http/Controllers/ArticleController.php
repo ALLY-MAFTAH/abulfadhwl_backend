@@ -58,8 +58,9 @@ class ArticleController extends Controller
         }
 
         if ($request->hasFile('file')) {
-            $this->file_path = $request->file('file')->store('articles');
-        } else return response()->json([
+            $this->song_path = $request->file('file')->storeAs(config('app.name').'/MAKALA/' ,
+            $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
+            'public');        } else return response()->json([
             'message' => 'Add a article file'
         ], 404);
 

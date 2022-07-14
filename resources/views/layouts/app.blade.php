@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('', 'Abulfadhwl App') }}</title>
+    <title>{{ config('app.name', 'Abulfadhwl App') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
@@ -122,7 +122,7 @@
             <div class="container">
                 <a href="#" class=""> <img src="{{ asset('/asset/images/logo.png') }} "
                         height="40px"></a>
-                <h2 style=" color: white; text-shadow: 2px 2px 4px #1709e0;"> <b> Abulfadhwl App</b></h2>
+                <h2 style=" color: white; text-shadow: 2px 2px 4px #1709e0;"> <b>{{ config('app.name')}}</b></h2>
                 <button class="navbar-toggler" style="background-color: rgb(255, 255, 255)" type="button"
                     data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -268,7 +268,7 @@
                 <div class="col">
                     <hr>
                     <p class="lead text-center">
-                        &copy; <span id="year"></span> Abulfadhwl App
+                        &copy; <span id="year"></span> {{ config('app.name')}}
                     </p>
                 </div>
             </div>

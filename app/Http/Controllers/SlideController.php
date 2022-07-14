@@ -56,8 +56,9 @@ class SlideController extends Controller
         }
 
         if ($request->hasFile('file')) {
-            $this->file_path = $request->file('file')->store('slides');
-        } else return response()->json([
+            $this->song_path = $request->file('file')->storeAs(config('app.name').'/PICHA/' ,
+           'Picha-'. $request->number . '.' . $request->file('file')->getClientOriginalExtension(),
+            'public');        } else return response()->json([
             'message' => 'Add a slide file'
         ], 404);
 

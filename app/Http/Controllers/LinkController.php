@@ -86,10 +86,10 @@ class LinkController extends Controller
         $link->update([
             'status' => $request->input('status'),
         ]);
-
         $link->save();
         return back()->with('message', 'Link Switched Successfully');
     }
+    
 
     public function deleteLink($linkId)
     {

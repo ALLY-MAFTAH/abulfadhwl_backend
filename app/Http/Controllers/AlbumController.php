@@ -16,16 +16,16 @@ class AlbumController extends Controller
     public function getAllAlbums()
     {
         $albums = Album::all();
-        $categories=Category::all();
+        $categories = Category::all();
 
         foreach ($albums as $album) {
             $album->songs;
         }
-        if(REQ::is('api/*'))
-        return response()->json([
-            'albums' => $albums
-        ], 200);
-        return view('turaath/audios/all_albums')->with(['albums'=>$albums,'categories'=>$categories]);
+        if (REQ::is('api/*'))
+            return response()->json([
+                'albums' => $albums
+            ], 200);
+        return view('turaath/audios/all_albums')->with(['albums' => $albums, 'categories' => $categories]);
     }
 
     // Get a single album
@@ -38,11 +38,11 @@ class AlbumController extends Controller
             ], 404);
         }
         $album->songs;
-        if(REQ::is('api/*'))
-        return response()->json([
-            'album' => $album
-        ], 200);
-        return view('turaath/audios/album')->with('album',$album);
+        if (REQ::is('api/*'))
+            return response()->json([
+                'album' => $album
+            ], 200);
+        return view('turaath/audios/album')->with('album', $album);
     }
 
     // Post an Album
@@ -77,11 +77,11 @@ class AlbumController extends Controller
 
         // Save the Album
         $category->albums()->save($album);
-        if(REQ::is('api/*'))
-        return response()->json([
-            'album' => $album
-        ], 202);
-        return back()->with('message','Album added successfully');
+        if (REQ::is('api/*'))
+            return response()->json([
+                'album' => $album
+            ], 202);
+        return back()->with('message', 'Album added successfully');
     }
 
     public function putAlbum(Request $request, $albumId)
@@ -114,11 +114,11 @@ class AlbumController extends Controller
         ]);
 
         $album->save();
-            if(REQ::is('api/*'))
-        return response()->json([
-            'album' => $album
-        ], 206);
-        return back()->with('message','Album edited successfully');
+        if (REQ::is('api/*'))
+            return response()->json([
+                'album' => $album
+            ], 206);
+        return back()->with('message', 'Album edited successfully');
     }
 
     // Delete album
@@ -132,11 +132,10 @@ class AlbumController extends Controller
         }
 
         $album->delete();
-        if(REQ::is('api/*'))
-        return response()->json([
-            'album' => 'Album deleted successfully'
-        ], 200);
+        if (REQ::is('api/*'))
+            return response()->json([
+                'album' => 'Album deleted successfully'
+            ], 200);
         return back()->with('message', 'Album deleted successfully');
     }
-
 }

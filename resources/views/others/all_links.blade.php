@@ -69,7 +69,7 @@
 
                                         <td class="text-center">
                                             <form id="toggle-status-form-{{ $link->id }}" method="post"
-                                                action="{{ route('toggle_status', $link) }}">
+                                                action="{{ route('link.toggle_status', $link) }}">
                                                 <div class="switch switch-warning d-inline m-r-10">
                                                     <input type="hidden" name="status" value="0">
                                                     <input type="checkbox" name="status"

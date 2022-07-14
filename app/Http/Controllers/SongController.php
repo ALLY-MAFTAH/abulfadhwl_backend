@@ -42,6 +42,20 @@ class SongController extends Controller
         return view('turaath/audios/song')->with(['song' => $song, 'albums' => $albums, 'categories' => $categories]);
     }
 
+    // Fetch Song Names For Searching in App
+    public function getAllSongNames()
+    {
+        $songNames = [];
+        $songs = Song::latest()->get();
+
+        if (!$songs) return response()->json(['error' => 'Songs not found'], 404);
+
+        foreach ($songs as $song) {
+            $songNames[] = $song->title;
+        }
+        if (REQ::is('api/*')) return response()->json($songNames, 200);
+    }
+
     public function postSong(Request $request, $albumId)
     {
 
@@ -66,13 +80,13 @@ class SongController extends Controller
                 'status' => false
             ], 404);
         }
-
         if ($request->hasFile('file')) {
-            $this->song_path = $request->file('file')->store('songs');
+            $this->song_path = $request->file('file')->storeAs(config('app.name').'/SAUTI/'.$album->name ,
+            $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
+            'public');
         } else return response()->json([
             'message' => 'Add an audio file'
         ], 404);
-
 
         $song = new Song();
         $song->title = $request->input('title');
@@ -117,7 +131,7 @@ class SongController extends Controller
 
         $song->save();
 
-            return back()->with('message', 'Audio edited successfully');
+        return back()->with('message', 'Audio edited successfully');
     }
 
     public function deleteSong($songId)

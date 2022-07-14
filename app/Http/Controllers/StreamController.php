@@ -59,7 +59,7 @@ class StreamController extends Controller
     {
         $stream = Stream::find($streamId);
         if (!$stream) return back()->with('message', 'Stream not found');
-        
+
         $attributes = $this->validate($request, [
             'timetable' => 'sometimes|file',
             'url' => 'required',
@@ -81,14 +81,10 @@ class StreamController extends Controller
 
     public function toggleStatus(Request $request, Stream $stream)
     {
-
         $stream->update([
             'status' => $request->input('status'),
-
         ]);
-
         $stream->save();
-
         return back()->with('message', 'Stream Switched Successfully');
     }
 

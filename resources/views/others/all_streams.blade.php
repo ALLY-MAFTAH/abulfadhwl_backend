@@ -60,7 +60,6 @@
                             </thead>
                             <tbody>
                                 @foreach ($streams as $index => $stream)
-
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>
@@ -95,12 +94,13 @@
                                         </td>
                                         <td class="text-center">
                                             <form id="toggle-status-form-{{ $stream->id }}" method="post"
-                                                action="{{ route('toggle_status', $stream) }}">
+                                                action="{{ route('stream.toggle_status', $stream) }}">
                                                 <div class="switch switch-warning d-inline m-r-10">
                                                     <input type="hidden" name="status" value="0">
                                                     <input type="checkbox" name="status"
                                                         id="stream-status-switch-{{ $stream->id }}"
-                                                        class="status-switch" @if ($stream->status) checked @endif value="1"
+                                                        class="status-switch"
+                                                        @if ($stream->status) checked @endif value="1"
                                                         onclick="this.form.submit()" />
                                                     <label for="stream-status-switch-{{ $stream->id }}"
                                                         class="cr"></label>
@@ -185,7 +185,7 @@
                                                                     <div class="col-md-6">
                                                                         <input id="timetable" type="file"
                                                                             class="form-control @error('timetable') is-invalid @enderror"
-                                                                            name="timetable" 
+                                                                            name="timetable"
                                                                             autocomplete="timetable">{{ old('timetable', $stream->timetable) }}
                                                                         @error('timetable')
                                                                             <span class="invalid-feedback" role="alert">

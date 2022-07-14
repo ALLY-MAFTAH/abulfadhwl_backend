@@ -28,6 +28,7 @@ Route::delete('album/{albumId}', ['uses' => 'AlbumController@deleteAlbum']);
 
 
 //  Routes for Song
+Route::get('song-names', ['uses' => 'SongController@getAllSongNames']);
 Route::get('songs', ['uses' => 'SongController@getAllSongs']);
 Route::put('song/{songId}', ['uses' => 'SongController@putSong']);
 Route::post('song/{albumId}', ['uses' => 'SongController@postSong']);

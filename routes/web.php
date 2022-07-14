@@ -86,25 +86,25 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('edit_announcement/{announcementId}', ['uses' => 'AnnouncementController@putAnnouncement'])->name('edit_announcement');
     Route::get('announcement/{announcementId}', ['uses' => 'AnnouncementController@getSingleAnnouncement'])->name('announcement');
     Route::get('delete_announcement/{announcementId}', ['uses' => 'AnnouncementController@deleteAnnouncement'])->name('delete_announcement');
-    
-    
+
+
     // STREAMS ROUTES
     Route::get('streams', ['uses' => 'StreamController@getAllStreams'])->name('streams');
     Route::post('stream', ['uses' => 'StreamController@postStream'])->name('add_stream');
     Route::get('stream/{streamId}', ['uses' => 'StreamController@getSingleStream'])->name('stream');
     Route::get('delete_stream/{streamId}', ['uses' => 'StreamController@deleteStream'])->name('delete_stream');
     Route::get('stream/timetable/{streamId}', ['uses' => 'StreamController@viewTimetableFile'])->name('timetable');
-    Route::put('stream/{stream}/status', ['uses' => 'StreamController@toggleStatus'])->name('toggle_status');
+    Route::put('stream/{stream}/status', ['uses' => 'StreamController@toggleStatus'])->name('stream.toggle_status');
     Route::put('edit_stream/{streamId}', ['uses' => 'StreamController@putStream'])->name('edit_stream');
-    
-    
+
+
     // LINKS ROUTES
     Route::get('links', ['uses' => 'LinkController@getAllLinks'])->name('links');
     Route::post('link', ['uses' => 'LinkController@postLink'])->name('add_link');
     Route::put('edit_link/{linkId}', ['uses' => 'LinkController@putLink'])->name('edit_link');
     Route::get('link/{linkId}', ['uses' => 'LinkController@getSingleLink'])->name('link');
     Route::get('delete_link/{linkId}', ['uses' => 'LinkController@deleteLink'])->name('delete_link');
-    Route::put('link/{link}/status', ['uses' => 'LinkController@toggleStatus'])->name('toggle_status');
+    Route::put('link/{link}/status', ['uses' => 'LinkController@toggleStatus'])->name('link.toggle_status');
     Route::get('link/icon/{linkId}', ['uses' => 'LinkController@viewIconFile'])->name('link_icon');
 
 
