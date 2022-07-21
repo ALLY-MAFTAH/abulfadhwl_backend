@@ -8,20 +8,14 @@
 @section('content')
     <div class="col-md-10 py-3">
         <div class="container">
-            @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
+            @if (Session::has('error'))
+                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('error') }}
+                </p>
             @endif
-            @if (session('errors'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('errors') }}
-                </div>
+            @if (Session::has('success'))
+                <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}
+                </p>
             @endif
-            @if (Session::has('message'))
-            <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}
-            </p>
-        @endif
             <!-- ACTIONS -->
             <section id="actions" class="py-5 mb-4 bg-light">
                 <div class="container">
@@ -35,7 +29,7 @@
 
             <section id="categories">
                 <div class="container">
-                   
+
                     <div class="card">
                         <div class="card-header">
                             <h4>ALBUMS</h4>
@@ -53,7 +47,6 @@
                             </thead>
                             <tbody>
                                 @foreach ($albums as $index => $album)
-
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $album->name }}</td>
@@ -104,7 +97,7 @@
             <script>
                 // Get the current year for the copyright
                 $('#year').text(new Date().getFullYear());
-                        </script>
+            </script>
         </div>
     </div>
 @endsection

@@ -14,16 +14,16 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
         foreach ($categories as $category) {
-            foreach($category->albums as $album ){
+            foreach ($category->albums as $album) {
                 $album->songs;
             }
             $category->albums;
         }
 
-        if(REQ::is('api/*'))
-        return response()->json([
-            'categories' => $categories
-        ], 200,[],JSON_NUMERIC_CHECK);
+        if (REQ::is('api/*'))
+            return response()->json([
+                'categories' => $categories
+            ], 200, [], JSON_NUMERIC_CHECK);
 
         return view('turaath/audios/all_categories')->with('categories', $categories);
     }
@@ -31,20 +31,20 @@ class CategoryController extends Controller
     // Get a single category
     public function getSingleCategory($categoryId)
     {
+        $albumSize=0;
         $category = Category::find($categoryId);
         if (!$category) {
             return response()->json([
                 'error' => "Category not found"
             ], 404);
         }
-        $category->albums;
-        if(REQ::is('api/*'))
+        
+        if (REQ::is('api/*'))
 
-        return response()->json([
-            'category' => $category
-        ], 200);
-        return view('turaath/audios/category')->with('category', $category);
-
+            return response()->json([
+                'category' => $category
+            ], 200);
+        return view('turaath/audios/category')->with(['category' => $category]);
     }
 
     // Post category
@@ -53,8 +53,7 @@ class CategoryController extends Controller
 
         // Validate if the request sent contains this parameters
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'description' => 'required',
+            'name' => 'required|unique:categories',
 
         ]);
 
@@ -71,11 +70,11 @@ class CategoryController extends Controller
         $category->description = $request->input('description');
 
         $category->save();
-        if(REQ::is('api/*'))
-        return response()->json([
-            'category' => $category
-        ], 201);
-        return back()->with('message','Category added successfully');
+        if (REQ::is('api/*'))
+            return response()->json([
+                'category' => $category
+            ], 201);
+        return back()->with('success', 'Category added successfully');
     }
 
     // Edit category
@@ -95,11 +94,11 @@ class CategoryController extends Controller
         ]);
 
         $category->save();
-            if(REQ::is('api/*'))
-        return response()->json([
-            'category' => $category
-        ], 206);
-        return back()->with('message','Category edited successfully');
+        if (REQ::is('api/*'))
+            return response()->json([
+                'category' => $category
+            ], 206);
+        return back()->with('success', 'Category edited successfully');
     }
 
     // Delete category
@@ -113,10 +112,10 @@ class CategoryController extends Controller
         }
 
         $category->delete();
-        if(REQ::is('api/*'))
-        return response()->json([
-            'category' => 'Category deleted successfully'
-        ], 200);return back()->with('message', 'Category deleted successfully');
-
+        if (REQ::is('api/*'))
+            return response()->json([
+                'category' => 'Category deleted successfully'
+            ], 200);
+        return back()->with('success', 'Category deleted successfully');
     }
 }

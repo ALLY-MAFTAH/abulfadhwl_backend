@@ -3,39 +3,33 @@
 @section('content')
     <div class="py-3">
         <div class="container">
-            @if (session('status'))
-                <div class="alert alert-info" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif
-            @if (session('errors'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('errors') }}
-                </div>
-            @endif
 
-            @if (Session::has('message'))
-                <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}</p>
+            @if (Session::has('error'))
+                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('error') }}</p>
+            @endif
+            @if (Session::has('success'))
+                <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}</p>
             @endif
 
             <section id="actions" class=" mb-2">
                 <div class="container">
-                    <div class="row"
-                        style="padding-top:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                    <div class="row" style="padding-top:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
                         <div class="col">
-                            <button onclick="history.back()" class="btn btn-primary btn-outline">
+                            <a href="{{route('category', $album->category->id )}}" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
-                            </button>
+                            </a>
                         </div>
                         <div class="col-4 text-center">
-                            <p style="font-size: 20px;"><b style="padding-right:10px"> {{ $album->name }}</b><a href="#"
-                                    class="btn btn-outline-primary" data-toggle="modal" data-target="#editAlbumModal">
+                            <p style="font-size: 20px;"><b style="padding-right:10px"> {{ $album->name }}</b><a
+                                    href="#" class="btn btn-outline-primary" data-toggle="modal"
+                                    data-target="#editAlbumModal">
                                     <i class="fas fa-edit"></i>
                                 </a></p>
                         </div>
                         <div class="col-2"></div>
                         <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal" data-target="#addSongModal">
+                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal"
+                                data-target="#addSongModal">
                                 <i class="fas fa-plus"></i> Add Audio
                             </a>
                         </div>
@@ -46,6 +40,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
+                            <p id="size"></p>
                             <h4>LIST OF AUDIOS ({{ count($album->songs) }})</h4>
                         </div>
 
@@ -62,7 +57,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Audio Name</th>
-                                        <th>Description</th>
+                                        <th>Size</th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -73,22 +68,22 @@
                                     @foreach ($album->songs as $index => $song)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $song->title }}</td>
-                                            <td>{{ $song->description }}</td>
                                             <td>
-
+                                                <div>{{ $song->title }}</div>
+                                                <div>{{ $song->duration }}</div>
+                                            </td>
+                                            <td>{{ $song->size.' MB' }}</td>
+                                            <td>
                                                 <audio src="{{ asset('storage/' . $song->file) }}" controls
                                                     controlslist></audio>
-
-
                                             </td>
                                             <td>
                                                 <a href="#" class="btn btn-outline-primary" data-toggle="modal"
-                                                    data-target="#editSongModal">
+                                                    data-target="#editSongModal-{{$song->id}}">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <!-- EDIT SONG MODAL -->
-                                                <div class="modal fade" id="editSongModal">
+                                                <div class="modal fade" id="editSongModal-{{$song->id}}">
                                                     <div class="modal-dialog modal-md">
                                                         <div class="modal-content">
                                                             <div class="modal-header bg-primary text-white">
@@ -101,7 +96,6 @@
                                                                 <form method="PUT"
                                                                     action="{{ route('edit_song', $song->id) }}">
                                                                     @csrf
-
                                                                     <div class="form-group row">
                                                                         <label for="title"
                                                                             class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
@@ -118,23 +112,6 @@
                                                                             @enderror
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-group row">
-                                                                        <label for="description"
-                                                                            class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
-                                                                        <div class="col-md-6">
-                                                                            <input id="description" type="text"
-                                                                                class="form-control @error('description') is-invalid @enderror"
-                                                                                name="description"
-                                                                                value="{{ old('description', $song->description) }}"
-                                                                                required autocomplete="description">
-                                                                            @error('description')
-                                                                                <span class="invalid-feedback" role="alert">
-                                                                                    <strong>{{ $message }}</strong>
-                                                                                </span>
-                                                                            @enderror
-                                                                        </div>
-                                                                    </div>
-
                                                                     <div class="form-group row mb-0">
                                                                         <div class="col-md-6 offset-md-4">
                                                                             <button type="submit" class="btn btn-primary">
@@ -156,19 +133,19 @@
                                                 </a>
                                             </td>
                                         </tr>
-
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+                <div style="display: none">{{ $size = 'Ma' }}</div>
                 <!-- ADD SONG MODAL -->
                 <div class="modal fade" id="addSongModal">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
-                                <h5 class="modal-title">Add Audio</h5>
+                                <h5 class="modal-title">Add Audios</h5>
                                 <button class="close" data-dismiss="modal">
                                     <span>&times;</span>
                                 </button>
@@ -177,43 +154,14 @@
                                 <form method="POST" action="{{ route('add_song', $album->id) }}"
                                     enctype="multipart/form-data">
                                     @csrf
-
-                                    <div class="form-group row">
-                                        <label for="title"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
-                                        <div class="col-md-6">
-                                            <input id="title" type="text"
-                                                class="form-control @error('title') is-invalid @enderror" name="title"
-                                                value="{{ old('title') }}" required autocomplete="title" autofocus>
-                                            @error('title')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="description"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
-                                        <div class="col-md-6">
-                                            <input id="description" type="text"
-                                                class="form-control @error('description') is-invalid @enderror"
-                                                name="description" value="{{ old('description') }}" required
-                                                autocomplete="description">
-                                            @error('description')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
                                     <div class="form-group row">
                                         <label for="file"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Audio File') }}</label>
+                                            class="col-md-4 col-form-label text-md-right">{{ __('Audio Files') }}</label>
                                         <div class="col-md-6">
                                             <input id="file" type="file"
-                                                class="form-control @error('file') is-invalid @enderror" name="file"
-                                                value="{{ old('file') }}" required autocomplete="file">
+                                                class="form-control @error('file') is-invalid @enderror" name="file[]"
+                                                multiple value="{{ old('file') }}" required autocomplete="file">
+                                            <span>Max. 100 MB</span>
                                             @error('file')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -252,7 +200,8 @@
                                         <label for="name"
                                             class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
                                         <div class="col-md-6">
-                                            <input id="name" type="text" onkeyup="this.value = this.value.toUpperCase();"
+                                            <input id="name" type="text"
+                                                onkeyup="this.value = this.value.toUpperCase();"
                                                 class="form-control @error('name') is-invalid @enderror" name="name"
                                                 value="{{ old('name', $album->name) }}" required autocomplete="name"
                                                 autofocus>
@@ -269,8 +218,9 @@
                                         <div class="col-md-6">
                                             <input id="description" type="text"
                                                 class="form-control @error('description') is-invalid @enderror"
-                                                name="description" value="{{ old('description', $album->description) }}"
-                                                required autocomplete="description">
+                                                name="description"
+                                                value="{{ old('description', $album->description) }}" required
+                                                autocomplete="description">
                                             @error('description')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -296,7 +246,19 @@
             </div>
 
 
-
+            <script>
+                $('#file').bind('change', function() {
+                    var totalSize = 0;
+                    for (let i = 0; i < this.files.length; i++) {
+                        totalSize = totalSize + Math.round((this.files[i].size) / 1048576);
+                    }
+                    console.log(totalSize);
+                    if (totalSize > 100) {
+                        alert("Sorry, you can't upload files with " + totalSize + " MB at once");
+                        $('form').find(':submit').attr('disabled', true);
+                    }
+                });
+            </script>
             <script>
                 $(function() {
                     $(".modal-btn").click(function() {

@@ -17,8 +17,9 @@ class CreateSongsTable extends Migration
             $table->bigIncrements('id');
             $table->String('album_id');
             $table->String('file');
-            $table->String('title');
-            $table->String('description');
+            $table->String('title')->unique();
+            $table->String('duration');
+            $table->String('size');
             $table->softDeletes();
             $table->timestamps();
         });

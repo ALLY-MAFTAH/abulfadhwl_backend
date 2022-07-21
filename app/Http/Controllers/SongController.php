@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Song;
 use App\Album;
 use App\Category;
+use App\Helpers\MP3File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Request as REQ;
 use Illuminate\Http\Request;
+
 
 class SongController extends Controller
 {
@@ -65,40 +67,48 @@ class SongController extends Controller
                 'error' => 'Album not found'
             ], 404);
         }
+        try {
 
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'description' => 'required',
-            'file' => 'required',
 
-        ]);
+            if ($request->hasFile('file')) {
+                $songFiles = $request->file('file');
+                foreach ($songFiles as $songFile) {
+                    $this->song_path = $songFile->storeAs(
+                        config('app.name') . '/SAUTI/' . $album->name,
+                        $songFile->getClientOriginalName() . '.' . $songFile->getClientOriginalExtension(),
+                        'public'
+                    );
 
-        // validator fails
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
+                    $mp3file = new MP3File($songFile);
+                    $originalDuration = $mp3file->getDurationEstimate(); //(faster) for CBR only
+                    $duration = MP3File::formatTime($originalDuration);
+
+                    $song = new Song();
+                    $song->title = $songFile->getClientOriginalName();
+                    $song->duration = $duration;
+                    $song->size = round(($songFile->getSize() / 1048576), 1);
+                    $song->file = $this->song_path;
+
+                    $album->songs()->save($song);
+
+                }
+            } else return response()->json([
+                'error' => 'Add an audio file'
             ], 404);
+            //code...
+        } catch (\Throwable $th) {
+            if (REQ::is('api/*'))
+                return response()->json([
+                    'Error occured! Try to check may be the title of the audio already existed in database'
+                ], 200);
+            return back()->with('error', 'Error occured! Try to check may be the title of the audio already existed in database');
         }
-        if ($request->hasFile('file')) {
-            $this->song_path = $request->file('file')->storeAs(config('app.name').'/SAUTI/'.$album->name ,
-            $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
-            'public');
-        } else return response()->json([
-            'message' => 'Add an audio file'
-        ], 404);
 
-        $song = new Song();
-        $song->title = $request->input('title');
-        $song->description = $request->input('description');
-        $song->file = $this->song_path;
-
-        $album->songs()->save($song);
         if (REQ::is('api/*'))
             return response()->json([
-                'song' => $song
+                'Audios Uploaded Successfully'
             ], 200);
-        return back()->with('message', 'Audio added successfully');
+        return back()->with('success', 'Audio Files Added Successfully');
     }
 
     public function putSong(Request $request, $songId)
@@ -112,8 +122,6 @@ class SongController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'description' => 'required',
-
         ]);
 
         // validator fails
@@ -126,12 +134,11 @@ class SongController extends Controller
 
         $song->update([
             'title' => $request->input('title'),
-            'description' => $request->input('description'),
         ]);
 
         $song->save();
 
-        return back()->with('message', 'Audio edited successfully');
+        return back()->with('success', 'Audio edited successfully');
     }
 
     public function deleteSong($songId)
@@ -147,9 +154,9 @@ class SongController extends Controller
         $song->delete();
         if (REQ::is('api/*'))
             return response()->json([
-                'message' => 'Song deleted successfully'
+                'success' => 'Song deleted successfully'
             ], 200);
-        return back()->with('message', 'Audio deleted successfully');
+        return back()->with('success', 'Audio deleted successfully');
     }
 
 

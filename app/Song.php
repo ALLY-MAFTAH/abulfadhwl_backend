@@ -12,6 +12,7 @@ class Song extends Model
     protected $fillable = [
         'file',
         'title',
+        'duration',
         'description',
     ];
 

@@ -37,12 +37,14 @@ class AlbumController extends Controller
                 'error' => "Album not found"
             ], 404);
         }
-        $album->songs;
+
         if (REQ::is('api/*'))
             return response()->json([
                 'album' => $album
             ], 200);
-        return view('turaath/audios/album')->with('album', $album);
+        return view('turaath/audios/album')->with([
+            'album' => $album
+        ]);
     }
 
     // Post an Album
@@ -58,8 +60,6 @@ class AlbumController extends Controller
         // Validate if the request sent contains these parameters
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'description' => 'required',
-
         ]);
 
 
@@ -81,7 +81,7 @@ class AlbumController extends Controller
             return response()->json([
                 'album' => $album
             ], 202);
-        return back()->with('message', 'Album added successfully');
+        return back()->with('success', 'Album added successfully');
     }
 
     public function putAlbum(Request $request, $albumId)
@@ -118,7 +118,7 @@ class AlbumController extends Controller
             return response()->json([
                 'album' => $album
             ], 206);
-        return back()->with('message', 'Album edited successfully');
+        return back()->with('success', 'Album edited successfully');
     }
 
     // Delete album
@@ -136,6 +136,6 @@ class AlbumController extends Controller
             return response()->json([
                 'album' => 'Album deleted successfully'
             ], 200);
-        return back()->with('message', 'Album deleted successfully');
+        return back()->with('success', 'Album deleted successfully');
     }
 }
