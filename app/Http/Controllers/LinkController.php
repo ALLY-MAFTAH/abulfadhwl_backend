@@ -18,7 +18,7 @@ class LinkController extends Controller
             return response()->json([
                 'links' => $apiLinks
             ], 200);
-        return view('others/all_links')->with('links', $webLinks);
+        return view('others.all_links')->with('links', $webLinks);
     }
     public function getSingleLink($linkId)
     {
@@ -33,7 +33,7 @@ class LinkController extends Controller
             return response()->json([
                 'link' => $link
             ], 200);
-        return view('others/link')->with('link', $link);
+        return view('others.link')->with('link', $link);
     }
 
     public function postLink(Request $request)
@@ -54,13 +54,13 @@ class LinkController extends Controller
         $attributes['status'] = false;
         Link::create($attributes);
 
-        return back()->with('message', 'Link added successfully');
+        return back()->with('success', 'Link added successfully');
     }
 
     public function putLink(Request $request, $linkId)
     {
         $link = Link::find($linkId);
-        if (!$link) return back()->with('message', 'Stream not found');
+        if (!$link) return back()->with('error', 'Stream not found');
 
         $attributes = $this->validate($request, [
             'icon' => 'sometimes|file',
@@ -78,7 +78,7 @@ class LinkController extends Controller
             );
         }
         $link->update($attributes);
-        return back()->with('message', 'Link edited successfully');
+        return back()->with('success', 'Link edited successfully');
     }
 
     public function toggleStatus(Request $request, Link $link)
@@ -87,9 +87,9 @@ class LinkController extends Controller
             'status' => $request->input('status'),
         ]);
         $link->save();
-        return back()->with('message', 'Link Switched Successfully');
+        return back()->with('success', 'Link Switched Successfully');
     }
-    
+
 
     public function deleteLink($linkId)
     {
@@ -104,9 +104,9 @@ class LinkController extends Controller
         if (REQ::is('api/*'))
 
             return response()->json([
-                'message' => 'Link deleted successfully'
+                'success' => 'Link deleted successfully'
             ], 200);
-        return back()->with('message', 'Link deleted successfully');
+        return back()->with('success', 'Link deleted successfully');
     }
 
     public function viewIconFile($linkId)

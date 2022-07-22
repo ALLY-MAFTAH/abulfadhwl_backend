@@ -23,7 +23,7 @@ class SongController extends Controller
                 'songs' => $songs
             ], 200, [], JSON_NUMERIC_CHECK);
 
-        return view('turaath/audios/all_songs')->with(['songs' => $songs, 'albums' => $albums, 'categories' => $categories]);
+        return view('turaath.audios.all_songs')->with(['songs' => $songs, 'albums' => $albums, 'categories' => $categories]);
     }
 
     public function getSingleSong($songId)
@@ -41,7 +41,7 @@ class SongController extends Controller
             return response()->json([
                 'song' => $song
             ], 200);
-        return view('turaath/audios/song')->with(['song' => $song, 'albums' => $albums, 'categories' => $categories]);
+        return view('turaath.audios.song')->with(['song' => $song, 'albums' => $albums, 'categories' => $categories]);
     }
 
     // Fetch Song Names For Searching in App

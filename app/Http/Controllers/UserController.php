@@ -11,6 +11,6 @@ class UserController extends Controller
     public function getAllUsers(){
         $users=User::all();
 
-        return view('others/users')->with('users',$users);
+        return view('others.users')->with('users',$users);
     }
 }

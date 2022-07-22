@@ -31,14 +31,13 @@ class CategoryController extends Controller
     // Get a single category
     public function getSingleCategory($categoryId)
     {
-        $albumSize=0;
         $category = Category::find($categoryId);
         if (!$category) {
             return response()->json([
                 'error' => "Category not found"
             ], 404);
         }
-        
+
         if (REQ::is('api/*'))
 
             return response()->json([

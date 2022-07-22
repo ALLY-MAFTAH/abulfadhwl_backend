@@ -9,47 +9,54 @@
                     {{ session('status') }}
                 </div>
             @endif
-
+            @if (Session::has('error'))
+                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('error') }}
+                </p>
+            @endif
+            @if (Session::has('success'))
+                <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}
+                </p>
+            @endif
             <br>
             <div class="row d-flex justify-content-center text-center">
                 <a href="{{ route('categories') }}" class="card btn summary-cards  col-md ">
                     <div class="summary-content"><i class="fas fa-music"></i>
                         AUDIOS <br>
                         ( {{ count($categories) }} )</div>
-                    </a>
+                </a>
 
-                    <a href="{{ route('books') }}" class="card btn summary-cards  col-md ">
-                        <div class="summary-content"> <i class="fas fa-book"></i>
-                            BOOKS <br>
-                            ( {{ count($books) }} )
-                        </div>
-                    </a>
-                    <a href="{{ route('articles') }}" class="card btn summary-cards  col-md ">
-                        <div class="summary-content"> <i class="fas fa-file"></i>
-                            ARTICLES <br>
-                            ( {{ count($articles) }} )
-                        </div>
-                    </a>
-                    <a href="{{ route('histories') }}" class="card btn summary-cards  col-md ">
-                        <div class="summary-content"> <i class="fas fa-history"></i>
-                            HISTORY <br>
-                            ( {{ count($histories) }} )
-                        </div>
-                    </a>
-                    <a href="{{ route('streams') }}" class="card btn summary-cards  col-md ">
-                        <div class="summary-content"> <i class="fas fa-microphone-alt"></i>
-                            STREAMS <br>
-                            ( {{ count($streams) }} )
-                        </div>
-                    </a>
-                    <a href="{{ route('users') }}" class="card btn summary-cards  col-md">
-                        <div class="summary-content"><i class="fas fa-users"></i>
-                            USERS <br>
-                            ( {{ count($users) }} )
-                        </div>
-                    </a>
+                <a href="{{ route('books') }}" class="card btn summary-cards  col-md ">
+                    <div class="summary-content"> <i class="fas fa-book"></i>
+                        BOOKS <br>
+                        ( {{ count($books) }} )
                     </div>
-                        <div class="row d-flex justify-content-center text-center">
+                </a>
+                <a href="{{ route('articles') }}" class="card btn summary-cards  col-md ">
+                    <div class="summary-content"> <i class="fas fa-file"></i>
+                        ARTICLES <br>
+                        ( {{ count($articles) }} )
+                    </div>
+                </a>
+                <a href="{{ route('histories') }}" class="card btn summary-cards  col-md ">
+                    <div class="summary-content"> <i class="fas fa-history"></i>
+                        HISTORY <br>
+                        ( {{ count($histories) }} )
+                    </div>
+                </a>
+                <a href="{{ route('streams') }}" class="card btn summary-cards  col-md ">
+                    <div class="summary-content"> <i class="fas fa-microphone-alt"></i>
+                        STREAMS <br>
+                        ( {{ count($streams) }} )
+                    </div>
+                </a>
+                <a href="{{ route('users') }}" class="card btn summary-cards  col-md">
+                    <div class="summary-content"><i class="fas fa-users"></i>
+                        USERS <br>
+                        ( {{ count($users) }} )
+                    </div>
+                </a>
+            </div>
+            <div class="row d-flex justify-content-center text-center">
 
                 <a href="{{ route('announcements') }}" class="card btn summary-cards col-md">
                     <div class="summary-content"><i class="fas fa-bullhorn"></i>

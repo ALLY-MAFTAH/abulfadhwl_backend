@@ -16,7 +16,7 @@ class StreamController extends Controller
             return response()->json([
                 'streams' => $streams
             ], 200);
-        return view('others/all_streams')->with('streams', $streams);
+        return view('others.all_streams')->with('streams', $streams);
     }
     public function getSingleStream($streamId)
     {
@@ -31,7 +31,7 @@ class StreamController extends Controller
             return response()->json([
                 'stream' => $stream
             ], 200);
-        return view('others/stream')->with('stream', $stream);
+        return view('others.stream')->with('stream', $stream);
     }
 
     public function postStream(Request $request)
@@ -52,13 +52,13 @@ class StreamController extends Controller
         $attributes['status'] = true;
         Stream::create($attributes);
 
-        return back()->with('message', 'Stream Added successfully');
+        return back()->with('success', 'Stream Added successfully');
     }
 
     public function putStream(Request $request, $streamId)
     {
         $stream = Stream::find($streamId);
-        if (!$stream) return back()->with('message', 'Stream not found');
+        if (!$stream) return back()->with('error', 'Stream not found');
 
         $attributes = $this->validate($request, [
             'timetable' => 'sometimes|file',
@@ -76,7 +76,7 @@ class StreamController extends Controller
             );
         }
         $stream->update($attributes);
-        return back()->with('message', 'Stream edited successfully');
+        return back()->with('success', 'Stream edited successfully');
     }
 
     public function toggleStatus(Request $request, Stream $stream)
@@ -85,7 +85,7 @@ class StreamController extends Controller
             'status' => $request->input('status'),
         ]);
         $stream->save();
-        return back()->with('message', 'Stream Switched Successfully');
+        return back()->with('success', 'Stream Switched Successfully');
     }
 
     public function deleteStream($streamId)
@@ -100,9 +100,9 @@ class StreamController extends Controller
         $stream->delete();
         if (REQ::is('api/*'))
             return response()->json([
-                'message' => 'Stream deleted successfully'
+                'success' => 'Stream deleted successfully'
             ], 200);
-        return back()->with('message', 'Stream deleted successfully');
+        return back()->with('success', 'Stream deleted successfully');
     }
 
     public function viewTimetableFile($streamId)

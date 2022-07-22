@@ -103,8 +103,8 @@ class CommentController extends Controller
         $comment->delete();
         if(REQ::is('api/*'))
         return response()->json([
-            'message' => 'Comment deleted successfully'
+            'success' => 'Comment deleted successfully'
         ], 200);
-        return back()->with('message','Comment deleted successfully');
+        return back()->with('success','Comment deleted successfully');
     }
 }

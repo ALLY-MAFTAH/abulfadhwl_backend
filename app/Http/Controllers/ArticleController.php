@@ -61,13 +61,13 @@ class ArticleController extends Controller
             $this->song_path = $request->file('file')->storeAs(config('app.name').'/MAKALA/' ,
             $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
             'public');        } else return response()->json([
-            'message' => 'Add a article file'
+            'error' => 'Add a article file'
         ], 404);
 
         if ($request->hasFile('cover')) {
             $this->cover_path = $request->file('cover')->store('articles');
         } else return response()->json([
-            'message' => 'Add an article cover'
+            'error' => 'Add an article cover'
         ], 404);
 
         $article = new Article();
@@ -81,7 +81,7 @@ class ArticleController extends Controller
             return response()->json([
                 'article' => $article
             ], 201);
-        return back()->with('message', 'Article added successfully');
+        return back()->with('success', 'Article added successfully');
     }
 
     // Edit article
@@ -106,7 +106,7 @@ class ArticleController extends Controller
             return response()->json([
                 'article' => $article
             ], 201);
-        return back()->with('message', 'Article edited successfully');
+        return back()->with('success', 'Article edited successfully');
     }
 
     // Delete article
@@ -125,7 +125,7 @@ class ArticleController extends Controller
             return response()->json([
                 'article' => 'Article deleted successfully'
             ], 200);
-        return back()->with('message', 'Article deleted successfully');
+        return back()->with('success', 'Article deleted successfully');
     }
 
     public function viewArticleFile($articleId)

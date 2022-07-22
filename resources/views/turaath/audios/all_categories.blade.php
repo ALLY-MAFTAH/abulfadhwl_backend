@@ -3,20 +3,14 @@
 @section('content')
     <div class=" py-3">
         <div class="container">
-            @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
+            @if (Session::has('error'))
+                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('error') }}
+                </p>
             @endif
-            @if (session('errors'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('errors') }}
-                </div>
+            @if (Session::has('success'))
+                <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}
+                </p>
             @endif
-            @if (Session::has('message'))
-            <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}
-            </p>
-        @endif
             <!-- ACTIONS -->
             <section id="actions" class=" mb-2">
                 <div class="container">
@@ -42,7 +36,7 @@
                 <div class="container">
                     <div class="card">
                         <div class="card-header">
-                            <h4>AUDIO CATEGORIES ({{count($categories)}})</h4>
+                            <h4>AUDIO CATEGORIES ({{ count($categories) }})</h4>
                         </div>
                         <table class="table table-striped">
                             <thead class="thead-dark">
@@ -105,7 +99,8 @@
                                     <label for="name"
                                         class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
                                     <div class="col-md-6">
-                                        <input id="name" type="text" onkeyup="this.value = this.value.toUpperCase();"
+                                        <input id="name" type="text"
+                                            onkeyup="this.value = this.value.toUpperCase();"
                                             class="form-control @error('name') is-invalid @enderror" name="name"
                                             value="{{ old('name') }}" required autocomplete="name" autofocus>
                                         @error('name')

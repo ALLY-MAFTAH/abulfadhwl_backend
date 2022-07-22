@@ -8,20 +8,14 @@
 @section('content')
     <div class="col-md-10 py-3">
         <div class="container">
-            @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
+            @if (Session::has('error'))
+                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('error') }}
+                </p>
             @endif
-            @if (session('errors'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('errors') }}
-                </div>
+            @if (Session::has('success'))
+                <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}
+                </p>
             @endif
-            @if (Session::has('message'))
-            <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}
-            </p>
-        @endif
             <!-- ACTIONS -->
             <section id="actions" class="py-5 mb-4 bg-light">
                 <div class="container">
@@ -60,7 +54,6 @@
                                                     @foreach ($album->songs as $newSong2)
                                                         @if ($newSong2->id == $song->id)
                                                             @if ($newSong1->id == $song->id)
-
                                                                 <tr>
                                                                     <td>{{ $index + 1 }}</td>
                                                                     <td>{{ $song->title }}</td>

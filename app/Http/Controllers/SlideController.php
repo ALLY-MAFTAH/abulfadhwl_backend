@@ -19,7 +19,7 @@ class SlideController extends Controller
             return response()->json([
                 'slides' => $slides
             ], 200);
-        return view('others/all_slides')->with('slides', $slides);
+        return view('others.all_slides')->with('slides', $slides);
     }
 
     // Get a single slide
@@ -59,7 +59,7 @@ class SlideController extends Controller
             $this->song_path = $request->file('file')->storeAs(config('app.name').'/PICHA/' ,
            'Picha-'. $request->number . '.' . $request->file('file')->getClientOriginalExtension(),
             'public');        } else return response()->json([
-            'message' => 'Add a slide file'
+            'success' => 'Add a slide file'
         ], 404);
 
         $slide = new Slide();
@@ -72,7 +72,7 @@ class SlideController extends Controller
             return response()->json([
                 'slide' => $slide
             ], 201);
-        return back()->with('message', 'Slide added successfully');
+        return back()->with('success', 'Slide added successfully');
     }
 
     // Delete slide
@@ -90,7 +90,7 @@ class SlideController extends Controller
             return response()->json([
                 'slide' => 'Slide deleted successfully'
             ], 200);
-        return back()->with('message', 'Slide deleted successfully');
+        return back()->with('success', 'Slide deleted successfully');
     }
 
     public function viewSlideFile($slideId)

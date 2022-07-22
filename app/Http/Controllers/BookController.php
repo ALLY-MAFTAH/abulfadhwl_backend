@@ -64,13 +64,13 @@ class BookController extends Controller
             $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
             'public');
         } else return response()->json([
-            'message' => 'Add a book file'
+            'error' => 'Add a book file'
         ], 404);
 
         if ($request->hasFile('cover')) {
             $this->cover_path = $request->file('cover')->store('books');
         } else return response()->json([
-            'message' => 'Add a book cover'
+            'error' => 'Add a book cover'
         ], 404);
 
         $book = new Book();
@@ -84,7 +84,7 @@ class BookController extends Controller
 
         $book->save();
 
-        return back()->with('message','Book added successfully');
+        return back()->with('success','Book added successfully');
     }
 
     // Edit book
@@ -127,7 +127,7 @@ class BookController extends Controller
         return response()->json([
             'book' => $book
         ], 206);
-        return back()->with('message','Book edited successfully');
+        return back()->with('success','Book edited successfully');
     }
 
     // Delete book
@@ -146,7 +146,7 @@ class BookController extends Controller
         return response()->json([
             'book' => 'Book deleted successfully'
         ], 200);
-        return back()->with('message', 'Book deleted successfully');
+        return back()->with('success', 'Book deleted successfully');
     }
 
     public function viewBookFile($bookId)

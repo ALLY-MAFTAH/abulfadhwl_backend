@@ -60,7 +60,7 @@ class HistoryController extends Controller
             return response()->json([
                 'history' => $history
             ], 200);
-        return back()->with('message', 'History added successfully');
+        return back()->with('success', 'History added successfully');
     }
 
     public function putHistory(Request $request, $historyId)
@@ -94,7 +94,7 @@ class HistoryController extends Controller
             return response()->json([
                 'history' => $history
             ], 200);
-        return back()->with('message', 'History edited successfully');
+        return back()->with('success', 'History edited successfully');
     }
 
     public function deleteHistory($historyId)
@@ -110,8 +110,8 @@ class HistoryController extends Controller
         if (REQ::is('api/*'))
 
             return response()->json([
-                'message' => 'History deleted successfully'
+                'success' => 'History deleted successfully'
             ], 200);
-        return back()->with('message', 'History deleted successfully');
+        return back()->with('success', 'History deleted successfully');
     }
 }

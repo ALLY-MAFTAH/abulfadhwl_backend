@@ -57,7 +57,7 @@ class AnnouncementController extends Controller
         return response()->json([
             'announcement' => $announcement
         ], 200);
-        return back()->with('message', 'Announcement added successfully');
+        return back()->with('success', 'Announcement added successfully');
 
     }
 
@@ -80,7 +80,7 @@ class AnnouncementController extends Controller
         return response()->json([
             'announcement' => $announcement
         ], 200);
-        return back()->with('message', 'Announcement edited successfully');
+        return back()->with('success', 'Announcement edited successfully');
 
     }
 
@@ -96,9 +96,9 @@ class AnnouncementController extends Controller
         $announcement->delete();
         if(REQ::is('api/*'))
         return response()->json([
-            'message' => 'Announcement deleted successfully'
+            'success' => 'Announcement deleted successfully'
         ], 200);
-        return back()->with('message', 'Announcement deleted successfully');
+        return back()->with('success', 'Announcement deleted successfully');
 
     }
 }

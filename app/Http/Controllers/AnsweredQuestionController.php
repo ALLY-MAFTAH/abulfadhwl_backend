@@ -101,7 +101,7 @@ class AnsweredQuestionController extends Controller
         }
 
         $answer->update($attributes);
-        return back()->with('message', 'Umefanikiwa kujibu swali hili');
+        return back()->with('success', 'Question Edited Successfully');
     }
 
     public function deleteAnsweredQuestion($answerId)
@@ -109,12 +109,12 @@ class AnsweredQuestionController extends Controller
         $answer = AnsweredQuestion::find($answerId);
         if (!$answer) {
             return response()->json([
-                'error' => 'AnsweredQuestion does not exist'
+                'error' => 'Answered Question does not exist'
             ], 404);
         }
 
         $answer->delete();
-        return back()->with('message', 'Umefanikiwa kufuta swali hili');
+        return back()->with('success', 'Question Deleted Successfully');
     }
 
 

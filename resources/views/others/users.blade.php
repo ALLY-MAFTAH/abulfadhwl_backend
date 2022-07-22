@@ -3,20 +3,14 @@
 @section('content')
     <div class=" py-3">
         <div class="container">
-            @if (session('status'))
-                <div class="alert alert-info" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif
-            @if (session('errors'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('errors') }}
-                </div>
-            @endif
-            @if (Session::has('message'))
-                <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}
-                </p>
-            @endif
+            @if (Session::has('error'))
+            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('error') }}
+            </p>
+        @endif
+        @if (Session::has('success'))
+            <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}
+            </p>
+        @endif
             <!-- ACTIONS -->
 
             <section id="actions" class=" mb-2">
@@ -88,7 +82,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            
+
                         </div>
                     </div>
                 </div>

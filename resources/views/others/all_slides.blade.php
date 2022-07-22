@@ -3,18 +3,12 @@
 @section('content')
     <div class=" py-3">
         <div class="container">
-            @if (session('status'))
-                <div class="alert alert-info" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif
-            @if (session('errors'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('errors') }}
-                </div>
-            @endif
-            @if (Session::has('message'))
-            <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}
+            @if (Session::has('error'))
+            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('error') }}
+            </p>
+        @endif
+        @if (Session::has('success'))
+            <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}
             </p>
         @endif
             <!-- ACTIONS -->
