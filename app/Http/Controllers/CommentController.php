@@ -36,7 +36,7 @@ class CommentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'full_name' => 'required',
-            'email' => 'required',
+            // 'email' => 'required',
             'message' => 'required'
         ]);
 
@@ -49,7 +49,7 @@ class CommentController extends Controller
 
         $comment = new Comment();
         $comment->full_name = $request->input('full_name');
-        $comment->email = $request->input('email');
+        $comment->email = $request->input('email')??"No Email";
         $comment->message = $request->input('message');
 
         $comment->save();
