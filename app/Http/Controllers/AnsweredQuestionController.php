@@ -51,9 +51,7 @@ class AnsweredQuestionController extends Controller
                 $answeredQuestions[] = $question;
             }
         }
-        return response()->json([
-            'answeredQuestions' => $answeredQuestions
-        ], 200);
+        return response()->json([ 'answeredQuestions' => $answeredQuestions], 200);
     }
 
     public function postQuestion(Request $request)
@@ -73,9 +71,7 @@ class AnsweredQuestionController extends Controller
         $question->status = false;
 
         $question->save();
-        return response()->json([
-            'question' => $question
-        ], 200);
+        return response()->json(['question' => $question], 200);
     }
 
     public function putAnsweredQuestion(Request $request, $answerId)

@@ -24,6 +24,9 @@
 
 
     <style>
+        body{
+            /* font-family: -apple-system, 'Open Sans', 'Helvetica Neue', sans-serif */
+        }
         .card-header {
             color: white;
             width: 100%;
@@ -120,7 +123,7 @@
         <nav id="navbar_top" class="navbar navbar-expand-md navbar-light shadow-lg"
             style="background-color:rgb(247, 142, 5)">
             <div class="container">
-                <a href="#" class=""> <img src="{{ asset('/asset/images/logo.png') }} "
+                <a href="#" class=""> <img src="{{ asset('assets/images/logo.png') }}"
                         height="40px"></a>
                 <h2 style=" color: white; text-shadow: 2px 2px 4px #1709e0;"> <b>{{ config('app.name')}}</b></h2>
                 <button class="navbar-toggler" style="background-color: rgb(255, 255, 255)" type="button"
