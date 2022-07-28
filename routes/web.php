@@ -1,8 +1,5 @@
 <?php
-<<<<<<< HEAD
-=======
 
->>>>>>> 26ddc7e58a83e320150b3750de87c2b226018958
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
