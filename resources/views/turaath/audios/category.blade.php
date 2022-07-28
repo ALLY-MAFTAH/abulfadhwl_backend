@@ -124,8 +124,7 @@
                                     <div class="col-md-6">
                                         <input id="description" type="text"
                                             class="form-control @error('description') is-invalid @enderror"
-                                            name="description" value="{{ old('description') }}"
-                                            autocomplete="description">
+                                            name="description" value="{{ old('description') }}" autocomplete="description">
                                         @error('description')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $error }}</strong>
@@ -203,9 +202,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
-    </div>
     </div>
 @endsection
