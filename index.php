@@ -1,58 +1,60 @@
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta http-equiv="cache-control" content="max-age=0" />
-  <meta http-equiv="cache-control" content="no-cache" />
-  <meta http-equiv="expires" content="0" />
-  <meta http-equiv="pragma" content="no-cache" />
-  <title>This site is brand new</title>
-  <style>
+<?php
 
+/**
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @author   Taylor Otwell <taylor@laravel.com>
+ */
 
-  html
-  {
-    font-size: 62.5%;
-  }
+define('LARAVEL_START', microtime(true));
 
-  body
-  {
-    margin: 0;
-    padding: 0;
-    font-size: 1.6rem;
-    color: #353535;
-    background: linear-gradient(to bottom, #ccc, #fff 30%);
-    background-repeat: no-repeat;
-  }
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader for
+| our application. We just need to utilize it! We'll simply require it
+| into the script here so that we don't have to worry about manual
+| loading any of our classes later on. It feels great to relax.
+|
+*/
 
-  h1,h3
-  {
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    text-transform: uppercase;
-  }
+require __DIR__.'/vendor/autoload.php';
 
+/*
+|--------------------------------------------------------------------------
+| Turn On The Lights
+|--------------------------------------------------------------------------
+|
+| We need to illuminate PHP development, so let us turn on the lights.
+| This bootstraps the framework and gets it ready for use, then it
+| will load up this application so that we can run it and send
+| the responses back to the browser and delight our users.
+|
+*/
 
-  h1
-  {
-    margin: 20rem 0 1rem;
-    font-size: 3rem;
-  }
+$app = require_once __DIR__.'/bootstrap/app.php';
 
-  h3
-  {
-    font-weight: normal;
-    font-size: 1.4rem;
-  }
-  </style>
-</head>
-<body>
-  <h1>This Site is Brand New</h1>
-  <h3>Please check back again soon</h3>
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-</body>
-</html>
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the kernel, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+*/
 
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+);
+
+$response->send();
+
+$kernel->terminate($request, $response);
