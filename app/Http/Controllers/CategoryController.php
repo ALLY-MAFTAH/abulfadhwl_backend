@@ -43,7 +43,7 @@ class CategoryController extends Controller
             return response()->json([
                 'category' => $category
             ], 200);
-        return view('turaath/audios/category')->with(['category' => $category]);
+        return view('turaath.audios.category')->with(['category' => $category]);
     }
 
     // Post category

@@ -123,14 +123,8 @@
         <nav id="navbar_top" class="navbar navbar-expand-md navbar-light shadow-lg"
             style="background-color:rgb(247, 142, 5)">
             <div class="container">
-<<<<<<< HEAD
-                <a href="#" class=""> <img src="{{ asset('assets/images/logo.png') }}"
-                        height="40px"></a>
-                <h2 style=" color: white; text-shadow: 2px 2px 4px #1709e0;"> <b>{{ config('app.name')}}</b></h2>
-=======
                 <a href="#" class=""> <img src="{{ asset('assets/images/logo.png') }}" height="40px"></a>
                 <h2 style=" color: white; text-shadow: 2px 2px 4px #1709e0;"> <b>{{ config('app.name') }}</b></h2>
->>>>>>> 26ddc7e58a83e320150b3750de87c2b226018958
                 <button class="navbar-toggler" style="background-color: rgb(255, 255, 255)" type="button"
                     data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
