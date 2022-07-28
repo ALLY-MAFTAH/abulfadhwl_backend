@@ -24,7 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::group(['middleware' => 'auth'], function () {
-    // });
+
     // CATEGORIES ROUTES
     Route::get('categories', 'CategoryController@getAllCategories')->name('categories');
     Route::post('category', 'CategoryController@postCategory')->name('add_category');
