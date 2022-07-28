@@ -10,9 +10,6 @@
 
     <title>{{ config('app.name', 'Abulfadhwl App') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,6 +17,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+        integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+        crossorigin="anonymous" />
 
 
 
@@ -84,6 +84,7 @@
         .row-height {
             height: 15px;
         }
+
         .summary-cards {
             box-shadow: 4px 4px 6px #df831a;
             border-radius: 12px;
@@ -110,7 +111,6 @@
         .summary-cards:hover .summary-content {
             color: var(--white);
         }
-
     </style>
 </head>
 
@@ -120,9 +120,8 @@
         <nav id="navbar_top" class="navbar navbar-expand-md navbar-light shadow-lg"
             style="background-color:rgb(247, 142, 5)">
             <div class="container">
-                <a href="#" class=""> <img src="{{ asset('/asset/images/logo.png') }} "
-                        height="40px"></a>
-                <h2 style=" color: white; text-shadow: 2px 2px 4px #1709e0;"> <b>{{ config('app.name')}}</b></h2>
+                <a href="#" class=""> <img src="{{ asset('assets/images/logo.png') }}" height="40px"></a>
+                <h2 style=" color: white; text-shadow: 2px 2px 4px #1709e0;"> <b>{{ config('app.name') }}</b></h2>
                 <button class="navbar-toggler" style="background-color: rgb(255, 255, 255)" type="button"
                     data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -140,7 +139,6 @@
                             <div></div>
                         @endif
                     @else
-
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item list-unstyled">
                                 <a class="nav-link  " href="{{ route('home') }}">
@@ -183,7 +181,8 @@
                             <li class="nav-item  list-unstyled">
 
                                 <a class="nav-link" href="{{ route('histories') }}">
-                                    <p class="nav-items-2 {{ request()->routeIs('histories')||request()->routeIs('history') ? 'active' : '' }}">
+                                    <p
+                                        class="nav-items-2 {{ request()->routeIs('histories') || request()->routeIs('history') ? 'active' : '' }}">
                                         History</p>
                                 </a>
                             </li>
@@ -223,9 +222,9 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a style="color: white; font-size: 17px" id="navbarDropdown" class="nav-link dropdown-toggle"
-                                    href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                    v-pre>
+                                <a style="color: white; font-size: 17px" id="navbarDropdown"
+                                    class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
@@ -259,7 +258,7 @@
             </div>
         </nav>
         <main>
-            <div  style="min-height: 100vh">
+            <div style="min-height: 100vh">
                 @yield('content')
             </div>
         </main>
@@ -268,7 +267,7 @@
                 <div class="col">
                     <hr>
                     <p class="lead text-center">
-                        &copy; <span id="year"></span> {{ config('app.name')}}
+                        &copy; <span id="year"></span> {{ config('app.name') }}
                     </p>
                 </div>
             </div>
@@ -278,6 +277,8 @@
         $('#year').text(new Date().getFullYear());
     </script>
 
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/ripple.js') }}"></script>
     <script src="{{ asset('js/pcoded.js') }}"></script>
@@ -287,11 +288,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-        integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-        crossorigin="anonymous" />
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -310,7 +306,7 @@
         });
     </script>
 
-@yield('scripts')
+    @yield('scripts')
 
 </body>
 

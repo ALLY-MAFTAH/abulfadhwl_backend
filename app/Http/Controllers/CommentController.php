@@ -12,11 +12,11 @@ class CommentController extends Controller
     public function getAllComments()
     {
         $comments = Comment::latest()->get();
-        if(REQ::is('api/*'))
-        return response()->json([
-            'comments' => $comments
-        ], 200);
-        return view('feeds/all_comments')->with('comments',$comments);
+        if (REQ::is('api/*'))
+            return response()->json([
+                'comments' => $comments
+            ], 200);
+        return view('feeds/all_comments')->with('comments', $comments);
     }
 
     public function getSingleComment($commentId)
@@ -27,9 +27,7 @@ class CommentController extends Controller
                 'error' => 'Comment not found'
             ], 404);
         }
-        return response()->json([
-            'comment' => $comment
-        ], 200);
+        return response()->json(['comment' => $comment], 200);
     }
 
     public function postComment(Request $request)
@@ -49,13 +47,11 @@ class CommentController extends Controller
 
         $comment = new Comment();
         $comment->full_name = $request->input('full_name');
-        $comment->email = $request->input('email')??"No Email";
+        $comment->email = $request->input('email') ?? "No Email";
         $comment->message = $request->input('message');
 
         $comment->save();
-        return response()->json([
-            'comment' => $comment
-        ], 200);
+        return response()->json(['comment' => $comment], 200);
     }
 
     public function putComment(Request $request, $commentId)
@@ -86,25 +82,21 @@ class CommentController extends Controller
             'message' => $request->input('message')
         ]);
         $comment->save();
-        return response()->json([
-            'comment' => $comment
-        ], 200);
+        return response()->json(['comment' => $comment], 200);
     }
 
     public function deleteComment($commentId)
     {
         $comment = Comment::find($commentId);
         if (!$comment) {
-            return response()->json([
-                'error' => 'Comment does not exist'
-            ], 404);
+            return response()->json(['error' => 'Comment does not exist'], 404);
         }
 
         $comment->delete();
-        if(REQ::is('api/*'))
-        return response()->json([
-            'success' => 'Comment deleted successfully'
-        ], 200);
-        return back()->with('success','Comment deleted successfully');
+        if (REQ::is('api/*'))
+            return response()->json([
+                'success' => 'Comment deleted successfully'
+            ], 200);
+        return back()->with('success', 'Comment deleted successfully');
     }
 }
