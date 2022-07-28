@@ -26,10 +26,6 @@ use App\Http\Controllers\AnsweredQuestionControllerController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('home');
-// });
-
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
 
