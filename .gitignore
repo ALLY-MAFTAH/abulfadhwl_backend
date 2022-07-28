@@ -1,8 +1,6 @@
 /node_modules
 /public/hot
 /public/storage
-/public/index.php
-/public/.htaccess
 /storage/*.key
 /vendor
 .env
@@ -10,5 +8,8 @@
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
+auth.json
 npm-debug.log
 yarn-error.log
+/.idea
+/.vscode

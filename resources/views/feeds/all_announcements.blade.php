@@ -22,8 +22,10 @@
                         </div>
 
                         <div class="col-6 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal"
-                                data-target="#addAnnouncementModal">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
+="modal"
+                                data-bs-target
+="#addAnnouncementModal">
                                 <i class="fas fa-plus"></i> Add Announcement
                             </a>
                         </div>
@@ -55,8 +57,10 @@
                                         <td style="min-width: 100px">{{ $announcement->date }}</td>
                                         <td>{{ $announcement->news }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-outline-primary" data-toggle="modal"
-                                                data-target="#editAnnouncementModal-{{ $announcement->id }}">
+                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle
+="modal"
+                                                data-bs-target
+="#editAnnouncementModal-{{ $announcement->id }}">
                                                 <i class="fas fa-edit">
                                                     Edit</i>
                                             </a>
@@ -66,7 +70,8 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary text-white">
                                                             <h5 class="modal-title">Edit Announcement</h5>
-                                                            <button class="close" data-dismiss="modal">
+                                                            <button class="close" data-bs-dismiss
+="modal">
                                                                 <span>&times;</span>
                                                             </button>
                                                         </div>
@@ -141,7 +146,8 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Announcement</h5>
-                            <button class="close" data-dismiss="modal">
+                            <button class="close" data-bs-dismiss
+="modal">
                                 <span>&times;</span>
                             </button>
                         </div>

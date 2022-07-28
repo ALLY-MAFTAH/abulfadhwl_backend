@@ -20,15 +20,19 @@
                         </div>
                         <div class="col-4 text-center">
                             <p style="font-size: 20px;"><b style="padding-right:10px"> {{ $category->name }}</b><a
-                                    href="#" class="btn btn-outline-primary" data-toggle="modal"
-                                    data-target="#editCategoryModal">
+                                    href="#" class="btn btn-outline-primary" data-bs-toggle
+="modal"
+                                    data-bs-target
+="#editCategoryModal">
                                     <i class="fas fa-edit"></i>
                                 </a></p>
                         </div>
                         <div class="col-2"></div>
                         <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal"
-                                data-target="#addAlbumModal">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
+="modal"
+                                data-bs-target
+="#addAlbumModal">
                                 <i class="fas fa-plus"></i> Add Album
                             </a>
                         </div>
@@ -96,7 +100,8 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Album</h5>
-                            <button class="close" data-dismiss="modal">
+                            <button class="close" data-bs-dismiss
+="modal">
                                 <span>&times;</span>
                             </button>
                         </div>
@@ -151,7 +156,8 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Edit Category</h5>
-                            <button class="close" data-dismiss="modal">
+                            <button class="close" data-bs-dismiss
+="modal">
                                 <span>&times;</span>
                             </button>
                         </div>

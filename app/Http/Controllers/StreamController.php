@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Stream;
+use App\Models\Stream;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Request as REQ;

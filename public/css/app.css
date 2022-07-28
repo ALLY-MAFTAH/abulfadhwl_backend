@@ -103,7 +103,6 @@
 }
 
 html {
-    font-family: 'Times New Roman', Times, serif;
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -124,7 +123,7 @@ section {
 
 body {
     margin: 0;
-    font-family: 'Times New Roman', Times, serif;
+    font-family:  "Nunito", sans-serif;
     font-size: 0.9rem;
     font-weight: 400;
     line-height: 1.6;
@@ -10277,5 +10276,3 @@ a.text-dark:focus {
         border-color: #dee2e6;
     }
 }
-
-*/

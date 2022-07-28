@@ -15,21 +15,21 @@
                 <div class="container">
                     <div class="row" style="padding-top:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
                         <div class="col">
-                            <a href="{{route('category', $album->category->id )}}" class="btn btn-primary btn-outline">
+                            <a href="{{ route('category', $album->category->id) }}" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
                             </a>
                         </div>
                         <div class="col-4 text-center">
                             <p style="font-size: 20px;"><b style="padding-right:10px"> {{ $album->name }}</b><a
-                                    href="#" class="btn btn-outline-primary" data-toggle="modal"
-                                    data-target="#editAlbumModal">
+                                    href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#editAlbumModal">
                                     <i class="fas fa-edit"></i>
                                 </a></p>
                         </div>
                         <div class="col-2"></div>
                         <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal"
-                                data-target="#addSongModal">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle="modal"
+                                data-bs-target="#addSongModal">
                                 <i class="fas fa-plus"></i> Add Audio
                             </a>
                         </div>
@@ -72,23 +72,23 @@
                                                 <div>{{ $song->title }}</div>
                                                 <div>{{ $song->duration }}</div>
                                             </td>
-                                            <td>{{ $song->size.' MB' }}</td>
+                                            <td>{{ $song->size . ' MB' }}</td>
                                             <td>
                                                 <audio src="{{ asset('storage/' . $song->file) }}" controls
                                                     controlslist></audio>
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-outline-primary" data-toggle="modal"
-                                                    data-target="#editSongModal-{{$song->id}}">
+                                                <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#editSongModal-{{ $song->id }}">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <!-- EDIT SONG MODAL -->
-                                                <div class="modal fade" id="editSongModal-{{$song->id}}">
+                                                <div class="modal fade" id="editSongModal-{{ $song->id }}">
                                                     <div class="modal-dialog modal-md">
                                                         <div class="modal-content">
                                                             <div class="modal-header bg-primary text-white">
                                                                 <h5 class="modal-title">Edit Audio</h5>
-                                                                <button class="close" data-dismiss="modal">
+                                                                <button class="close" data-bs-dismiss="modal">
                                                                     <span>&times;</span>
                                                                 </button>
                                                             </div>
@@ -146,7 +146,7 @@
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Add Audios</h5>
-                                <button class="close" data-dismiss="modal">
+                                <button class="close" data-bs-dismiss="modal">
                                     <span>&times;</span>
                                 </button>
                             </div>
@@ -188,7 +188,7 @@
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Edit Album</h5>
-                                <button class="close" data-dismiss="modal">
+                                <button class="close" data-bs-dismiss="modal">
                                     <span>&times;</span>
                                 </button>
                             </div>
@@ -218,9 +218,8 @@
                                         <div class="col-md-6">
                                             <input id="description" type="text"
                                                 class="form-control @error('description') is-invalid @enderror"
-                                                name="description"
-                                                value="{{ old('description', $album->description) }}" required
-                                                autocomplete="description">
+                                                name="description" value="{{ old('description', $album->description) }}"
+                                                required autocomplete="description">
                                             @error('description')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -261,7 +260,7 @@
             </script>
             <script>
                 $(function() {
-                    $(".modal-btn").click(function() {
+                    $(".modal-bs-btn").click(function() {
                         var data_var = $(this).data('song-id');
                         $(".modal-body h2").text(data_var);
                     })

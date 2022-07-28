@@ -25,8 +25,10 @@
 
                         <div class="col-2"></div>
                         <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal"
-                                data-target="#addSlideModal">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
+="modal"
+                                data-bs-target
+="#addSlideModal">
                                 <i class="fas fa-plus"></i> Add Slide
                             </a>
                         </div>
@@ -80,7 +82,8 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Slide</h5>
-                            <button class="close" data-dismiss="modal">
+                            <button class="close" data-bs-dismiss
+="modal">
                                 <span>&times;</span>
                             </button>
                         </div>

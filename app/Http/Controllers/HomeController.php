@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Album;
-use App\Announcement;
-use App\Answer;
-use App\AnsweredQuestion;
-use App\Article;
-use App\Book;
-use App\Category;
-use App\Comment;
-use App\History;
-use App\Link;
-use App\Question;
-use App\Slide;
-use App\Song;
-use App\Stream;
-use App\User;
+use App\Models\Album;
+use App\Models\Announcement;
+use App\Models\Answer;
+use App\Models\AnsweredQuestion;
+use App\Models\Article;
+use App\Models\Book;
+use App\Models\Category;
+use App\Models\Comment;
+use App\Models\History;
+use App\Models\Link;
+use App\Models\Question;
+use App\Models\Slide;
+use App\Models\Song;
+use App\Models\Stream;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller

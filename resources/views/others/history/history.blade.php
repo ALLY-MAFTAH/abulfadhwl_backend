@@ -33,8 +33,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-12">
-                            <h4>History Information <a href="#" class="btn btn-outline-primary" data-toggle="modal"
-                                    data-target="#editHistoryModal">
+                            <h4>History Information <a href="#" class="btn btn-outline-primary" data-bs-toggle
+="modal"
+                                    data-bs-target
+="#editHistoryModal">
                                     <i class="fas fa-edit"></i>
                                 </a></h4>
                         </div>
@@ -72,7 +74,8 @@
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Edit History</h5>
-                                <button class="close" data-dismiss="modal">
+                                <button class="close" data-bs-dismiss
+="modal">
                                     <span>&times;</span>
                                 </button>
                             </div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\History;
+use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as REQ;
 use Illuminate\Support\Facades\Validator;

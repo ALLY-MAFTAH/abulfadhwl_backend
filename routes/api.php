@@ -14,10 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 
 //  Routes for Album
 Route::get('albums', ['uses' => 'AlbumController@getAllAlbums']);
@@ -133,5 +132,3 @@ Route::delete('comment/{commentId}', ['uses' => 'CommentController@deleteComment
 // Route::post('register', ['uses' => 'UserController@registerUser']);
 // Route::delete('user/{userId}', ['uses' => 'UserController@deleteUser']);
 // Route::post('user/{userId}', ['uses' => 'UserController@assignRole']);
-
-

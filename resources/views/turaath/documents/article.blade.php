@@ -34,8 +34,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
-                            <h4>Article Information <a href="#" class="btn btn btn-outline-primary" data-toggle="modal"
-                                    data-target="#editArticleModal">
+                            <h4>Article Information <a href="#" class="btn btn btn-outline-primary" data-bs-toggle
+="modal"
+                                    data-bs-target
+="#editArticleModal">
                                     <i class="fas fa-edit"></i>
                                 </a></h4>
                         </div>
@@ -124,7 +126,8 @@
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Edit Article</h5>
-                                <button class="close" data-dismiss="modal">
+                                <button class="close" data-bs-dismiss
+="modal">
                                     <span>&times;</span>
                                 </button>
                             </div>

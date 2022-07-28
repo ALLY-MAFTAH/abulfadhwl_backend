@@ -26,7 +26,9 @@
 
                         <div class="col-2"></div>
                         <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal" data-target="#addLinkModal">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
+="modal" data-bs-target
+="#addLinkModal">
                                 <i class="fas fa-plus"></i> Add Link
                             </a>
                         </div>
@@ -77,8 +79,10 @@
                                             </form>
                                         </td>
                                         <td>
-                                            <a href="#" role="alert" class="btn btn-outline-primary" data-toggle="modal"
-                                                data-target="#editLinkModal-{{ $link->id }}"
+                                            <a href="#" role="alert" class="btn btn-outline-primary" data-bs-toggle
+="modal"
+                                                data-bs-target
+="#editLinkModal-{{ $link->id }}"
                                                 data-title="{{ $link->title }}" data-url="{{ $link->url }} ">
                                                 <i class="fas fa-edit">
                                                     Edit</i>
@@ -98,7 +102,8 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary text-white">
                                                             <h5 class="modal-title">Edit Link</h5>
-                                                            <button class="close" data-dismiss="modal">
+                                                            <button class="close" data-bs-dismiss
+="modal">
                                                                 <span>&times;</span>
                                                             </button>
                                                         </div>
@@ -202,7 +207,8 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Link</h5>
-                            <button class="close" data-dismiss="modal">
+                            <button class="close" data-bs-dismiss
+="modal">
                                 <span>&times;</span>
                             </button>
                         </div>

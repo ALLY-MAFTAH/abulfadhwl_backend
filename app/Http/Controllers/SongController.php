@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Song;
-use App\Album;
-use App\Category;
+use App\Models\Song;
+use App\Models\Album;
+use App\Models\Category;
 use App\Helpers\MP3File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Request as REQ;

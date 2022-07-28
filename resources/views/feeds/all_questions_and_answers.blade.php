@@ -98,8 +98,10 @@
                                         </td>
                                         <td>
 
-                                            <a href="#" target="modal" data-toggle="modal"
-                                                data-target="#editAnswerModal-{{ $answer->id }}"
+                                            <a href="#" target="modal" data-bs-toggle
+="modal"
+                                                data-bs-target
+="#editAnswerModal-{{ $answer->id }}"
                                                 class="btn btn-outline-primary">
                                                 <i class="fas fa-edit">
                                                     Edit</i>
@@ -110,7 +112,8 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary text-white">
                                                             <h5 class="modal-title">Weka jibu</h5>
-                                                            <button class="close" data-dismiss="modal">
+                                                            <button class="close" data-bs-dismiss
+="modal">
                                                                 <span>&times;</span>
                                                             </button>
                                                         </div>
@@ -200,7 +203,8 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Weka jibu</h5>
-                            <button class="close" data-dismiss="modal">
+                            <button class="close" data-bs-dismiss
+="modal">
                                 <span>&times;</span>
                             </button>
                         </div>

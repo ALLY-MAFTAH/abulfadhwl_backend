@@ -24,7 +24,9 @@
                         </div>
                         <div class="col-2"></div>
                         <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal" data-target="#addArticleModal">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
+="modal" data-bs-target
+="#addArticleModal">
                                 <i class="fas fa-plus"></i> Add Article
                             </a>
                         </div>
@@ -87,7 +89,8 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Article</h5>
-                            <button class="close" data-dismiss="modal">
+                            <button class="close" data-bs-dismiss
+="modal">
                                 <span>&times;</span>
                             </button>
                         </div>

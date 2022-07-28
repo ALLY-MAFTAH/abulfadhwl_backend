@@ -23,8 +23,10 @@
                         </div>
                         <div class="col-2"></div>
                         <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-toggle="modal"
-                                data-target="#addCategoryModal">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
+="modal"
+                                data-bs-target
+="#addCategoryModal">
                                 <i class="fas fa-plus"></i> New Category
                             </a>
                         </div>
@@ -83,7 +85,8 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Category</h5>
-                            <button class="close" data-dismiss="modal">
+                            <button class="close" data-bs-dismiss
+="modal">
                                 <span>&times;</span>
                             </button>
                         </div>
