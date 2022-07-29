@@ -67,6 +67,7 @@ class SongController extends Controller
                 'error' => 'Album not found'
             ], 404);
         }
+        $category=Category::findOrFail($album->category_id);
         try {
 
 
@@ -74,7 +75,7 @@ class SongController extends Controller
                 $songFiles = $request->file('file');
                 foreach ($songFiles as $songFile) {
                     $this->song_path = $songFile->storeAs(
-                        config('app.name') . '/SAUTI/' . $album->name,
+                        config('app.name') . '/SAUTI/' .$category->name. $album->name,
                         $songFile->getClientOriginalName() . '.' . $songFile->getClientOriginalExtension(),
                         'public'
                     );
