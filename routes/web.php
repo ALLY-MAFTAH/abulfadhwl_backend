@@ -12,8 +12,8 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\QuestionControllerController;
-use App\Http\Controllers\AnsweredQuestionControllerController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\AnsweredQuestionController;
 
 /*
 |--------------------------------------------------------------------------
