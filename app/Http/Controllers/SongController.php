@@ -67,15 +67,13 @@ class SongController extends Controller
                 'error' => 'Album not found'
             ], 404);
         }
-        $category=Category::findOrFail($album->category_id);
+        $category = Category::findOrFail($album->category_id);
         try {
-
-
             if ($request->hasFile('file')) {
                 $songFiles = $request->file('file');
                 foreach ($songFiles as $songFile) {
                     $this->song_path = $songFile->storeAs(
-                        config('app.name') . '/SAUTI/' .$category->name.'/'. $album->name,
+                        config('app.name') . '/SAUTI/' . $category->name . '/' . $album->name,
                         $songFile->getClientOriginalName(),
                         'public'
                     );
@@ -91,7 +89,6 @@ class SongController extends Controller
                     $song->file = $this->song_path;
 
                     $album->songs()->save($song);
-
                 }
             } else return response()->json([
                 'error' => 'Add an audio file'
@@ -120,24 +117,37 @@ class SongController extends Controller
                 'error' => 'Song not found'
             ], 404);
         }
+        $category = Category::findOrFail($song->album->category_id);
+        try {
+            if ($request->hasFile('file')) {
+                $songFile = $request->file('file');
+                $this->song_path = $songFile->storeAs(
+                    config('app.name') . '/SAUTI/' . $category->name . '/' . $song->album->name,
+                    $songFile->getClientOriginalName(),
+                    'public'
+                );
+            } else $this->song_path = $song->file;
 
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-        ]);
+            $mp3file = new MP3File($songFile);
+            $originalDuration = $mp3file->getDurationEstimate(); //(faster) for CBR only
+            $duration = MP3File::formatTime($originalDuration);
 
-        // validator fails
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
+            $song->update([
+                'title' => $request->input('title') ?? $songFile->getClientOriginalName(),
+                'duration' => $duration,
+                'size' => round(($songFile->getSize() / 1048576), 1),
+                'file' => $this->song_path,
+            ]);
+
+            $song->save();
+        } catch (\Throwable $th) {
+            if (REQ::is('api/*'))
+                return response()->json([
+                    'Error occured! Try to check may be the title of the audio already existed in database'
+                ], 200);
+            return back()->with('error', 'Error occured! Try to check may be the title of the audio already existed in database');
         }
 
-        $song->update([
-            'title' => $request->input('title'),
-        ]);
-
-        $song->save();
 
         return back()->with('success', 'Audio edited successfully');
     }

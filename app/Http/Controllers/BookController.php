@@ -13,11 +13,11 @@ class BookController extends Controller
     public function getAllBooks()
     {
         $books = Book::all();
-        if(REQ::is('api/*'))
-        return response()->json([
-            'books' => $books
-        ], 200);
-        return view('turaath/documents/all_books')->with('books',$books);
+        if (REQ::is('api/*'))
+            return response()->json([
+                'books' => $books
+            ], 200);
+        return view('turaath/documents/all_books')->with('books', $books);
     }
 
     // Get a single book
@@ -29,10 +29,10 @@ class BookController extends Controller
                 'error' => "Book not found"
             ], 404);
         }
-        if(REQ::is('api/*'))
-        return response()->json([
-            'book' => $book
-        ], 200);
+        if (REQ::is('api/*'))
+            return response()->json([
+                'book' => $book
+            ], 200);
         return view('turaath/documents/book')->with('book', $book);
     }
 
@@ -60,18 +60,21 @@ class BookController extends Controller
         }
 
         if ($request->hasFile('file')) {
-            $this->file_path = $request->file('file')->storeAs(config('app.name').'/VITABU/' ,
-            $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
-            'public');
+            $this->file_path = $request->file('file')->storeAs(
+                config('app.name') . '/VITABU/',
+                $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
+                'public'
+            );
         } else return response()->json([
             'error' => 'Add a book file'
         ], 404);
 
         if ($request->hasFile('cover')) {
-            $this->cover_path = $request->file('cover')->storeAs(config('app.name').'/BOOK-COVERS/' ,
-            $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
-            'public');
-
+            $this->cover_path = $request->file('cover')->storeAs(
+                config('app.name') . '/BOOK-COVERS/',
+                $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
+                'public'
+            );
         } else return response()->json([
             'error' => 'Add a book cover'
         ], 404);
@@ -87,7 +90,7 @@ class BookController extends Controller
 
         $book->save();
 
-        return back()->with('success','Book added successfully');
+        return back()->with('success', 'Book added successfully');
     }
 
     // Edit book
@@ -101,19 +104,38 @@ class BookController extends Controller
             ], 404);
         }
 
+        if ($request->hasFile('file')) {
+            $this->file_path = $request->file('file')->storeAs(
+                config('app.name') . '/VITABU/',
+                $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
+                'public'
+            );
+        } else $this->file_path = $book->file;
+
+        if ($request->hasFile('cover')) {
+            $this->cover_path = $request->file('cover')->storeAs(
+                config('app.name') . '/BOOK-COVERS/',
+                $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
+                'public'
+            );
+        } else $this->cover_path = $book->cover;
+
+
         $book->update([
             'title' => $request->input('title'),
             'edition' => $request->input('edition'),
             'pub_year' => $request->input('pub_year'),
-            'description' => $request->input('description')
+            'description' => $request->input('description'),
+            'file ' => $this->file_path,
+            'cover' => $this->cover_path
         ]);
 
         $book->save();
-            if(REQ::is('api/*'))
-        return response()->json([
-            'book' => $book
-        ], 206);
-        return back()->with('success','Book edited successfully');
+        if (REQ::is('api/*'))
+            return response()->json([
+                'book' => $book
+            ], 206);
+        return back()->with('success', 'Book edited successfully');
     }
 
     // Delete book
@@ -128,10 +150,10 @@ class BookController extends Controller
 
         $book->delete();
 
-        if(REQ::is('api/*'))
-        return response()->json([
-            'book' => 'Book deleted successfully'
-        ], 200);
+        if (REQ::is('api/*'))
+            return response()->json([
+                'book' => 'Book deleted successfully'
+            ], 200);
         return back()->with('success', 'Book deleted successfully');
     }
 

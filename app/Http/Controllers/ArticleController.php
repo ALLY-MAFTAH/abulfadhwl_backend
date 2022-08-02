@@ -58,11 +58,12 @@ class ArticleController extends Controller
         }
 
         if ($request->hasFile('file')) {
-            $this->song_path = $request->file('file')->storeAs(config('app.name').'/MAKALA/' ,
-            $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
-            'public');        } else return response()->json([
-            'error' => 'Add a article file'
-        ], 404);
+            $this->song_path = $request->file('file')->storeAs(
+                config('app.name') . '/MAKALA/',
+                $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
+                'public'
+            );
+        } else return response()->json(['error' => 'Add a article file'], 404);
 
         if ($request->hasFile('cover')) {
             $this->cover_path = $request->file('cover')->store('articles');
@@ -94,10 +95,27 @@ class ArticleController extends Controller
                 'error' => "Article not found"
             ], 404);
         }
+        if ($request->hasFile('file')) {
+            $this->song_path = $request->file('file')->storeAs(
+                config('app.name') . '/MAKALA/',
+                $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
+                'public'
+            );
+        } else $this->file_path = $article->file;
+
+        if ($request->hasFile('cover')) {
+            $this->cover_path = $request->file('cover')->storeAs(
+                config('app.name') . '/ARTICLE-COVERS/',
+                $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
+                'public'
+            );
+        } else $this->cover_path = $article->cover;
 
         $article->update([
             'title' => $request->input('title'),
             'pub_year' => $request->input('pub_year'),
+            'file' => $this->file_path,
+            'cover' => $this->cover_path
 
         ]);
         $article->save();
