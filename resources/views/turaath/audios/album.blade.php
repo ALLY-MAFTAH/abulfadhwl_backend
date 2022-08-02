@@ -74,7 +74,7 @@
                                             </td>
                                             <td>{{ $song->size . ' MB' }}</td>
                                             <td>
-                                                <audio src="{{ asset('storage/' . $song->file) }}" controls
+                                                <audio src="{{ 'https://maftah.co.tz/public/storage/'.$song->file }}" controls
                                                     controlslist></audio>
                                             </td>
                                             <td>

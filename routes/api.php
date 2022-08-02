@@ -84,7 +84,6 @@ Route::get('questions', [QuestionController::class,'getAllQuestions']);
 Route::get('answer/audioAns/{questionId}', [AnsweredQuestionController::class,'viewAudioAnswer']);
 
 
-
 //  Routes for Slides
 Route::post('slide', [SlideController::class,'postSlide']);
 Route::get('slides', [SlideController::class,'getAllSlides']);
