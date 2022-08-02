@@ -76,7 +76,7 @@ class SongController extends Controller
                 foreach ($songFiles as $songFile) {
                     $this->song_path = $songFile->storeAs(
                         config('app.name') . '/SAUTI/' .$category->name.'/'. $album->name,
-                        $songFile->getClientOriginalName() . '.' . $songFile->getClientOriginalExtension(),
+                        $songFile->getClientOriginalName(),
                         'public'
                     );
 
