@@ -60,7 +60,7 @@ class BookController extends Controller
         }
 
         if ($request->hasFile('file')) {
-            $this->song_path = $request->file('file')->storeAs(config('app.name').'/VITABU/' ,
+            $this->file_path = $request->file('file')->storeAs(config('app.name').'/VITABU/' ,
             $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
             'public');
         } else return response()->json([

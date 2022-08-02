@@ -26,9 +26,8 @@
 
                         <div class="col-2"></div>
                         <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
-="modal" data-bs-target
-="#addBookModal">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle="modal"
+                                data-bs-target="#addBookModal">
                                 <i class="fas fa-plus"></i> Add Book
                             </a>
                         </div>
@@ -40,9 +39,9 @@
 
             <section id="books">
                 <div class="container">
-                                      <div class="card">
+                    <div class="card">
                         <div class="card-header">
-                            <h4>BOOKS ({{$books->count()}})</h4>
+                            <h4>BOOKS ({{ $books->count() }})</h4>
                         </div>
                         <table class="table table-striped">
                             <thead class="thead-dark">
@@ -58,10 +57,10 @@
                             </thead>
                             <tbody>
                                 @foreach ($books as $index => $book)
-
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td><img src="{{asset('storage/'.$book->cover)}}" alt="Book cover" style="width: 30px"></td>
+                                        <td><img src="{{ 'https://maftah.co.tz/public/storage/'. $book->cover }}" alt="Book cover"
+                                                style="width: 30px"></td>
                                         <td>{{ $book->title }}</td>
                                         <td>{{ $book->edition }}</td>
                                         <td>{{ $book->pub_year }}</td>
@@ -94,8 +93,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Book</h5>
-                            <button class="close" data-bs-dismiss
-="modal">
+                            <button class="close" data-bs-dismiss="modal">
                                 <span>&times;</span>
                             </button>
                         </div>
@@ -111,9 +109,9 @@
                                             class="form-control @error('title') is-invalid @enderror" name="title"
                                             value="{{ old('title') }}" required autocomplete="title" autofocus>
                                         @error('title')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -122,12 +120,13 @@
                                         class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
                                     <div class="col-md-6">
                                         <input id="description" type="text"
-                                            class="form-control @error('description') is-invalid @enderror" name="description"
-                                            value="{{ old('description') }}" required autocomplete="description" >
+                                            class="form-control @error('description') is-invalid @enderror"
+                                            name="description" value="{{ old('description') }}" required
+                                            autocomplete="description">
                                         @error('description')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -137,11 +136,11 @@
                                     <div class="col-md-6">
                                         <input id="edition" type="number"
                                             class="form-control @error('edition') is-invalid @enderror" name="edition"
-                                            value="{{ old('edition') }}" required autocomplete="edition" >
+                                            value="{{ old('edition') }}" required autocomplete="edition">
                                         @error('edition')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -151,11 +150,11 @@
                                     <div class="col-md-6">
                                         <input id="pub_year" type="text"
                                             class="form-control @error('year') is-invalid @enderror" name="pub_year"
-                                            value="{{ old('pub_year') }}" required autocomplete="pub_year" >
+                                            value="{{ old('pub_year') }}" required autocomplete="pub_year">
                                         @error('pub_year')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -165,11 +164,11 @@
                                     <div class="col-md-6">
                                         <input id="file" type="file"
                                             class="form-control @error('file') is-invalid @enderror" name="file"
-                                            value="{{ old('file') }}" required autocomplete="file" >
+                                            value="{{ old('file') }}" required autocomplete="file">
                                         @error('file')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -179,11 +178,11 @@
                                     <div class="col-md-6">
                                         <input id="cover" type="file"
                                             class="form-control @error('cover') is-invalid @enderror" name="cover"
-                                            value="{{ old('cover') }}" required autocomplete="cover" >
+                                            value="{{ old('cover') }}" required autocomplete="cover">
                                         @error('cover')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
