@@ -39,9 +39,7 @@ class BookController extends Controller
     // Post book
     public function postBook(Request $request)
     {
-        $this->path = null;
 
-        // Validate if the request sent contains this parameters
         $validator = Validator::make($request->all(), [
             'file' => 'required',
             'cover' => 'required',
@@ -52,11 +50,7 @@ class BookController extends Controller
 
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
+        if ($validator->fails()) {return response()->json([ 'error' => $validator->errors(),'status' => false  ], 404);
         }
 
         if ($request->hasFile('file')) {

@@ -20,7 +20,7 @@ class Album extends Model
 
     public function songs()
     {
-        return $this->hasMany(Song::class);
+        return $this->hasMany(Song::class)->orderBy('title');
     }
 
     public function category()

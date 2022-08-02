@@ -13,6 +13,7 @@ class CategoryController extends Controller
     public function getAllCategories()
     {
         $categories = Category::all();
+
         foreach ($categories as $category) {
             foreach ($category->albums as $album) {
                 $album->songs;
