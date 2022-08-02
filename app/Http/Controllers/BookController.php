@@ -68,7 +68,10 @@ class BookController extends Controller
         ], 404);
 
         if ($request->hasFile('cover')) {
-            $this->cover_path = $request->file('cover')->store('books');
+            $this->cover_path = $request->file('cover')->storeAs(config('app.name').'/BOOK-COVERS/' ,
+            $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
+            'public');
+
         } else return response()->json([
             'error' => 'Add a book cover'
         ], 404);
@@ -97,23 +100,6 @@ class BookController extends Controller
                 'error' => "Book not found"
             ], 404);
         }
-
-        // Validate if the request sent contains this parameters
-        // $validator = Validator::make($request->all(), [
-        //     'title' => 'required',
-        //     'edition' => 'required',
-        //     'pub_year' => 'required',
-        //     'description' => 'required',
-
-        // ]);
-
-        // // If validator fails
-        // if ($validator->fails()) {
-        //     if(REQ::is('api/*'))
-        //     return response()->json([
-        //         'error' => $validator->errors(),
-        //     ], 404);
-        //     return back()->withInput()->withErrors($validator);
 
         $book->update([
             'title' => $request->input('title'),

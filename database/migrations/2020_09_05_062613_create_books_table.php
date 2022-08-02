@@ -21,7 +21,7 @@ class CreateBooksTable extends Migration
             $table->String('author');
             $table->integer('edition');
             $table->String('pub_year');
-            $table->String('description');
+            $table->longText('description');
             $table->softDeletes();
             $table->timestamps();
         });
