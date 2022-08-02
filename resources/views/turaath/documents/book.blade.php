@@ -14,8 +14,7 @@
 
             <section id="actions" class=" mb-2">
                 <div class="container">
-                    <div class="row"
-                        style="padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                    <div class="row" style="padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
                         <div class="col">
                             <button onclick="history.back()" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
@@ -34,10 +33,8 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
-                            <h4>Book Information <a href="#" class="btn btn btn-outline-primary" data-bs-toggle
-="modal"
-                                    data-bs-target
-="#editBookModal">
+                            <h4>Book Information <a href="#" class="btn btn btn-outline-primary"
+                                    data-bs-toggle="modal" data-bs-target="#editBookModal">
                                     <i class="fas fa-edit"></i>
                                 </a></h4>
                         </div>
@@ -93,19 +90,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3"
-                        style=" text-align:center;border-radius:10px;padding:5px">
-                        <div class="text-center">
-                            <form action="{{ asset('storage/' . $book->file) }}" target="_blank"
-                                style="padding-bottom: 5px">
-                                <button type="submit" class="btn btn-outline-primary">
-                                    <i class="fas fa-file"> Open</i>
-                                </button>
-                            </form>
-                            <div style=""><img src={{ asset('storage/' . $book->cover) }} alt="Article Cover"height="250px" width="210px">
+                        <div class="col-md-3" style=" text-align:center;border-radius:10px;padding:5px">
+                            <div class="text-center">
+                                <form action="{{ asset('storage/' . $book->file) }}" target="_blank"
+                                    style="padding-bottom: 5px">
+                                    <button type="submit" class="btn btn-outline-primary">
+                                        <i class="fas fa-file"> Open</i>
+                                    </button>
+                                </form>
+                                <div style=""><img src={{ asset('storage/' . $book->cover) }}
+                                        alt="Article Cover"height="250px" width="210px">
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
 
                     <hr>
@@ -126,8 +123,7 @@
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Edit Book</h5>
-                                <button class="close" data-bs-dismiss
-="modal">
+                                <button class="close" data-bs-dismiss="modal">
                                     <span>&times;</span>
                                 </button>
                             </div>
@@ -188,6 +184,34 @@
                                                 value="{{ old('pub_year', $book->pub_year) }}" required
                                                 autocomplete="pub_year">
                                             @error('pub_year')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="file"
+                                            class="col-md-4 col-form-label text-md-right">{{ __('File') }}</label>
+                                        <div class="col-md-6">
+                                            <input id="file" type="file"
+                                                class="form-control @error('file') is-invalid @enderror" name="file"
+                                                value="{{ old('file') }}" autocomplete="file">
+                                            @error('file')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="cover"
+                                            class="col-md-4 col-form-label text-md-right">{{ __('Cover') }}</label>
+                                        <div class="col-md-6">
+                                            <input id="cover" type="file"
+                                                class="form-control @error('cover') is-invalid @enderror" name="cover"
+                                                value="{{ old('cover') }}" autocomplete="cover">
+                                            @error('cover')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>

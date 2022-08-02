@@ -67,13 +67,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('book/cover/{bookId}', [BookController::class,'viewBookCover'])->name('book_cover');
 
     // ARTICLES ROUTES
-    Route::get('articles', [ArticleController::class,'@getAllArticles'])->name('articles');
-    Route::post('article', [ArticleController::class,'@postArticle'])->name('add_article');
-    Route::get('edit_article/{articleId}', [ArticleController::class,'@putArticle'])->name('edit_article');
-    Route::get('article/{articleId}', [ArticleController::class,'@getSingleArticle'])->name('article');
-    Route::get('delete_article/{articleId}', [ArticleController::class,'@deleteArticle'])->name('delete_article');
-    Route::get('article/article_file/{articleId}', [ArticleController::class,'@viewArticleFile'])->name('article_file');
-    Route::get('article/article_cover/{articleId}', [ArticleController::class,'@viewArticleCover'])->name('article_cover');
+    Route::get('articles', [ArticleController::class,'getAllArticles'])->name('articles');
+    Route::post('article', [ArticleController::class,'postArticle'])->name('add_article');
+    Route::get('edit_article/{articleId}', [ArticleController::class,'putArticle'])->name('edit_article');
+    Route::get('article/{articleId}', [ArticleController::class,'getSingleArticle'])->name('article');
+    Route::get('delete_article/{articleId}', [ArticleController::class,'deleteArticle'])->name('delete_article');
+    Route::get('article/article_file/{articleId}', [ArticleController::class,'viewArticleFile'])->name('article_file');
+    Route::get('article/article_cover/{articleId}', [ArticleController::class,'viewArticleCover'])->name('article_cover');
 
     // HISTORIES ROUTES
     Route::get('histories', [HistoryController::class,'getAllHistories'])->name('histories');
@@ -144,14 +144,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('edit_user/{userId}', [UserController::class,'putUser'])->name('edit_user');
 
     // // USERS ROUTES
-    // Route::post('login', 'UserController@login']);
-    // Route::post('logout', 'UserController@logout']);
-    // Route::get('users', 'UserController@getAllUsers']);
-    // Route::get('user/{userId}', 'UserController@getUser']);
-    // Route::put('user/{userId}', 'UserController@putUser']);
-    // Route::post('register', 'UserController@registerUser']);
-    // Route::delete('user/{userId}', 'UserController@deleteUser']);
-    // Route::post('user/{userId}', 'UserController@assignRole']);
+    // Route::post('login', 'UserControllerlogin']);
+    // Route::post('logout', 'UserControllerlogout']);
+    // Route::get('users', 'UserControllergetAllUsers']);
+    // Route::get('user/{userId}', 'UserControllergetUser']);
+    // Route::put('user/{userId}', 'UserControllerputUser']);
+    // Route::post('register', 'UserControllerregisterUser']);
+    // Route::delete('user/{userId}', 'UserControllerdeleteUser']);
+    // Route::post('user/{userId}', 'UserControllerassignRole']);
 
 
 
