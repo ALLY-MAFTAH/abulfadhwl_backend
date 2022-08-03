@@ -39,13 +39,10 @@ class SlideController extends Controller
     // Post slide
     public function postSlide(Request $request)
     {
-        $this->path = null;
 
-        // Validate if the request sent contains this parameters
         $validator = Validator::make($request->all(), [
             'file' => 'required',
             'number' => 'required',
-
         ]);
 
         if ($validator->fails()) {
@@ -56,7 +53,7 @@ class SlideController extends Controller
         }
 
         if ($request->hasFile('file')) {
-            $this->song_path = $request->file('file')->storeAs(config('app.name').'/PICHA/' ,
+            $this->file_path = $request->file('file')->storeAs(config('app.name').'/PICHA/' ,
            'Picha-'. $request->number . '.' . $request->file('file')->getClientOriginalExtension(),
             'public');        } else return response()->json([
             'success' => 'Add a slide file'
