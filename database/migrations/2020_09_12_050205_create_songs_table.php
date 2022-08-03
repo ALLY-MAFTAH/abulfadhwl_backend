@@ -19,7 +19,7 @@ class CreateSongsTable extends Migration
             $table->String('file');
             $table->String('title')->unique();
             $table->String('duration');
-            $table->String('size');
+            $table->float('size');
             $table->softDeletes();
             $table->timestamps();
         });

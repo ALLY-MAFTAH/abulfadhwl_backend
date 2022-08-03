@@ -78,8 +78,8 @@ class SongController extends Controller
                         'public'
                     );
 
-                    $mp3file = new MP3File($songFile);
-                    $originalDuration = $mp3file->getDurationEstimate(); //(faster) for CBR only
+                    $mp3File = new MP3File($songFile);
+                    $originalDuration = $mp3File->getDurationEstimate(); //(faster) for CBR only
                     $duration = MP3File::formatTime($originalDuration);
 
                     $song = new Song();
@@ -120,34 +120,44 @@ class SongController extends Controller
         $category = Category::findOrFail($song->album->category_id);
         try {
             if ($request->hasFile('file')) {
+
                 $songFile = $request->file('file');
                 $this->song_path = $songFile->storeAs(
                     config('app.name') . '/SAUTI/' . $category->name . '/' . $song->album->name,
                     $songFile->getClientOriginalName(),
                     'public'
                 );
-            } else $this->song_path = $song->file;
 
-            $mp3file = new MP3File($songFile);
-            $originalDuration = $mp3file->getDurationEstimate(); //(faster) for CBR only
-            $duration = MP3File::formatTime($originalDuration);
+                $mp3File = new MP3File($songFile);
+                $originalDuration = $mp3File->getDurationEstimate(); //(faster) for CBR only
+                $duration = MP3File::formatTime($originalDuration);
 
-            $song->update([
-                'title' => $request->input('title') ?? $songFile->getClientOriginalName(),
-                'duration' => $duration,
-                'size' => round(($songFile->getSize() / 1048576), 1),
-                'file' => $this->song_path,
-            ]);
+                $song->update([
+                    'title' => $songFile->getClientOriginalName(),
+                    'duration' => $duration,
+                    'size' => round(($songFile->getSize() / 1048576), 1),
+                    'file' => $this->song_path,
+                ]);
+                $song->save();
 
-            $song->save();
+            } else {
+
+                $this->song_path = $song->file;
+                $song->update([
+                    'title' => $request->input('title'),
+                    'file' => $this->song_path,
+
+                ]);
+                $song->save();
+            }
         } catch (\Throwable $th) {
+            dd($th);
             if (REQ::is('api/*'))
                 return response()->json([
                     'Error occured! Try to check may be the title of the audio already existed in database'
                 ], 200);
             return back()->with('error', 'Error occured! Try to check may be the title of the audio already existed in database');
         }
-
 
         return back()->with('success', 'Audio edited successfully');
     }

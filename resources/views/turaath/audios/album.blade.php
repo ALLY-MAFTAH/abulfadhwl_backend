@@ -74,8 +74,8 @@
                                             </td>
                                             <td>{{ $song->size . ' MB' }}</td>
                                             <td>
-                                                <audio src="{{ 'https://maftah.co.tz/public/storage/'.$song->file }}" controls
-                                                    controlslist></audio>
+                                                <audio src="{{ 'https://maftah.co.tz/public/storage/' . $song->file }}"
+                                                    controls controlslist></audio>
                                             </td>
                                             <td>
                                                 <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
@@ -93,9 +93,11 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form method="PUT"
-                                                                    action="{{ route('edit_song', $song->id) }}">
+                                                                <form method="POST"
+                                                                    action="{{ route('edit_song', $song->id) }}"
+                                                                    enctype="multipart/form-data">
                                                                     @csrf
+                                                                    @method('PUT')
                                                                     <div class="form-group row">
                                                                         <label for="title"
                                                                             class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
@@ -106,6 +108,21 @@
                                                                                 value="{{ old('title', $song->title) }}"
                                                                                 required autocomplete="title" autofocus>
                                                                             @error('title')
+                                                                                <span class="invalid-feedback" role="alert">
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </span>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label for="file"
+                                                                            class="col-md-4 col-form-label text-md-right">{{ __('Audio File') }}</label>
+                                                                        <div class="col-md-6">
+                                                                            <input id="file" type="file"
+                                                                                class="form-control @error('file') is-invalid @enderror"
+                                                                                name="file"
+                                                                                autocomplete="file" autofocus>
+                                                                            @error('file')
                                                                                 <span class="invalid-feedback" role="alert">
                                                                                     <strong>{{ $message }}</strong>
                                                                                 </span>

@@ -51,7 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // SONGS ROUTES
     Route::get('songs', [SongController::class,'getAllSongs'])->name('songs');
-    Route::get('edit_song/{songId}', [SongController::class,'putSong'])->name('edit_song');
+    Route::put('edit_song/{songId}', [SongController::class,'putSong'])->name('edit_song');
     Route::post('song/{albumId}', [SongController::class,'postSong'])->name('add_song');
     Route::get('song/{songId}', [SongController::class,'getSingleSong'])->name('song');
     Route::get('delete_song/{songId}', [SongController::class,'deleteSong'])->name('delete_song');

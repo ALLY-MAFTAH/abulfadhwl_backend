@@ -13,6 +13,7 @@ class Song extends Model
         'file',
         'title',
         'duration',
+        'size',
         'description',
     ];
 
