@@ -99,7 +99,8 @@ class SongController extends Controller
                 return response()->json([
                     'Error occured! Try to check may be the title of the audio already existed in database'
                 ], 200);
-            return back()->with('error', 'Error occured! Try to check may be the title of the audio already existed in database');
+            return back()->with('error',$th);
+            // return back()->with('error', 'Error occured! Try to check may be the title of the audio already existed in database');
         }
 
         if (REQ::is('api/*'))

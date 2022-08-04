@@ -1,5 +1,26 @@
 @extends('layouts.app')
 
+@section('style')
+    <style>
+        .progress {
+            position: relative;
+            width: 100%;
+        }
+
+        .bar {
+            background-color: #b5076f;
+            width: 0%;
+            height: 20px;
+        }
+
+        .percent {
+            position: absolute;
+            display: inline-block;
+            left: 50%;
+            color: #040608;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="py-3">
         <div class="container">
@@ -120,8 +141,8 @@
                                                                         <div class="col-md-6">
                                                                             <input id="file" type="file"
                                                                                 class="form-control @error('file') is-invalid @enderror"
-                                                                                name="file"
-                                                                                autocomplete="file" autofocus>
+                                                                                name="file" autocomplete="file"
+                                                                                autofocus>
                                                                             @error('file')
                                                                                 <span class="invalid-feedback" role="alert">
                                                                                     <strong>{{ $message }}</strong>
@@ -156,7 +177,6 @@
                         </div>
                     </div>
                 </div>
-                <div style="display: none">{{ $size = 'Ma' }}</div>
                 <!-- ADD SONG MODAL -->
                 <div class="modal fade" id="addSongModal">
                     <div class="modal-dialog modal-md">
@@ -168,14 +188,14 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" action="{{ route('add_song', $album->id) }}"
+                                <form id="fileUploadForm" method="POST" action="{{ route('add_song', $album->id) }}"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group row">
                                         <label for="file"
                                             class="col-md-4 col-form-label text-md-right">{{ __('Audio Files') }}</label>
                                         <div class="col-md-6">
-                                            <input id="file" type="file"
+                                            <input id="upload-file" type="file"
                                                 class="form-control @error('file') is-invalid @enderror" name="file[]"
                                                 multiple value="{{ old('file') }}" required autocomplete="file">
                                             <span>Max. 100 MB</span>
@@ -186,7 +206,14 @@
                                             @enderror
                                         </div>
                                     </div>
-
+                                    <div class="form-group">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                                role="progressbar" aria-valuenow="" aria-valuemin="0"
+                                                aria-valuemax="100" style="width: 0%"></div>
+                                        </div>
+                                        <br>
+                                    </div>
                                     <div class="form-group row mb-0">
                                         <div class="col-md-6 offset-md-4">
                                             <button type="submit" class="btn btn-primary">
@@ -195,6 +222,10 @@
                                         </div>
                                     </div>
                                 </form>
+
+                                <div id="success" class="row">
+                                </div>
+                                <br />
                             </div>
                         </div>
                     </div>
@@ -210,7 +241,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="PUT" action="{{ route('edit_album', $album->id) }}">
+                                <form id="" method="PUT" action="{{ route('edit_album', $album->id) }}">
                                     @csrf
 
                                     <div class="form-group row">
@@ -257,33 +288,45 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
-
-            <script>
-                $('#file').bind('change', function() {
-                    var totalSize = 0;
-                    for (let i = 0; i < this.files.length; i++) {
-                        totalSize = totalSize + Math.round((this.files[i].size) / 1048576);
-                    }
-                    console.log(totalSize);
-                    if (totalSize > 100) {
-                        alert("Sorry, you can't upload files with " + totalSize + " MB at once");
-                        $('form').find(':submit').attr('disabled', true);
-                    }
-                });
-            </script>
-            <script>
-                $(function() {
-                    $(".modal-bs-btn").click(function() {
-                        var data_var = $(this).data('song-id');
-                        $(".modal-body h2").text(data_var);
-                    })
-                }); // Get the current year for the copyright
-            </script>
-
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        $('#upload-file').bind('change', function() {
+            var totalSize = 0;
+            for (let i = 0; i < this.files.length; i++) {
+                totalSize = totalSize + Math.round((this.files[i].size) / 1048576);
+            }
+            console.log(totalSize);
+            if (totalSize > 100) {
+                alert("Sorry, you can't upload files with " + totalSize + " MB at once");
+                $('form').find(':submit').attr('disabled', true);
+            }
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+    <script>
+        $(function() {
+            $(document).ready(function() {
+                $('#fileUploadForm').ajaxForm({
+                    beforeSend: function() {
+                        var percentage = '0';
+                    },
+                    uploadProgress: function(event, position, total, percentComplete) {
+                        var percentage = percentComplete;
+                        $('.progress .progress-bar').css("width", percentage + '%', function() {
+                            return $(this).attr("aria-valuenow", percentage) + '%';
+                        })
+                    },
+                    complete: function(xhr) {
+                        console.log('File has uploaded');
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

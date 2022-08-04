@@ -17,13 +17,12 @@
 
     <!-- Styles -->
     <link href="https://maftah.co.tz/public/css/app.css" rel="stylesheet">
-    {{-- <link href="{{ asset('/css/app.css') }}" rel="stylesheet"> --}}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
         integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
         crossorigin="anonymous" />
 
-
+    @yield('style')
 
     <style>
         body {
@@ -247,16 +246,6 @@
                                         class="d-none">
                                         @csrf
                                     </form>
-                                    {{-- <a style="color: rgb(241, 10, 10)" class="dropdown-item"
-                                        href="{{ route('logout') }}"
-                                        onclick="event.preventDefault(); document.getElementById('change-password-form').submit();">
-                                        <i class="fas fa-key"></i> {{ __('Change Password') }}
-                                    </a>
-
-                                    <form id="change-password-form" action="{{ route('change_password') }}" method="GET"
-                                        class="d-none">
-                                        @csrf
-                                    </form> --}}
                                 </div>
                             </li>
                         @endguest
@@ -288,7 +277,7 @@
     <script src="https://maftah.co.tz/public/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
