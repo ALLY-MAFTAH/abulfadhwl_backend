@@ -43,7 +43,7 @@ class BookController extends Controller
         $validator = Validator::make($request->all(), [
             'file' => 'required',
             'cover' => 'required',
-            'title' => 'required',
+            'title' => 'required|min:1|unique:books,title,NULL,id,deleted_at,NULL',
             'edition' => 'required',
             'pub_year' => 'required',
             'description' => 'required',

@@ -59,7 +59,8 @@ class AlbumController extends Controller
 
         // Validate if the request sent contains these parameters
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => 'required|min:1|unique:albums,name,NULL,id,deleted_at,NULL'
+
         ]);
 
 

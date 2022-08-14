@@ -53,7 +53,7 @@ class CategoryController extends Controller
 
         // Validate if the request sent contains this parameters
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:categories',
+            'name' => 'required|min:1|unique:categories,name,NULL,id,deleted_at,NULL',
 
         ]);
 

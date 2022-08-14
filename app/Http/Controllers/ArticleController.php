@@ -46,7 +46,7 @@ class ArticleController extends Controller
         $validator = Validator::make($request->all(), [
             'file' => 'required',
             'cover' => 'required',
-            'title' => 'required',
+            'title' => 'required|min:1|unique:articles,title,NULL,id,deleted_at,NULL',
             'pub_year' => 'required',
         ]);
 
