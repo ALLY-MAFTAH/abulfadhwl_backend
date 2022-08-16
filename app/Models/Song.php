@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Song extends Model
 {
-    use SoftDeletes;
 
     protected $fillable = [
         'file',
@@ -15,10 +14,6 @@ class Song extends Model
         'duration',
         'size',
         'description',
-    ];
-
-    protected $dates = [
-        'deletedAt'
     ];
 
     public function album(){
