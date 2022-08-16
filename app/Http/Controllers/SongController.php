@@ -9,7 +9,8 @@ use App\Helpers\MP3File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Request as REQ;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class SongController extends Controller
 {
@@ -99,7 +100,7 @@ class SongController extends Controller
                 return response()->json([
                     'Error occured! Try to check may be the title of the audio already existed in database'
                 ], 200);
-            return back()->with('error',$th);
+            return back()->with('error', $th);
             // return back()->with('error', 'Error occured! Try to check may be the title of the audio already existed in database');
         }
 
@@ -112,12 +113,12 @@ class SongController extends Controller
 
     public function putSong(Request $request, $songId)
     {
+
         $song = Song::find($songId);
         if (!$song) {
-            return response()->json([
-                'error' => 'Song not found'
-            ], 404);
+            return back()->with(['error' => 'Song not found']);
         }
+        $songToDelete = $song->file;
         $category = Category::findOrFail($song->album->category_id);
         try {
             if ($request->hasFile('file')) {
@@ -139,14 +140,17 @@ class SongController extends Controller
                     'size' => round(($songFile->getSize() / 1048576), 1),
                     'file' => $this->song_path,
                 ]);
+
+
                 $song->save();
-
+                Storage::disk('public')->delete($songToDelete);
             } else {
+                $newPath = config('app.name') . '/SAUTI/' . $category->name . '/' . $song->album->name . '/' . $request->title;
+                Storage::disk('public')->move($song->file, $newPath);
 
-                $this->song_path = $song->file;
                 $song->update([
                     'title' => $request->input('title'),
-                    'file' => $this->song_path,
+                    'file' => $newPath,
 
                 ]);
                 $song->save();
@@ -172,8 +176,10 @@ class SongController extends Controller
                 'error' => 'Song not found'
             ], 404);
         }
+        Storage::disk('public')->delete($song->file);
 
         $song->delete();
+
         if (REQ::is('api/*'))
             return response()->json([
                 'success' => 'Song deleted successfully'

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as REQ;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
@@ -40,8 +41,6 @@ class ArticleController extends Controller
     // Post article
     public function postArticle(Request $request)
     {
-        $this->path = null;
-
         // Validate if the request sent contains this parameters
         $validator = Validator::make($request->all(), [
             'file' => 'required',
@@ -58,7 +57,7 @@ class ArticleController extends Controller
         }
 
         if ($request->hasFile('file')) {
-            $this->song_path = $request->file('file')->storeAs(
+            $this->file_path = $request->file('file')->storeAs(
                 config('app.name') . '/MAKALA/',
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
@@ -78,6 +77,7 @@ class ArticleController extends Controller
         $article->cover = $this->cover_path;
 
         $article->save();
+
         if (REQ::is('api/*'))
             return response()->json([
                 'article' => $article
@@ -88,37 +88,43 @@ class ArticleController extends Controller
     // Edit article
     public function putArticle(Request $request, $articleId)
     {
-
         $article = Article::find($articleId);
+
         if (!$article) {
-            return response()->json([
-                'error' => "Article not found"
-            ], 404);
+            return response()->json(['error' => "Article not found"], 404);
         }
+        $articleFileToDelete = $article->file;
+        $articleCoverToDelete = $article->cover;
         if ($request->hasFile('file')) {
-            $this->song_path = $request->file('file')->storeAs(
+            $new_file_path = $request->file('file')->storeAs(
                 config('app.name') . '/MAKALA/',
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
             );
-        } else $this->file_path = $article->file;
+        } else
+            $new_file_path = config('app.name') . '/MAKALA/' . $request->title;
+        Storage::disk('public')->move($article->file, $new_file_path);
 
         if ($request->hasFile('cover')) {
-            $this->cover_path = $request->file('cover')->storeAs(
+            $new_cover_path = $request->file('cover')->storeAs(
                 config('app.name') . '/ARTICLE-COVERS/',
                 $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
                 'public'
             );
-        } else $this->cover_path = $article->cover;
+        } else
+            $new_cover_path = config('app.name') . '/ARTICLE-COVERS/' . $request->title;
+        Storage::disk('public')->move($article->cover, $new_cover_path);
 
         $article->update([
             'title' => $request->input('title'),
             'pub_year' => $request->input('pub_year'),
-            'file' => $this->file_path,
-            'cover' => $this->cover_path
+            'file' => $new_file_path,
+            'cover' => $new_cover_path
 
         ]);
         $article->save();
+        Storage::disk('public')->delete($articleFileToDelete);
+        Storage::disk('public')->delete($articleCoverToDelete);
 
         if (REQ::is('api/*'))
             return response()->json([
@@ -136,6 +142,8 @@ class ArticleController extends Controller
                 'error' => 'Article does not exist'
             ], 204);
         }
+        Storage::disk('public')->delete($article->file);
+        Storage::disk('public')->delete($article->cover);
 
         $article->delete();
         if (REQ::is('api/*'))

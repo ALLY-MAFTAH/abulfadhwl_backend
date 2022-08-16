@@ -6,6 +6,7 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Request as REQ;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -50,7 +51,8 @@ class BookController extends Controller
 
         ]);
 
-        if ($validator->fails()) {return response()->json([ 'error' => $validator->errors(),'status' => false  ], 404);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors(), 'status' => false], 404);
         }
 
         if ($request->hasFile('file')) {
@@ -92,11 +94,15 @@ class BookController extends Controller
     {
 
         $book = Book::find($bookId);
+
         if (!$book) {
             return response()->json([
                 'error' => "Book not found"
             ], 404);
         }
+
+        $bookFileToDelete = $book->file;
+        $bookCoverToDelete = $book->cover;
 
         if ($request->hasFile('file')) {
             $this->file_path = $request->file('file')->storeAs(
@@ -104,7 +110,10 @@ class BookController extends Controller
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
             );
-        } else $this->file_path = $book->file;
+        } else
+
+            $new_file_path = config('app.name') . '/VITABU/' . $request->title;
+        Storage::disk('public')->move($book->file, $new_file_path);
 
         if ($request->hasFile('cover')) {
             $this->cover_path = $request->file('cover')->storeAs(
@@ -112,19 +121,23 @@ class BookController extends Controller
                 $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
                 'public'
             );
-        } else $this->cover_path = $book->cover;
-
+        } else
+            $new_cover_path = config('app.name') . '/BOOK-COVERS/' . $request->title;
+        Storage::disk('public')->move($book->file, $new_cover_path);
 
         $book->update([
             'title' => $request->input('title'),
             'edition' => $request->input('edition'),
             'pub_year' => $request->input('pub_year'),
             'description' => $request->input('description'),
-            'file ' => $this->file_path,
-            'cover' => $this->cover_path
+            'file ' => $new_file_path,
+            'cover' => $new_cover_path
         ]);
 
         $book->save();
+        Storage::disk('public')->delete($bookFileToDelete);
+        Storage::disk('public')->delete($bookCoverToDelete);
+
         if (REQ::is('api/*'))
             return response()->json([
                 'book' => $book
@@ -142,6 +155,8 @@ class BookController extends Controller
             ], 204);
         }
 
+        Storage::disk('public')->delete($book->file);
+        Storage::disk('public')->delete($book->cover);
         $book->delete();
 
         if (REQ::is('api/*'))
