@@ -14,7 +14,6 @@
             <!-- ACTIONS -->
 
             <section id="actions" class=" mb-2">
-                <div class="container">
                     <div class="row"
                         style="margin:2px;padding:10px;background-color: rgb(247, 232, 206); border-radius: 5px">
                         <div class="col-6">
@@ -29,7 +28,6 @@
                             </a>
                         </div>
                     </div>
-                </div>
             </section>
             <section id="slides">
                 <div class="card bg-white">

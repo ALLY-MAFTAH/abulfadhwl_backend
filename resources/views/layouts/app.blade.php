@@ -36,6 +36,13 @@
             background: rgb(250, 241, 221)
         }
 
+        .navbar-light .navbar-nav .nav-link {
+            color: rgb(3, 22, 107);
+        }
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: rgb(222, 161, 28);
+        }
+
         .nav-items-2 {
             justify-content: center;
             color: rgb(3, 22, 107);
@@ -98,13 +105,15 @@
 
 <body>
 
-    <div id="app" style="background-color: rgba(247, 215, 185, 0.212);">
-        <nav id="navbar_top" class="navbar navbar-expand-md navbar-light shadow-lg"
+    <div id="app">
+        <nav id="navbar_top" class="navbar navbar-expand-md shadow-lg navbar-light"
             style="background-color:rgb(246, 242, 237)">
             <div class="container">
-                <a href="{{route('home')}}" style="text-decoration:none">
-                <h2 style=" color: rgb(6, 24, 158); text-shadow: 2px 2px 4px #f9a321;"> <b>{{ config('app.name') }}</b>
-                </h2> </a>
+                <a href="{{ route('home') }}" style="text-decoration:none">
+                    <h2 style=" color: rgb(6, 24, 158); text-shadow: 2px 2px 4px #f9a321;">
+                        <b>{{ config('app.name') }}</b>
+                    </h2>
+                </a>
                 <button class="navbar-toggler" style="background-color: rgb(255, 255, 255)" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -130,19 +139,20 @@
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item list-unstyled dropdown nav-fill">
-                                <a class="nav-link nav-items-2 {{ request()->routeIs('songs') || request()->routeIs('albums') || request()->routeIs('album') || request()->routeIs('categories') || request()->routeIs('category') || request()->routeIs('articles') || request()->routeIs('article') || request()->routeIs('books') || request()->routeIs('book') ? 'active' : '' }}"
-                                    href="#" data-bs-toggle="dropdown"><p class=" dropdown-toggle ">Turaath</p></a>
+                            <li class="nav-item list-unstyled dropdown">
+                                <a class="nav-link nav-items-2 dropdown-toggle {{ request()->routeIs('songs') || request()->routeIs('albums') || request()->routeIs('album') || request()->routeIs('categories') || request()->routeIs('category') || request()->routeIs('articles') || request()->routeIs('article') || request()->routeIs('books') || request()->routeIs('book') ? 'active' : '' }}"
+                                    href="#" data-bs-toggle="dropdown">Turaath</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('songs') || request()->routeIs('albums') || request()->routeIs('album') || request()->routeIs('categories') || request()->routeIs('category') ? 'active' : '' }}"
                                             href="{{ route('categories') }}">Audio</a></li>
                                     <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('books') || request()->routeIs('book') ? 'active' : '' }}"
                                             href="{{ route('books') }}">Books</a></li>
-                                    <li><a class="dropdown-item"
-                                            href="{{ route('articles') }}">
-                                            <p class="nav-items-2 {{ request()->routeIs('articles') || request()->routeIs('article') ? 'active' : '' }}"> Articles
+                                    <li><a class="dropdown-item" href="{{ route('articles') }}">
+                                            <p
+                                                class="nav-items-2 {{ request()->routeIs('articles') || request()->routeIs('article') ? 'active' : '' }}">
+                                                Articles
                                             </p>
-                                            </a></li>
+                                        </a></li>
                                 </ul>
                             </li>
                             <li class="nav-item list-unstyled dropdown">
