@@ -36,7 +36,7 @@
             <section id="articles">
                 <div class="container">
 
-                    <div class="card">
+                    <div class="card bg-white">
                         <div class="card-header">
                             <h4>ARTICLES ({{ $articles->count() }})</h4>
                         </div>

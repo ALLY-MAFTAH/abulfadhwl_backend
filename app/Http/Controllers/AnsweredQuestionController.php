@@ -35,7 +35,6 @@ class AnsweredQuestionController extends Controller
 
             $questions = $allQuestions;
         }
-
         return view('feeds/all_questions_and_answers')->with(['questions' => $questions, 'type' => $type]);
     }
     public function getAllAnsweredQuestions()
@@ -43,7 +42,6 @@ class AnsweredQuestionController extends Controller
 
         $answeredQuestions = [];
         $questions = AnsweredQuestion::orderBy('updated_at', 'DESC')->get();
-
 
         foreach ($questions as $question) {
             if ($question->textAns != null || $question->audioAns != null) {

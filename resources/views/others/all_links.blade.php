@@ -17,18 +17,16 @@
             <section id="actions" class=" mb-2">
                 <div class="container">
                     <div class="row"
-                        style="margin:2px;padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
-                        <div class="col">
+                        style="margin:2px;padding:10px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                        <div class="col-6">
                             <button onclick="history.back()" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
                         </div>
 
-                        <div class="col-2"></div>
-                        <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
-="modal" data-bs-target
-="#addLinkModal">
+                        <div class="col-6 text-right">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle="modal"
+                                data-bs-target="#addLinkModal">
                                 <i class="fas fa-plus"></i> Add Link
                             </a>
                         </div>
@@ -37,18 +35,18 @@
             </section>
             <section id="links">
                 <div class="container">
-                    <div class="card">
+                    <div class="card bg-white">
                         <div class="card-header">
                             <h4>LINKS ({{ $links->count() }})</h4>
                         </div>
-                        <table class="table table-striped">
+                        <table class="table table-striped table-responsive-lg">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
                                     <th>Icon</th>
                                     <th>Title</th>
                                     <th>Url</th>
-                                    <th>TYpe</th>
+                                    <th>Type</th>
                                     <th>Switch</th>
                                     <th></th>
                                     <th></th>
@@ -71,7 +69,8 @@
                                                     <input type="hidden" name="status" value="0">
                                                     <input type="checkbox" name="status"
                                                         id="link-status-switch-{{ $link->id }}" class="status-switch"
-                                                        @if ($link->status) checked @endif value="1" onclick="this.form.submit()" />
+                                                        @if ($link->status) checked @endif value="1"
+                                                        onclick="this.form.submit()" />
                                                     <label for="link-status-switch-{{ $link->id }}"
                                                         class="cr"></label>
                                                 </div>
@@ -79,31 +78,26 @@
                                             </form>
                                         </td>
                                         <td>
-                                            <a href="#" role="alert" class="btn btn-outline-primary" data-bs-toggle
-="modal"
-                                                data-bs-target
-="#editLinkModal-{{ $link->id }}"
+                                            <a href="#" role="alert" class="btn btn-outline-primary"
+                                                data-bs-toggle="modal" data-bs-target="#editLinkModal-{{ $link->id }}"
                                                 data-title="{{ $link->title }}" data-url="{{ $link->url }} ">
-                                                <i class="fas fa-edit">
-                                                    Edit</i>
+                                                <i class="fas fa-edit"></i>
                                             </a>
                                         </td>
                                         <td>
                                             <a href="{{ route('delete_link', $link->id) }}"
                                                 onclick="return confirm('This link will be deleted')"
                                                 class="btn btn-outline-danger">
-                                                <i class="fas fa-trash"> Delete</i>
+                                                <i class="fas fa-trash"></i>
                                             </a>
 
                                             <!-- EDIT LINK MODAL -->
-                                            <div class="modal fade" id="editLinkModal-{{ $link->id }}"
-                                                tabIndex="-1">
+                                            <div class="modal fade" id="editLinkModal-{{ $link->id }}" tabIndex="-1">
                                                 <div class="modal-dialog modal-md">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary text-white">
                                                             <h5 class="modal-title">Edit Link</h5>
-                                                            <button class="close" data-bs-dismiss
-="modal">
+                                                            <button class="close" data-bs-dismiss="modal">
                                                                 <span>&times;</span>
                                                             </button>
                                                         </div>
@@ -120,10 +114,12 @@
                                                                         <select required name="type"
                                                                             class="dropdown-select form-control livesearch">
 
-                                                                            <option value="Ours" @if ($link->type == 'Ours') selected @endif>
+                                                                            <option value="Ours"
+                                                                                @if ($link->type == 'Ours') selected @endif>
                                                                                 {{ 'Ours' }}
                                                                             </option>
-                                                                            <option value="Others" @if ($link->type == 'Others') selected @endif>
+                                                                            <option value="Others"
+                                                                                @if ($link->type == 'Others') selected @endif>
                                                                                 {{ 'Others' }}
                                                                             </option>
                                                                         </select>
@@ -207,8 +203,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Link</h5>
-                            <button class="close" data-bs-dismiss
-="modal">
+                            <button class="close" data-bs-dismiss="modal">
                                 <span>&times;</span>
                             </button>
                         </div>
@@ -251,8 +246,9 @@
                                     <label for="url"
                                         class="col-md-4 col-form-label text-md-right">{{ __('Url') }}</label>
                                     <div class="col-md-6">
-                                        <input id="url" type="text" class="form-control @error('year') is-invalid @enderror"
-                                            name="url" value="{{ old('url') }}" required autocomplete="url">
+                                        <input id="url" type="text"
+                                            class="form-control @error('year') is-invalid @enderror" name="url"
+                                            value="{{ old('url') }}" required autocomplete="url">
                                         @error('url')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

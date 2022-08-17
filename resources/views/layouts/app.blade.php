@@ -22,52 +22,34 @@
         integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
         crossorigin="anonymous" />
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
+
     @yield('style')
 
     <style>
-        body {
-            /* font-family: -apple-system, 'Open Sans', 'Helvetica Neue', sans-serif */
-        }
-
         .card-header {
-            color: white;
+            color: rgb(14, 24, 72);
             width: 100%;
             text-align: center;
             font-weight: 900;
             font-size: 18px;
-            background: rgb(240, 157, 4)
-        }
-
-        .card-body {
-            background: rgba(207, 166, 77, 0.459);
-            width: auto;
-            width: 100%;
-        }
-
-        h3 {
-            text-align: center;
-            color: rgb(12, 3, 34);
-            text-align: center;
-            font-weight: 900;
-            padding-top: 70px;
-            padding-bottom: 10px;
+            background: rgb(250, 241, 221)
         }
 
         .nav-items-2 {
             justify-content: center;
             color: rgb(3, 22, 107);
-            text-shadow: 2px 2px 4px #e8e7f3;
             font-weight: 900;
 
         }
 
         .nav-items-2:hover {
-            color: rgb(18, 3, 100);
-            text-shadow: 2px 2px 4px #0a0263;
+            color: rgb(222, 161, 28);
+            /* text-shadow: 2px 2px 4px #0a0263; */
         }
 
         .active {
-            color: #fff !important;
+            color: rgb(222, 161, 28) !important;
             font-weight: 900;
         }
 
@@ -77,13 +59,8 @@
         }
 
         .zoom:hover {
-            transform: scale(1.3);
-            /* (130% zoom)*/
-        }
-
-
-        .hide {
-            display: none;
+            transform: scale(1.1);
+            /* (110% zoom)*/
         }
 
         .row-height {
@@ -91,7 +68,7 @@
         }
 
         .summary-cards {
-            box-shadow: 4px 4px 6px #df831a;
+            box-shadow: 4px 4px 6px #e6b888;
             border-radius: 12px;
             width: 90%;
             min-height: 100px;
@@ -123,10 +100,11 @@
 
     <div id="app" style="background-color: rgba(247, 215, 185, 0.212);">
         <nav id="navbar_top" class="navbar navbar-expand-md navbar-light shadow-lg"
-            style="background-color:rgb(247, 142, 5)">
+            style="background-color:rgb(246, 242, 237)">
             <div class="container">
                 <a href="#" class=""> <img src="{{ asset('assets/images/logo.png') }}" height="40px"></a>
-                <h2 style=" color: white; text-shadow: 2px 2px 4px #1709e0;"> <b>{{ config('app.name') }}</b></h2>
+                <h2 style=" color: rgb(6, 24, 158); text-shadow: 2px 2px 4px #f9a321;"> <b>{{ config('app.name') }}</b>
+                </h2>
                 <button class="navbar-toggler" style="background-color: rgb(255, 255, 255)" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -152,16 +130,19 @@
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item list-unstyled dropdown">
-                                <a class="nav-link nav-items-2 dropdown-toggle  {{ request()->routeIs('songs') || request()->routeIs('albums') || request()->routeIs('album') || request()->routeIs('categories') || request()->routeIs('category') || request()->routeIs('articles') || request()->routeIs('article') || request()->routeIs('books') || request()->routeIs('book') ? 'active' : '' }}"
-                                    href="#" data-bs-toggle="dropdown">Turaath</a>
+                            <li class="nav-item list-unstyled dropdown nav-fill">
+                                <a class="nav-link nav-items-2 {{ request()->routeIs('songs') || request()->routeIs('albums') || request()->routeIs('album') || request()->routeIs('categories') || request()->routeIs('category') || request()->routeIs('articles') || request()->routeIs('article') || request()->routeIs('books') || request()->routeIs('book') ? 'active' : '' }}"
+                                    href="#" data-bs-toggle="dropdown"><p class=" dropdown-toggle ">Turaath</p></a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('songs') || request()->routeIs('albums') || request()->routeIs('album') || request()->routeIs('categories') || request()->routeIs('category') ? 'active' : '' }}"
                                             href="{{ route('categories') }}">Audio</a></li>
                                     <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('books') || request()->routeIs('book') ? 'active' : '' }}"
                                             href="{{ route('books') }}">Books</a></li>
-                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('articles') || request()->routeIs('article') ? 'active' : '' }}"
-                                            href="{{ route('articles') }}">Articles</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('articles') }}">
+                                            <p class="nav-items-2 {{ request()->routeIs('articles') || request()->routeIs('article') ? 'active' : '' }}"> Articles
+                                            </p>
+                                            </a></li>
                                 </ul>
                             </li>
                             <li class="nav-item list-unstyled dropdown">
@@ -213,7 +194,7 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
+                            {{-- @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a style="color: blue" class="nav-link"
                                         href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -225,10 +206,10 @@
                                     <a style="color: blue" class="nav-link"
                                         href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
-                            @endif
+                            @endif --}}
                         @else
                             <li class="nav-item dropdown">
-                                <a style="color: white; font-size: 17px" id="navbarDropdown"
+                                <a style="color: rgb(25, 15, 165); font-size: 17px" id="navbarDropdown"
                                     class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -236,8 +217,7 @@
 
                                 <div style="background-color: white" class="fade dropdown-menu dropdown-menu-right"
                                     aria-labelledby="navbarDropdown">
-                                    <a style="color: rgb(241, 10, 10)" class="dropdown-item"
-                                        href="{{ route('logout') }}"
+                                    <a style="color: rgb(241, 10, 10)" class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fas fa-power-off"></i> {{ __('Logout') }}
                                     </a>
@@ -258,7 +238,7 @@
                 @yield('content')
             </div>
         </main>
-        <footer id="main-footer" class="bg-light text-dark mb-3">
+        <footer id="main-footer" class="text-dark mb-3">
             <div class="container">
                 <div class="col">
                     <hr>
@@ -277,7 +257,12 @@
     <script src="https://maftah.co.tz/public/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js "></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -298,6 +283,46 @@
     <script>
         $('form').submit(function() {
             $(this).find(':submit').attr('disabled', true);
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
+
+    <script>
+        $('#upload-file').bind('change', function() {
+            var totalSize = 0;
+            for (let i = 0; i < this.files.length; i++) {
+                totalSize = totalSize + Math.round((this.files[i].size) / 1048576);
+            }
+            console.log(totalSize);
+            if (totalSize > 100) {
+                alert("Sorry, you can't upload files with " + totalSize + " MB at once");
+                $('form').find(':submit').attr('disabled', true);
+            }
+        });
+    </script>
+    <script>
+        $(function() {
+            $(document).ready(function() {
+                $('#fileUploadForm').ajaxForm({
+                    beforeSend: function() {
+                        var percentage = '0';
+                    },
+                    uploadProgress: function(event, position, total, percentComplete) {
+                        var percentage = percentComplete;
+                        $('.progress .progress-bar').css("width", percentage + '%', function() {
+                            return $(this).attr("aria-valuenow", percentage) + '%';
+                        })
+                    },
+                    complete: function(xhr) {
+                        console.log('File has uploaded');
+                        location.reload();
+                    }
+                });
+            });
         });
     </script>
     @yield('scripts')

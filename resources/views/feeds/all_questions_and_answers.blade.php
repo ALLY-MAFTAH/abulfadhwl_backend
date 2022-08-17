@@ -9,7 +9,6 @@
             window.location.assign(newUrl);
         });
     </script>
-
 @endsection
 @section('content')
     <div class=" py-3">
@@ -25,7 +24,7 @@
             <section id="actions" class=" mb-2">
                 <div class="container">
                     <div class="row"
-                        style="margin:2px;padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                        style="margin:2px;padding:10px;background-color: rgb(247, 232, 206); border-radius: 5px">
                         <div class="col-6">
                             <button onclick="history.back()" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
@@ -35,8 +34,8 @@
                             <form action="{{ route('allQuestions') }}" method="GET" id="filter-form" style="float:right">
                                 @csrf
 
-                                <select name="type" id="type" class="dropdown-select form-control" style="width: 100px"
-                                    onchange="document.getElementById('filter-form').submit()">
+                                <select name="type" id="type" class="dropdown-select form-control"
+                                    style="width: 120px" onchange="document.getElementById('filter-form').submit()">
                                     <option value="all" {{ $type == 'all' ? 'selected' : '' }}>All</option>
                                     <option value="answered" {{ $type == 'answered' ? 'selected' : '' }}>Answered
                                     </option>
@@ -49,12 +48,10 @@
                     </div>
                 </div>
             </section>
-
-
             <section id="comments">
                 <div class="container">
 
-                    <div class="card">
+                    <div class="card bg-white">
                         <div class="card-header">
                             @if ($questions == null)
                                 <h4>MASWALI YALIYOJIBIWA (0)</h4>
@@ -68,7 +65,7 @@
                                 @endif
                             @endif
                         </div>
-                        <table class="table table-striped">
+                        <table class="table table-striped table-responsive-lg">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
@@ -80,16 +77,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @if ($questions==null)
+
+                                @else
+
+
                                 @foreach ($questions as $index => $answer)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $answer->qn }}</td>
                                         <td>{{ $answer->textAns ?? '--' }}</td>
-
                                         <td>
                                             @if ($answer->audioAns != '')
-
-
                                                 <audio src="{{ asset('storage/' . $answer->audioAns) }}" controls
                                                     controlslist></audio>
                                             @else
@@ -97,14 +96,10 @@
                                             @endif
                                         </td>
                                         <td>
-
-                                            <a href="#" target="modal" data-bs-toggle
-="modal"
-                                                data-bs-target
-="#editAnswerModal-{{ $answer->id }}"
+                                            <a href="#" target="modal" data-bs-toggle="modal"
+                                                data-bs-target="#editAnswerModal-{{ $answer->id }}"
                                                 class="btn btn-outline-primary">
-                                                <i class="fas fa-edit">
-                                                    Edit</i>
+                                                <i class="fas fa-edit"></i>
                                             </a>
                                             <!-- EDIT ANSWER MODAL -->
                                             <div class="modal fade" id="editAnswerModal-{{ $answer->id }}">
@@ -112,8 +107,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary text-white">
                                                             <h5 class="modal-title">Weka jibu</h5>
-                                                            <button class="close" data-bs-dismiss
-="modal">
+                                                            <button class="close" data-bs-dismiss="modal">
                                                                 <span>&times;</span>
                                                             </button>
                                                         </div>
@@ -127,10 +121,8 @@
                                                                     <label for="qn"
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Swali Lililoulizwa') }}</label>
                                                                     <div class="col-md-6">
-                                                                        <textarea id="qn" type="text"
-                                                                            class="form-control @error('qn') is-invalid @enderror"
-                                                                            name="qn" value="" required
-                                                                            autocomplete="qn">{{ old('qn', $answer->qn) }}</textarea>
+                                                                        <textarea id="qn" type="text" class="form-control @error('qn') is-invalid @enderror" name="qn"
+                                                                            value="" required autocomplete="qn">{{ old('qn', $answer->qn) }}</textarea>
                                                                         @error('qn')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
@@ -142,10 +134,8 @@
                                                                     <label for="textAns"
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Jibu la maandishi') }}</label>
                                                                     <div class="col-md-6">
-                                                                        <textarea id="textAns" type="text"
-                                                                            class="form-control @error('textAns') is-invalid @enderror"
-                                                                            name="textAns" value=""
-                                                                            autocomplete="textAns">{{ old('textAns', $answer->textAns) }}</textarea>
+                                                                        <textarea id="textAns" type="text" class="form-control @error('textAns') is-invalid @enderror" name="textAns"
+                                                                            value="" autocomplete="textAns">{{ old('textAns', $answer->textAns) }}</textarea>
                                                                         @error('textAns')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
@@ -191,7 +181,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                            </tbody>
+                            @endif </tbody>
                         </table>
                     </div>
                 </div>
@@ -203,8 +193,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Weka jibu</h5>
-                            <button class="close" data-bs-dismiss
-="modal">
+                            <button class="close" data-bs-dismiss="modal">
                                 <span>&times;</span>
                             </button>
                         </div>
@@ -216,8 +205,8 @@
                                     <label for="qn"
                                         class="col-md-4 col-form-label text-md-right">{{ __('Swali Lililoulizwa') }}</label>
                                     <div class="col-md-6">
-                                        <textarea id="qn" type="text" class="form-control @error('qn') is-invalid @enderror"
-                                            name="qn" value="{{ old('qn') }}" required autocomplete="qn"></textarea>
+                                        <textarea id="qn" type="text" class="form-control @error('qn') is-invalid @enderror" name="qn"
+                                            value="{{ old('qn') }}" required autocomplete="qn"></textarea>
                                         @error('qn')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -229,9 +218,8 @@
                                     <label for="ans"
                                         class="col-md-4 col-form-label text-md-right">{{ __('Jibu') }}</label>
                                     <div class="col-md-6">
-                                        <textarea id="ans" type="text" style="height: 40px"
-                                            class="form-control @error('ans') is-invalid @enderror" name="ans"
-                                            value="{{ old('ans') }}" required autocomplete="ans"></textarea>
+                                        <textarea id="ans" type="text" style="height: 40px" class="form-control @error('ans') is-invalid @enderror"
+                                            name="ans" value="{{ old('ans') }}" required autocomplete="ans"></textarea>
                                         @error('ans')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

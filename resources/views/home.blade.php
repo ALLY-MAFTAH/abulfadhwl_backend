@@ -43,18 +43,7 @@
                         ( {{ count($histories) }} )
                     </div>
                 </a>
-                <a href="{{ route('streams') }}" class="card btn summary-cards  col-md ">
-                    <div class="summary-content"> <i class="fas fa-microphone-alt"></i>
-                        STREAMS <br>
-                        ( {{ count($streams) }} )
-                    </div>
-                </a>
-                <a href="{{ route('users') }}" class="card btn summary-cards  col-md">
-                    <div class="summary-content"><i class="fas fa-users"></i>
-                        USERS <br>
-                        ( {{ count($users) }} )
-                    </div>
-                </a>
+
             </div>
             <div class="row d-flex justify-content-center text-center">
 
@@ -74,6 +63,21 @@
                     <div class="summary-content"><i class="fas fa-question"></i>
                         QUESTIONS & ANSWERS<br>
                         ( {{ count($questions) }} )
+                    </div>
+                </a>
+            </div>
+            <div class="row d-flex justify-content-center text-center">
+
+                <a href="{{ route('streams') }}" class="card btn summary-cards  col-md ">
+                    <div class="summary-content"> <i class="fas fa-microphone-alt"></i>
+                        STREAMS <br>
+                        ( {{ count($streams) }} )
+                    </div>
+                </a>
+                <a href="{{ route('users') }}" class="card btn summary-cards  col-md">
+                    <div class="summary-content"><i class="fas fa-users"></i>
+                        USERS <br>
+                        ( {{ count($users) }} )
                     </div>
                 </a>
                 <a href="{{ route('slides') }}" class="card btn summary-cards  col-md">

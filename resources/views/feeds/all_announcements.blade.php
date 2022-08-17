@@ -14,7 +14,7 @@
             <section id="actions" class=" mb-2">
                 <div class="container">
                     <div class="row"
-                        style="margin:2px;padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                        style="margin:2px;padding:10px;background-color: rgb(247, 232, 206); border-radius: 5px">
                         <div class="col-6">
                             <button onclick="history.back()" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
@@ -22,10 +22,8 @@
                         </div>
 
                         <div class="col-6 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
-="modal"
-                                data-bs-target
-="#addAnnouncementModal">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle="modal"
+                                data-bs-target="#addAnnouncementModal">
                                 <i class="fas fa-plus"></i> Add Announcement
                             </a>
                         </div>
@@ -35,12 +33,11 @@
 
             <section id="announcements">
                 <div class="container">
-
-                    <div class="card">
+                    <div class="card bg-white">
                         <div class="card-header">
-                            <h4>ANNOUNCEMENTS ({{$announcements->count()}})</h4>
+                            <h4>ANNOUNCEMENTS ({{ $announcements->count() }})</h4>
                         </div>
-                        <table class="table table-striped">
+                        <table class="table table-striped table-responsive-lg">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
@@ -57,12 +54,9 @@
                                         <td style="min-width: 100px">{{ $announcement->date }}</td>
                                         <td>{{ $announcement->news }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle
-="modal"
-                                                data-bs-target
-="#editAnnouncementModal-{{ $announcement->id }}">
-                                                <i class="fas fa-edit">
-                                                    Edit</i>
+                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                                data-bs-target="#editAnnouncementModal-{{ $announcement->id }}">
+                                                <i class="fas fa-edit"></i>
                                             </a>
                                             <!-- EDIT ANNOUNCEMENT MODAL -->
                                             <div class="modal fade" id="editAnnouncementModal-{{ $announcement->id }}">
@@ -70,8 +64,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary text-white">
                                                             <h5 class="modal-title">Edit Announcement</h5>
-                                                            <button class="close" data-bs-dismiss
-="modal">
+                                                            <button class="close" data-bs-dismiss="modal">
                                                                 <span>&times;</span>
                                                             </button>
                                                         </div>
@@ -130,7 +123,7 @@
                                             <a href="{{ route('delete_announcement', $announcement->id) }}"
                                                 onclick="return confirm('This announcement will be deleted')"
                                                 class="btn btn-outline-danger">
-                                                <i class="fas fa-trash"> Delete</i>
+                                                <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -146,8 +139,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Announcement</h5>
-                            <button class="close" data-bs-dismiss
-="modal">
+                            <button class="close" data-bs-dismiss="modal">
                                 <span>&times;</span>
                             </button>
                         </div>

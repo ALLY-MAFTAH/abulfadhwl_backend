@@ -16,19 +16,15 @@
             <section id="actions" class=" mb-2">
                 <div class="container">
                     <div class="row"
-                        style="margin:2px;padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
-                        <div class="col">
+                        style="margin:2px;padding:10px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                        <div class="col-6">
                             <button onclick="history.back()" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
                         </div>
-
-                        <div class="col-2"></div>
-                        <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
-="modal"
-                                data-bs-target
-="#addStreamModal">
+                        <div class="col-6 text-right">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle="modal"
+                                data-bs-target="#addStreamModal">
                                 <i class="fas fa-plus"></i> Add Stream
                             </a>
                         </div>
@@ -36,12 +32,11 @@
                 </div>
             </section>
             <section id="streams">
-                <div class="container">
-                    <div class="card">
+                    <div class="card bg-white">
                         <div class="card-header">
                             <h4>STREAMS ({{ $streams->count() }})</h4>
                         </div>
-                        <table class="table table-striped">
+                        <table class="table table-striped table-responsive-lg">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
@@ -59,20 +54,17 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>
-                                            <a href="#" data-bs-toggle
-="modal"
-                                                data-bs-target
-="#viewTimetable-{{ $stream->id }}"><img
-                                                    src={{ asset('storage/' . $stream->timetable) }}
-                                                    alt="Stream timetable" style="width: 50px;height:50px;"></a>
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#viewTimetable-{{ $stream->id }}"><img
+                                                    src={{ asset('storage/' . $stream->timetable) }} alt="Stream timetable"
+                                                    style="width: 50px;height:50px;"></a>
                                             <!-- EDIT STREAM MODAL -->
                                             <div class="modal fade" id="viewTimetable-{{ $stream->id }}">
                                                 <div class="modal-dialog modal-md">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary text-white">
                                                             <h5 class="modal-title">Ratiba ya Masomo</h5>
-                                                            <button class="close" data-bs-dismiss
-="modal">
+                                                            <button class="close" data-bs-dismiss="modal">
                                                                 <span>&times;</span>
                                                             </button>
                                                         </div>
@@ -97,8 +89,7 @@
                                                 <div class="switch switch-warning d-inline m-r-10">
                                                     <input type="hidden" name="status" value="0">
                                                     <input type="checkbox" name="status"
-                                                        id="stream-status-switch-{{ $stream->id }}"
-                                                        class="status-switch"
+                                                        id="stream-status-switch-{{ $stream->id }}" class="status-switch"
                                                         @if ($stream->status) checked @endif value="1"
                                                         onclick="this.form.submit()" />
                                                     <label for="stream-status-switch-{{ $stream->id }}"
@@ -108,12 +99,9 @@
                                             </form>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle
-="modal"
-                                                data-bs-target
-="#editStreamModal-{{ $stream->id }}">
-                                                <i class="fas fa-edit">
-                                                    Edit</i>
+                                            <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                                data-bs-target="#editStreamModal-{{ $stream->id }}">
+                                                <i class="fas fa-edit"></i>
                                             </a>
 
                                             <!-- EDIT STREAM MODAL -->
@@ -122,8 +110,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary text-white">
                                                             <h5 class="modal-title">Edit Stream</h5>
-                                                            <button class="close" data-bs-dismiss
-="modal">
+                                                            <button class="close" data-bs-dismiss="modal">
                                                                 <span>&times;</span>
                                                             </button>
                                                         </div>
@@ -214,7 +201,7 @@
                                             <a href="{{ route('delete_stream', $stream->id) }}"
                                                 onclick="return confirm('This stream will be deleted')"
                                                 class="btn btn-outline-danger">
-                                                <i class="fas fa-trash"> Delete</i>
+                                                <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -223,8 +210,6 @@
 
                             </tbody>
                         </table>
-
-                    </div>
                 </div>
             </section>
             <!-- ADD STREAM MODAL -->
@@ -233,8 +218,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Stream</h5>
-                            <button class="close" data-bs-dismiss
-="modal">
+                            <button class="close" data-bs-dismiss="modal">
                                 <span>&times;</span>
                             </button>
                         </div>
@@ -274,8 +258,9 @@
                                     <label for="url"
                                         class="col-md-4 col-form-label text-md-right">{{ __('Url') }}</label>
                                     <div class="col-md-6">
-                                        <input id="url" type="text" class="form-control @error('year') is-invalid @enderror"
-                                            name="url" value="{{ old('url') }}" required autocomplete="url">
+                                        <input id="url" type="text"
+                                            class="form-control @error('year') is-invalid @enderror" name="url"
+                                            value="{{ old('url') }}" required autocomplete="url">
                                         @error('url')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

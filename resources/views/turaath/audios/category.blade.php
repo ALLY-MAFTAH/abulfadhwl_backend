@@ -12,27 +12,23 @@
 
             <section id="actions" class=" mb-2">
                 <div class="container">
-                    <div class="row" style="padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
-                        <div class="col">
+                    <div class="row"
+                        style="padding-top:10px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                        <div class="col-4">
                             <a href="{{ route('categories') }}" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
                             </a>
                         </div>
                         <div class="col-4 text-center">
                             <p style="font-size: 20px;"><b style="padding-right:10px"> {{ $category->name }}</b><a
-                                    href="#" class="btn btn-outline-primary" data-bs-toggle
-="modal"
-                                    data-bs-target
-="#editCategoryModal">
+                                    href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#editCategoryModal">
                                     <i class="fas fa-edit"></i>
                                 </a></p>
                         </div>
-                        <div class="col-2"></div>
-                        <div class="col-2 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle
-="modal"
-                                data-bs-target
-="#addAlbumModal">
+                        <div class="col-4 text-right">
+                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle="modal"
+                                data-bs-target="#addAlbumModal">
                                 <i class="fas fa-plus"></i> Add Album
                             </a>
                         </div>
@@ -40,23 +36,22 @@
                 </div>
             </section>
 
-            <div class="card">
+            <div class="card bg-white">
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
                             <h4>LIST OF ALBUMS ({{ count($category->albums) }})</h4>
                         </div>
-
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-stripped">
+                    <table class="table table-stripped table-responsive-lg">
                         <thead class="thead-dark">
                             <tr>
                                 <th>#</th>
                                 <th>Album Name</th>
                                 <th>Description</th>
-                                <th>Number of songs</th>
+                                <th>Number of Audios</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -100,8 +95,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Add Album</h5>
-                            <button class="close" data-bs-dismiss
-="modal">
+                            <button class="close" data-bs-dismiss="modal">
                                 <span>&times;</span>
                             </button>
                         </div>
@@ -156,8 +150,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">Edit Category</h5>
-                            <button class="close" data-bs-dismiss
-="modal">
+                            <button class="close" data-bs-dismiss="modal">
                                 <span>&times;</span>
                             </button>
                         </div>

@@ -1,12 +1,7 @@
 @extends('layouts.app')
-@section('sidebar')
-    <div class="col-md-2">
-        @include('components.left_nav')
-    </div>
-@endsection
 
 @section('content')
-    <div class="col-md-10 py-3">
+    <div class="py-3">
         <div class="container">
             @if (Session::has('error'))
                 <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('error') }}
@@ -16,30 +11,20 @@
                 <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}
                 </p>
             @endif
-            <!-- ACTIONS -->
-            <section id="actions" class="py-5 mb-4 bg-light">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-3">
-
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <section id="categories">
                 <div class="container">
 
-                    <div class="card">
+                    <div class="card bg-white">
                         <div class="card-header">
                             <h4>ALBUMS</h4>
                         </div>
-                        <table class="table table-striped">
+                        <table class="table table-striped table-responsive-lg">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Description</th>
+                                    <th>Category</th>
                                     <th>No. of Audios</th>
                                     <th></th>
                                     <th></th>
@@ -51,6 +36,12 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $album->name }}</td>
                                         <td>{{ $album->description }}</td>
+                                        <td>
+                                            <div hidden>
+                                                {{ $categoryName = App\Models\Category::findOrFail($album->category_id)->name }}
+                                            </div>
+                                            {{ $categoryName }}
+                                        </td>
                                         <td>{{ count($album->songs) }}</td>
 
 
@@ -74,30 +65,6 @@
                     </div>
                 </div>
             </section>
-
-            <!--FOOTER  -->
-            <footer id="main-footer" class="bg-light text-dark mb-3">
-                <div class="container">
-                    <div class="col">
-                        <hr>
-                        <p class="lead text-center">
-                            Copyright &copy; <span id="year"></span> ABUL FADHWL
-                        </p>
-                    </div>
-                </div>
-            </footer>
-
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-                integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-                crossorigin="anonymous" />
-
-            <script>
-                // Get the current year for the copyright
-                $('#year').text(new Date().getFullYear());
-            </script>
         </div>
     </div>
 @endsection

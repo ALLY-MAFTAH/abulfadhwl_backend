@@ -13,30 +13,21 @@
             @endif
             <section id="actions" class=" mb-2">
                 <div class="container">
-                    <div class="row"
-                        style="padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                    <div class="row" style="padding:10px;background-color: rgb(247, 232, 206); border-radius: 5px">
                         <div class="col">
-                            <button onclick="history.back()" class="btn btn-primary btn-outline">
+                            <a href="{{route('histories')}}" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
-                            </button>
+                            </a>
                         </div>
-                        <div class="col-8 text-center">
-                            <h4><i class="fas fa-history"></i><b> Section No. {{ $history->section }} </b>
-                            </h4>
-                        </div>
-                        <div class="col-2"></div>
-
                     </div>
             </section>
 
-            <div class="card">
+            <div class="card bg-white">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-12">
-                            <h4>History Information <a href="#" class="btn btn-outline-primary" data-bs-toggle
-="modal"
-                                    data-bs-target
-="#editHistoryModal">
+                            <h4>History Information <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#editHistoryModal">
                                     <i class="fas fa-edit"></i>
                                 </a></h4>
                         </div>
@@ -63,6 +54,7 @@
                     </div>
                     <hr>
                     <div class="row">
+                        <h5> Content:</h5>
                         <h6><b>{{ $history->content }} </b></h6>
 
                     </div>
@@ -74,8 +66,7 @@
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Edit History</h5>
-                                <button class="close" data-bs-dismiss
-="modal">
+                                <button class="close" data-bs-dismiss="modal">
                                     <span>&times;</span>
                                 </button>
                             </div>
@@ -117,10 +108,8 @@
                                         <label for="content"
                                             class="col-md-4 col-form-label text-md-right">{{ __('Content') }}</label>
                                         <div class="col-md-6">
-                                            <textarea id="content" type="text"
-                                                class="form-control @error('content') is-invalid @enderror" name="content"
-                                                value="{{ old('content', $history->content) }}" required
-                                                autocomplete="content">{{ old('content',$history->content) }}</textarea>
+                                            <textarea id="content" type="text" class="form-control @error('content') is-invalid @enderror" name="content"
+                                                value="{{ old('content', $history->content) }}" required autocomplete="content">{{ old('content', $history->content) }}</textarea>
                                             @error('content')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
