@@ -102,9 +102,9 @@
         <nav id="navbar_top" class="navbar navbar-expand-md navbar-light shadow-lg"
             style="background-color:rgb(246, 242, 237)">
             <div class="container">
-                <a href="#" class=""> <img src="{{ asset('assets/images/logo.png') }}" height="40px"></a>
+                <a href="{{route('home')}}" style="text-decoration:none">
                 <h2 style=" color: rgb(6, 24, 158); text-shadow: 2px 2px 4px #f9a321;"> <b>{{ config('app.name') }}</b>
-                </h2>
+                </h2> </a>
                 <button class="navbar-toggler" style="background-color: rgb(255, 255, 255)" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
