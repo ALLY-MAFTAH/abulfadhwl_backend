@@ -15,6 +15,7 @@ use App\Http\Controllers\SlideController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AnsweredQuestionController;
+use App\Http\Controllers\PushNotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -144,16 +145,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('delete_user/{userId}', [UserController::class,'deleteUser'])->name('delete_user');
     Route::put('edit_user/{userId}', [UserController::class,'putUser'])->name('edit_user');
 
-    // // USERS ROUTES
-    // Route::post('login', 'UserControllerlogin']);
-    // Route::post('logout', 'UserControllerlogout']);
-    // Route::get('users', 'UserControllergetAllUsers']);
-    // Route::get('user/{userId}', 'UserControllergetUser']);
-    // Route::put('user/{userId}', 'UserControllerputUser']);
-    // Route::post('register', 'UserControllerregisterUser']);
-    // Route::delete('user/{userId}', 'UserControllerdeleteUser']);
-    // Route::post('user/{userId}', 'UserControllerassignRole']);
-
-
+    // NOTIFICATIONS ROUTES
+    Route::post('send',[PushNotificationController::class, 'bulksend'])->name('bulksend');
+    Route::get('notifications', [PushNotificationController::class, 'index'])->name('notifications');
 
 });

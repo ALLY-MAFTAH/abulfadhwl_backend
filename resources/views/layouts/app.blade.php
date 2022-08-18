@@ -198,6 +198,12 @@
                                         Links</p>
                                 </a>
                             </li>
+                            <li class="nav-item  list-unstyled">
+                                <a class="nav-link  " href="{{ route('notifications') }}">
+                                    <p class="nav-items-2 {{ request()->routeIs('notifications') ? 'active' : '' }}">
+                                        Notify</p>
+                                </a>
+                            </li>
                         </ul>
                     @endguest
                     <!-- Right Side Of Navbar -->
@@ -334,6 +340,16 @@
                 });
             });
         });
+    </script>
+     <script>
+        function loadPhoto(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('photo');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
     </script>
     @yield('scripts')
 
