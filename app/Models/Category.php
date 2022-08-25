@@ -21,6 +21,6 @@ class Category extends Model
 
     public function albums()
     {
-        return $this->hasMany(Album::class)->orderBy('title');
+        return $this->hasMany(Album::class)->orderBy('name');
     }
 }
