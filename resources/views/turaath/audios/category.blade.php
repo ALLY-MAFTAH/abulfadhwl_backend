@@ -72,14 +72,13 @@
                         <td>{{ count($album->songs) }}</td>
                         <td>
                             <a href="{{ route('album', $album->id) }}" class="btn btn-outline-primary">
-                                <i class="fas fa-info-circle">
-                                    View</i>
+                                <i class="fas fa-info-circle"></i>
                             </a>
                         </td>
                         <td>
                             <a href="{{ route('delete_album', $album->id) }}"
                                 onclick="return confirm('This category will be deleted')" class="btn btn-outline-danger">
-                                <i class="fas fa-trash"> Delete</i>
+                                <i class="fas fa-trash"></i>
                             </a>
                         </td>
                     </tr>
