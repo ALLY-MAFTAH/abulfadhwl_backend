@@ -12,8 +12,7 @@
 
             <section id="actions" class=" mb-2">
                 <div class="container">
-                    <div class="row"
-                        style="padding-top:10px;background-color: rgb(247, 232, 206); border-radius: 5px">
+                    <div class="row" style="padding-top:10px;background-color: rgb(247, 232, 206); border-radius: 5px">
                         <div class="col-4">
                             <a href="{{ route('categories') }}" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
@@ -58,14 +57,14 @@
                         </thead>
                         <tbody>
                 </div>
-                <div hidden> {{ $albumSize = 0 }}</div>
                 @foreach ($category->albums as $index => $album)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        @foreach ($album->songs as $song)
-                            <div hidden> {{ $albumSize = $albumSize + $song->size }}</div>
-                        @endforeach
                         <td>
+                            <div hidden> {{ $albumSize = 0 }}</div>
+                            @foreach ($album->songs as $song)
+                                <div hidden> {{ $albumSize += $song->size }}</div>
+                            @endforeach
                             <div>{{ $album->name }}</div>
                             <div>{{ $albumSize . ' MB' }}</div>
                         </td>
