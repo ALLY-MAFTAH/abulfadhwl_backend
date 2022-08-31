@@ -57,20 +57,9 @@
                                     <h5> Author:</h5>
                                 </div>
                                 <div class="col-9">
-                                    <h5><b>{{ $article->author }}</b></h5>
+                                    <h5><b>Sheikh Abul Fadhwl Qassim Mafuta Qassim</b></h5>
                                 </div>
                             </div>
-
-                            <hr>
-                            <div class="row">
-                                <div class="col-3">
-                                    <h5> Edition:</h5>
-                                </div>
-                                <div class="col-9">
-                                    <h5><b>{{ $article->edition }}</b></h5>
-                                </div>
-                            </div>
-
                             <hr>
                             <div class="row">
                                 <div class="col-3">
@@ -80,26 +69,16 @@
                                     <h5><b>{{ $article->pub_year }}</b></h5>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-3">
-                                    <h5> Description:</h5>
-                                </div>
-                                <div class="col-9">
-                                    <h5><b>{{ $article->description }} </b></h5>
-                                </div>
-                            </div>
                         </div>
                         <div class="col-md-3" style=" text-align:center;border-radius:10px;padding:5px">
                             <div class="text-center">
-                                <form action="{{ 'https://maftah.co.tz/public/storage/' . $article->file }}"
-                                    target="_blank" style="padding-bottom: 5px">
+                                <form action="{{ 'https://maftah.co.tz/public/storage/' . $article->file }}" target="_blank"
+                                    style="padding-bottom: 5px">
                                     <button type="submit" class="btn btn-outline-primary">
                                         <i class="fas fa-file"> Open</i>
                                     </button>
                                 </form>
-                                <div style=""><img
-                                        src={{ 'https://maftah.co.tz/public/storage/' . $article->cover }}
+                                <div style=""><img src={{ 'https://maftah.co.tz/public/storage/' . $article->cover }}
                                         alt="Article Cover"height="250px" width="210px">
                                 </div>
                             </div>
@@ -146,22 +125,6 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label for="description"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
-                                        <div class="col-md-6">
-                                            <input id="description" type="text"
-                                                class="form-control @error('description') is-invalid @enderror"
-                                                name="description" value="{{ old('description', $article->description) }}"
-                                                autocomplete="description">
-                                            @error('description')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
                                     <div class="form-group row">
                                         <label for="pub_year"
                                             class="col-md-4 col-form-label text-md-right">{{ __('Year of Publishment') }}</label>
