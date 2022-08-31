@@ -92,7 +92,7 @@ class ArticleController extends Controller
     public function putArticle(Request $request, $articleId)
     {
         $validator = Validator::make($request->all(), [
-            'number'=>'required|unique:articles,number,except,id',
+            'number'=>'required|unique:articles,number,'.$articleId.',id',
             'title'=>'required|unique:articles,title,except,id',
             'title' => 'required|unique:articles,title,id'.$articleId,
             'pub_year' => 'required',
