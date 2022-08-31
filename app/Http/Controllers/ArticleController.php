@@ -43,7 +43,7 @@ class ArticleController extends Controller
     {
         // Validate if the request sent contains this parameters
         $validator = Validator::make($request->all(), [
-            'number' => 'required',
+            'number' => 'required|unique:articles',
             'title' => 'required|min:1|unique:articles,title,NULL,id,deleted_at,NULL',
             'pub_year' => 'required',
             'file' => 'required',
