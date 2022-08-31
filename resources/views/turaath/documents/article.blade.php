@@ -176,7 +176,6 @@
                                             @enderror
                                         </div>
                                     </div>
-
                                     <div class="form-group row">
                                         <label for="file"
                                             class="col-md-4 col-form-label text-md-right">{{ __('File') }}</label>
@@ -185,20 +184,6 @@
                                                 class="form-control @error('file') is-invalid @enderror" name="file"
                                                 value="{{ old('file') }}" autocomplete="file">
                                             @error('file')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="cover"
-                                            class="col-md-4 col-form-label text-md-right">{{ __('Cover') }}</label>
-                                        <div class="col-md-6">
-                                            <input id="cover" type="file"
-                                                class="form-control @error('cover') is-invalid @enderror" name="cover"
-                                                value="{{ old('cover') }}" autocomplete="cover">
-                                            @error('cover')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
