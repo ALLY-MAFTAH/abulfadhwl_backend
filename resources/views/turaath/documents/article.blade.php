@@ -92,13 +92,14 @@
                         </div>
                         <div class="col-md-3" style=" text-align:center;border-radius:10px;padding:5px">
                             <div class="text-center">
-                                <form action="{{ asset('storage/' . $article->file) }}" target="_blank"
-                                    style="padding-bottom: 5px">
+                                <form action="{{ 'https://maftah.co.tz/public/storage/' . $article->file }}"
+                                    target="_blank" style="padding-bottom: 5px">
                                     <button type="submit" class="btn btn-outline-primary">
                                         <i class="fas fa-file"> Open</i>
                                     </button>
                                 </form>
-                                <div style=""><img src={{ asset('storage/' . $article->cover) }}
+                                <div style=""><img
+                                        src={{ 'https://maftah.co.tz/public/storage/' . $article->cover }}
                                         alt="Article Cover"height="250px" width="210px">
                                 </div>
                             </div>

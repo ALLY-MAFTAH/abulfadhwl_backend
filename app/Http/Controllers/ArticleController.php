@@ -65,7 +65,11 @@ class ArticleController extends Controller
         } else return response()->json(['error' => 'Add a article file'], 404);
 
         if ($request->hasFile('cover')) {
-            $this->cover_path = $request->file('cover')->store('articles');
+            $this->cover_path = $request->file('cover')->storeAs(
+                config('app.name') . '/ARTICLE-COVERS/',
+                $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
+                'public'
+        );
         } else return response()->json([
             'error' => 'Add an article cover'
         ], 404);

@@ -55,7 +55,8 @@
                                 @foreach ($articles as $index => $article)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td><img src="{{ asset('storage/' . $article->cover) }}" alt="Article cover"
+
+                                        <td><img src="{{"https://maftah.co.tz/public/storage/" . $article->cover }}" alt="Article cover"
                                                 style="width: 30px"></td>
                                         <td>{{ $article->title }}</td>
                                         <td>{{ $article->pub_year }}</td>
