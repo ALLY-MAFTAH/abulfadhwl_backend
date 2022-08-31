@@ -41,9 +41,8 @@ class ArticleController extends Controller
     // Post article
     public function postArticle(Request $request)
     {
-        // Validate if the request sent contains this parameters
         $validator = Validator::make($request->all(), [
-            'number' => 'required|unique:articles',
+            'number' => 'required|min:1|unique:articles,number,NULL,id,deleted_at,NULL',
             'title' => 'required|min:1|unique:articles,title,NULL,id,deleted_at,NULL',
             'pub_year' => 'required',
             'file' => 'required',
@@ -51,10 +50,7 @@ class ArticleController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
+            return back()->with(['error' => $validator->errors(),]);
         }
 
         if ($request->hasFile('file')) {
@@ -70,7 +66,7 @@ class ArticleController extends Controller
                 config('app.name') . '/ARTICLE-COVERS/',
                 $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
                 'public'
-        );
+            );
         } else return response()->json([
             'error' => 'Add an article cover'
         ], 404);
@@ -95,6 +91,15 @@ class ArticleController extends Controller
     // Edit article
     public function putArticle(Request $request, $articleId)
     {
+        $validator = Validator::make($request->all(), [
+            'number' => 'required|min:1|unique:articles,number,NULL,id,deleted_at,NULL',
+            'title' => 'required|min:1|unique:articles,title,NULL,id,deleted_at,NULL',
+            'pub_year' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->with(['error' => $validator->errors()]);
+        }
         $article = Article::find($articleId);
 
         if (!$article) {
