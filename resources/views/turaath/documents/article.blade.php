@@ -16,9 +16,9 @@
                 <div class="container">
                     <div class="row" style="padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
                         <div class="col">
-                            <button onclick="history.back()" class="btn btn-primary btn-outline">
+                            <a href="{{route('articles')}}" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
-                            </button>
+                            </a>
                         </div>
                         <div class="col-8 text-center">
                             <h4><i class="fas fa-article music-icon"></i><b> {{ $article->title }} </b>
