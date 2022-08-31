@@ -43,10 +43,12 @@ class ArticleController extends Controller
     {
         // Validate if the request sent contains this parameters
         $validator = Validator::make($request->all(), [
+            'number' => 'required',
+            'title' => 'required|min:1|unique:articles,title,NULL,id,deleted_at,NULL',
+            'description' => 'required',
+            'pub_year' => 'required',
             'file' => 'required',
             'cover' => 'required',
-            'title' => 'required|min:1|unique:articles,title,NULL,id,deleted_at,NULL',
-            'pub_year' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -75,7 +77,9 @@ class ArticleController extends Controller
         ], 404);
 
         $article = new Article();
+        $article->number = $request->input('number');
         $article->title = $request->input('title');
+        $article->description = $request->input('description');
         $article->pub_year = $request->input('pub_year');
         $article->file = $this->file_path;
         $article->cover = $this->cover_path;
@@ -120,7 +124,9 @@ class ArticleController extends Controller
         Storage::disk('public')->move($article->cover, $new_cover_path);
 
         $article->update([
+            'number' => $request->input('number'),
             'title' => $request->input('title'),
+            'description' => $request->input('description'),
             'pub_year' => $request->input('pub_year'),
             'file' => $new_file_path,
             'cover' => $new_cover_path

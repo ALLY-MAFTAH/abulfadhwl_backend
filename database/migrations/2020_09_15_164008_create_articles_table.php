@@ -18,6 +18,8 @@ class CreateArticlesTable extends Migration
             $table->String('file');
             $table->String('cover');
             $table->String('title');
+            $table->longText('description');
+            $table->integer('number');
             $table->String('pub_year');
             $table->softDeletes();
             $table->timestamps();

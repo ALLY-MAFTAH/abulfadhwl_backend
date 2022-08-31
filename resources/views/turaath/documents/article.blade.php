@@ -45,10 +45,28 @@
                         <div class="col-md-9">
                             <div class="row">
                                 <div class="col-3">
+                                    <h5> Article Number: </h5>
+                                </div>
+                                <div class="col-9">
+                                    <h5><b>{{ $article->number }}</b></h5>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3">
                                     <h5> Title: </h5>
                                 </div>
                                 <div class="col-9">
                                     <h5><b>{{ $article->title }}</b></h5>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3">
+                                    <h5> Description:</h5>
+                                </div>
+                                <div class="col-9">
+                                    <h5><b>{{ $article->description }}</b></h5>
                                 </div>
                             </div>
                             <hr>
@@ -78,7 +96,7 @@
                                         <i class="fas fa-file"> Open</i>
                                     </button>
                                 </form>
-                                <div style=""><img src="{{ 'https://maftah.co.tz/public/storage/' . $article->cover }}"
+                                <div style=""><img src={{ 'https://maftah.co.tz/public/storage/' . $article->cover }}
                                         alt="Article Cover"height="250px" width="210px">
                                 </div>
                             </div>
@@ -110,7 +128,21 @@
                             <div class="modal-body">
                                 <form method="PUT" action="{{ route('edit_article', $article->id) }}">
                                     @csrf
-
+                                    <div class="form-group row">
+                                        <label for="number"
+                                            class="col-md-4 col-form-label text-md-right">{{ __('Article Number') }}</label>
+                                        <div class="col-md-6">
+                                            <input id="number" type="number"
+                                                class="form-control @error('number') is-invalid @enderror" name="number"
+                                                value="{{ old('number', $article->number) }}" autocomplete="number"
+                                                autofocus>
+                                            @error('number')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
                                     <div class="form-group row">
                                         <label for="title"
                                             class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
@@ -119,6 +151,22 @@
                                                 class="form-control @error('title') is-invalid @enderror" name="title"
                                                 value="{{ old('title', $article->title) }}" autocomplete="title" autofocus>
                                             @error('title')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="description"
+                                            class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
+                                        <div class="col-md-6">
+                                            <input id="description" type="text"
+                                                class="form-control @error('description') is-invalid @enderror"
+                                                name="description"
+                                                value="{{ old('description', $article->description) }}"
+                                                autocomplete="description" autofocus>
+                                            @error('description')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
