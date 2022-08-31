@@ -78,7 +78,7 @@
                                         <i class="fas fa-file"> Open</i>
                                     </button>
                                 </form>
-                                <div style=""><img src={{ 'https://maftah.co.tz/public/storage/' . $article->cover }}
+                                <div style=""><img src="{{ 'https://maftah.co.tz/public/storage/' . $article->cover }}"
                                         alt="Article Cover"height="250px" width="210px">
                                 </div>
                             </div>
