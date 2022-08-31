@@ -15,12 +15,11 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->String('file');
-            $table->String('cover');
+            $table->integer('number')->unique();
             $table->String('title');
-            $table->longText('description');
-            $table->integer('number');
+            $table->longText('description')->nullable();
             $table->String('pub_year');
+            $table->String('file');
             $table->timestamps();
         });
     }

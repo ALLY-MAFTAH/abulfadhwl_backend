@@ -43,7 +43,7 @@ class ArticleController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'number' => 'required|min:1|unique:articles,number,NULL,id',
-            'title' => 'required|min:1|unique:articles,title,NULL,id',
+            'title' => 'required|min:1',
             'pub_year' => 'required',
             'file' => 'required',
         ]);
@@ -81,7 +81,7 @@ class ArticleController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'number'=>'required|unique:articles,number,'.$articleId.',id',
-            'title'=>'required|unique:articles,title,'.$articleId.',id',
+            'title'=>'required',
             'pub_year' => 'required',
         ]);
 
