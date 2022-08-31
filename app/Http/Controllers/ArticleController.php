@@ -94,7 +94,6 @@ class ArticleController extends Controller
             return response()->json(['error' => "Article not found"], 404);
         }
         $articleFileToDelete = $article->file;
-        $articleCoverToDelete = $article->cover;
         if ($request->hasFile('file')) {
             $new_file_path = $request->file('file')->storeAs(
                 config('app.name') . '/MAKALA/',
@@ -104,16 +103,6 @@ class ArticleController extends Controller
         } else
             $new_file_path = config('app.name') . '/MAKALA/' . $request->title;
         Storage::disk('public')->move($article->file, $new_file_path);
-
-        if ($request->hasFile('cover')) {
-            $new_cover_path = $request->file('cover')->storeAs(
-                config('app.name') . '/ARTICLE-COVERS/',
-                $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
-                'public'
-            );
-        } else
-            $new_cover_path = config('app.name') . '/ARTICLE-COVERS/' . $request->title;
-        Storage::disk('public')->move($article->cover, $new_cover_path);
 
         $article->update([
             'number' => $request->input('number'),
@@ -125,7 +114,6 @@ class ArticleController extends Controller
         ]);
         $article->save();
         Storage::disk('public')->delete($articleFileToDelete);
-        Storage::disk('public')->delete($articleCoverToDelete);
 
         if (REQ::is('api/*'))
             return response()->json([
@@ -144,7 +132,6 @@ class ArticleController extends Controller
             ], 204);
         }
         Storage::disk('public')->delete($article->file);
-        Storage::disk('public')->delete($article->cover);
 
         $article->delete();
         if (REQ::is('api/*'))
@@ -167,16 +154,4 @@ class ArticleController extends Controller
         return response()->download($pathToFile);
     }
 
-    public function viewArticleCover($articleId)
-    {
-        $article = Article::find($articleId);
-        if (!$article) {
-            return response()->json([
-                'error' => 'Article not found'
-            ], 404);
-        }
-
-        $pathToFile = storage_path('/app/public/' . $article->cover);
-        return response()->download($pathToFile);
-    }
 }

@@ -100,7 +100,6 @@ Route::put('article/{articleId}', [ArticleController::class,'putArticle']);
 Route::get('article/{articleId}', [ArticleController::class,'getSingleArticle']);
 Route::delete('article/{articleId}', [ArticleController::class,'deleteArticle']);
 Route::get('article/file/{articleId}', [ArticleController::class,'viewArticleFile']);
-Route::get('article/cover/{articleId}', [ArticleController::class,'viewArticleCover']);
 
 
 //  Routes for Announcement

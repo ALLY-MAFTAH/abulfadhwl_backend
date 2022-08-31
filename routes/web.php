@@ -75,7 +75,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('article/{articleId}', [ArticleController::class,'getSingleArticle'])->name('article');
     Route::get('delete_article/{articleId}', [ArticleController::class,'deleteArticle'])->name('delete_article');
     Route::get('article/article_file/{articleId}', [ArticleController::class,'viewArticleFile'])->name('article_file');
-    Route::get('article/article_cover/{articleId}', [ArticleController::class,'viewArticleCover'])->name('article_cover');
 
     // HISTORIES ROUTES
     Route::get('histories', [HistoryController::class,'getAllHistories'])->name('histories');

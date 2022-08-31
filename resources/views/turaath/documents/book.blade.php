@@ -99,7 +99,7 @@
                                     </button>
                                 </form>
                                 <div style=""><img src={{ 'https://maftah.co.tz/public/storage/' . $book->cover }}
-                                        alt="Article Cover"height="250px" width="210px">
+                                        alt="Book Cover"height="250px" width="210px">
                                 </div>
                             </div>
                         </div>
