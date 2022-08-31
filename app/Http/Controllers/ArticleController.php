@@ -94,15 +94,14 @@ class ArticleController extends Controller
         $validator = Validator::make($request->all(), [
             'number'=>'required|unique:articles,number,'.$articleId.',id',
             'title'=>'required|unique:articles,title,'.$articleId.',id',
-            'title' => 'required|unique:articles,title,id'.$articleId,
             'pub_year' => 'required',
         ]);
 
         if ($validator->fails()) {
             return back()->with(['error' => $validator->errors()]);
         }
-        $article = Article::find($articleId);
 
+        $article = Article::find($articleId);
         if (!$article) {
             return response()->json(['error' => "Article not found"], 404);
         }
