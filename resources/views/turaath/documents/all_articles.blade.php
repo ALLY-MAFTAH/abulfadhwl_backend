@@ -44,7 +44,7 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>Cover</th>
+                                    <th>Article Number</th>
                                     <th>Title</th>
                                     <th>Year of Publish</th>
                                     <th></th>
@@ -55,9 +55,7 @@
                                 @foreach ($articles as $index => $article)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-
-                                        <td><img src="{{"https://maftah.co.tz/public/storage/" . $article->cover }}" alt="Article cover"
-                                                style="width: 30px"></td>
+                                        <td>{{ $article->number }}</td>
                                         <td>{{ $article->title }}</td>
                                         <td>{{ $article->pub_year }}</td>
 
@@ -169,21 +167,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="cover"
-                                        class="col-md-4 col-form-label text-md-right">{{ __('Cover') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="cover" type="file"
-                                            class="form-control @error('cover') is-invalid @enderror" name="cover"
-                                            value="{{ old('cover') }}" required autocomplete="cover">
-                                        @error('cover')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
                                 <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">
                                         <button type="submit" class="btn btn-primary">

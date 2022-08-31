@@ -16,15 +16,22 @@
                 <div class="container">
                     <div class="row" style="padding:20px;background-color: rgb(247, 232, 206); border-radius: 5px">
                         <div class="col">
-                            <a href="{{route('articles')}}" class="btn btn-primary btn-outline">
+                            <a href="{{ route('articles') }}" class="btn btn-primary btn-outline">
                                 <i class="fas fa-arrow-left"></i> Back
                             </a>
                         </div>
-                        <div class="col-8 text-center">
+                        <div class="col text-center">
                             <h4><i class="fas fa-article music-icon"></i><b> {{ $article->title }} </b>
                             </h4>
                         </div>
-                        <div class="col-2"></div>
+                        <div class="col text-right">
+                            <form action="{{ 'https://maftah.co.tz/public/storage/' . $article->file }}" target="_blank"
+                                style="padding-bottom: 5px">
+                                <button type="submit" class="btn btn-outline-primary">
+                                    <i class="fas fa-file"> Open</i>
+                                </button>
+                            </form>
+                        </div>
 
                     </div>
                 </div>
@@ -42,67 +49,49 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div class="col-3">
-                                    <h5> Article Number: </h5>
-                                </div>
-                                <div class="col-9">
-                                    <h5><b>{{ $article->number }}</b></h5>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-3">
-                                    <h5> Title: </h5>
-                                </div>
-                                <div class="col-9">
-                                    <h5><b>{{ $article->title }}</b></h5>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-3">
-                                    <h5> Description:</h5>
-                                </div>
-                                <div class="col-9">
-                                    <h5><b>{{ $article->description }}</b></h5>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-3">
-                                    <h5> Author:</h5>
-                                </div>
-                                <div class="col-9">
-                                    <h5><b>Sheikh Abul Fadhwl Qassim Mafuta Qassim</b></h5>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-3">
-                                    <h5> Year of Publishment:</h5>
-                                </div>
-                                <div class="col-9">
-                                    <h5><b>{{ $article->pub_year }}</b></h5>
-                                </div>
-                            </div>
+                        <div class="col-3">
+                            <h5> Article Number: </h5>
                         </div>
-                        <div class="col-md-3" style=" text-align:center;border-radius:10px;padding:5px">
-                            <div class="text-center">
-                                <form action="{{ 'https://maftah.co.tz/public/storage/' . $article->file }}" target="_blank"
-                                    style="padding-bottom: 5px">
-                                    <button type="submit" class="btn btn-outline-primary">
-                                        <i class="fas fa-file"> Open</i>
-                                    </button>
-                                </form>
-                                <div style=""><img src="{{ 'https://maftah.co.tz/public/storage/' . $article->cover }}"
-                                        alt="Article Cover"height="250px" width="210px">
-                                </div>
-                            </div>
+                        <div class="col-9">
+                            <h5><b>{{ $article->number }}</b></h5>
                         </div>
                     </div>
-
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <h5> Title: </h5>
+                        </div>
+                        <div class="col-9">
+                            <h5><b>{{ $article->title }}</b></h5>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <h5> Description:</h5>
+                        </div>
+                        <div class="col-9">
+                            <h5><b>{{ $article->description }}</b></h5>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <h5> Author:</h5>
+                        </div>
+                        <div class="col-9">
+                            <h5><b>Sheikh Abul Fadhwl Qassim Mafuta Qassim</b></h5>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <h5> Year of Publishment:</h5>
+                        </div>
+                        <div class="col-9">
+                            <h5><b>{{ $article->pub_year }}</b></h5>
+                        </div>
+                    </div>
                     <hr>
                     <div class="row">
                         <div class="col-9"></div>
@@ -163,8 +152,7 @@
                                         <div class="col-md-6">
                                             <input id="description" type="text"
                                                 class="form-control @error('description') is-invalid @enderror"
-                                                name="description"
-                                                value="{{ old('description', $article->description) }}"
+                                                name="description" value="{{ old('description', $article->description) }}"
                                                 autocomplete="description" autofocus>
                                             @error('description')
                                                 <span class="invalid-feedback" role="alert">

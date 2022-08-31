@@ -46,7 +46,6 @@ class ArticleController extends Controller
             'title' => 'required|min:1|unique:articles,title,NULL,id,deleted_at,NULL',
             'pub_year' => 'required',
             'file' => 'required',
-            'cover' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -59,17 +58,7 @@ class ArticleController extends Controller
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
             );
-        } else return response()->json(['error' => 'Add a article file'], 404);
-
-        if ($request->hasFile('cover')) {
-            $this->cover_path = $request->file('cover')->storeAs(
-                config('app.name') . '/ARTICLE-COVERS/',
-                $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
-                'public'
-            );
-        } else return response()->json([
-            'error' => 'Add an article cover'
-        ], 404);
+        } else return back()->with(['error' => 'Add a article file']);
 
         $article = new Article();
         $article->number = $request->input('number');
@@ -77,7 +66,6 @@ class ArticleController extends Controller
         $article->description = $request->input('description');
         $article->pub_year = $request->input('pub_year');
         $article->file = $this->file_path;
-        $article->cover = $this->cover_path;
 
         $article->save();
 
@@ -133,7 +121,6 @@ class ArticleController extends Controller
             'description' => $request->input('description'),
             'pub_year' => $request->input('pub_year'),
             'file' => $new_file_path,
-            'cover' => $new_cover_path
 
         ]);
         $article->save();

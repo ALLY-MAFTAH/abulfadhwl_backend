@@ -16,7 +16,6 @@ class Article extends Model
         'description',
         'pub_year',
         'file',
-        'cover',
     ];
 
     protected $dates=[
