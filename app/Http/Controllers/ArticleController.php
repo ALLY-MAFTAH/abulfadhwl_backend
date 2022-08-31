@@ -42,8 +42,8 @@ class ArticleController extends Controller
     public function postArticle(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'number' => 'required|min:1|unique:articles,number,NULL,id,deleted_at,NULL',
-            'title' => 'required|min:1|unique:articles,title,NULL,id,deleted_at,NULL',
+            'number' => 'required|min:1|unique:articles,number,NULL,id',
+            'title' => 'required|min:1|unique:articles,title,NULL,id',
             'pub_year' => 'required',
             'file' => 'required',
         ]);
@@ -80,8 +80,8 @@ class ArticleController extends Controller
     public function putArticle(Request $request, $articleId)
     {
         $validator = Validator::make($request->all(), [
-            'number'=>'required|unique:articles,number,'.$articleId.',id,deleted_at,NULL',
-            'title'=>'required|unique:articles,title,'.$articleId.',id,deleted_at,NULL',
+            'number'=>'required|unique:articles,number,'.$articleId.',id',
+            'title'=>'required|unique:articles,title,'.$articleId.',id',
             'pub_year' => 'required',
         ]);
 

@@ -21,7 +21,6 @@ class CreateArticlesTable extends Migration
             $table->longText('description');
             $table->integer('number');
             $table->String('pub_year');
-            $table->softDeletes();
             $table->timestamps();
         });
     }
