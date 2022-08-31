@@ -93,7 +93,7 @@ class ArticleController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'number'=>'required|unique:articles,number,'.$articleId.',id',
-            'title'=>'required|unique:articles,title,except,id',
+            'title'=>'required|unique:articles,title,'.$articleId.',id',
             'title' => 'required|unique:articles,title,id'.$articleId,
             'pub_year' => 'required',
         ]);
