@@ -11,10 +11,12 @@ class Article extends Model
     use SoftDeletes;
 
     protected $fillable=[
+        'number',
+        'title',
+        'description',
+        'pub_year',
         'file',
         'cover',
-        'title',
-        'pub_year',
     ];
 
     protected $dates=[
