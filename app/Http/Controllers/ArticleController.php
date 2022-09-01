@@ -93,14 +93,13 @@ class ArticleController extends Controller
         if (!$article) {
             return response()->json(['error' => "Article not found"], 404);
         }
-        $articleFileToDelete = $article->file;
         if ($request->hasFile('file')) {
             $new_file_path = $request->file('file')->storeAs(
                 config('app.name') . '/MAKALA/',
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
             );
-            Storage::disk('public')->delete($articleFileToDelete);
+
         } else {
 
             $new_file_path = config('app.name') . '/MAKALA/' . $request->title . '.pdf';
