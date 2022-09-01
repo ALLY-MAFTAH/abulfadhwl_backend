@@ -80,8 +80,8 @@ class ArticleController extends Controller
     public function putArticle(Request $request, $articleId)
     {
         $validator = Validator::make($request->all(), [
-            'number'=>'required|unique:articles,number,'.$articleId.',id',
-            'title'=>'required',
+            'number' => 'required|unique:articles,number,' . $articleId . ',id',
+            'title' => 'required',
             'pub_year' => 'required',
         ]);
 
@@ -101,7 +101,7 @@ class ArticleController extends Controller
                 'public'
             );
         } else
-            $new_file_path = config('app.name') . '/MAKALA/' . $request->title;
+            $new_file_path = config('app.name') . '/MAKALA/' . $request->title . '.' . $request->file('file')->getClientOriginalExtension();
         Storage::disk('public')->move($article->file, $new_file_path);
 
         $article->update([
@@ -153,5 +153,4 @@ class ArticleController extends Controller
         $pathToFile = storage_path('/app/public/' . $article->file);
         return response()->download($pathToFile);
     }
-
 }
