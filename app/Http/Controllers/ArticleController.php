@@ -94,6 +94,7 @@ class ArticleController extends Controller
             return response()->json(['error' => "Article not found"], 404);
         }
         $articleFileToDelete = $article->file;
+        Storage::disk('public')->delete($articleFileToDelete);
         if ($request->hasFile('file')) {
             $new_file_path = $request->file('file')->storeAs(
                 config('app.name') . '/MAKALA/',
@@ -113,7 +114,6 @@ class ArticleController extends Controller
 
         ]);
         $article->save();
-        Storage::disk('public')->delete($articleFileToDelete);
 
         if (REQ::is('api/*'))
             return response()->json([
