@@ -13,7 +13,7 @@ class ArticleController extends Controller
     // Get all articles
     public function getAllArticles()
     {
-        $articles = Article::all();
+        $articles = Article::orderBy('number','ASC')->get();
 
         if (REQ::is('api/*'))
             return response()->json([
