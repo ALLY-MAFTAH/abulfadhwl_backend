@@ -100,7 +100,7 @@ class ArticleController extends Controller
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
             );
-            // Storage::disk('public')->delete($articleFileToDelete);
+            Storage::disk('public')->delete($articleFileToDelete);
         } else {
 
             $new_file_path = config('app.name') . '/MAKALA/' . $request->title . '.pdf';
