@@ -100,10 +100,12 @@ class ArticleController extends Controller
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
             );
-        } else
-            $new_file_path = config('app.name') . '/MAKALA/' . $request->title . '.pdf';
-            Storage::disk('public')->move($article->file, $new_file_path);
             Storage::disk('public')->delete($articleFileToDelete);
+        } else {
+
+            $new_file_path = config('app.name') . '/MAKALA/' . $request->title . '.pdf';
+        }
+        Storage::disk('public')->move($article->file, $new_file_path);
 
         $article->update([
             'number' => $request->input('number'),
