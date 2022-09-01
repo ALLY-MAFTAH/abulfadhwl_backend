@@ -94,7 +94,6 @@ class ArticleController extends Controller
             return response()->json(['error' => "Article not found"], 404);
         }
         $articleFileToDelete = $article->file;
-        Storage::disk('public')->delete($articleFileToDelete);
         if ($request->hasFile('file')) {
             $new_file_path = $request->file('file')->storeAs(
                 config('app.name') . '/MAKALA/',
@@ -103,7 +102,8 @@ class ArticleController extends Controller
             );
         } else
             $new_file_path = config('app.name') . '/MAKALA/' . $request->title . '.pdf';
-        Storage::disk('public')->move($article->file, $new_file_path);
+            Storage::disk('public')->move($article->file, $new_file_path);
+            Storage::disk('public')->delete($articleFileToDelete);
 
         $article->update([
             'number' => $request->input('number'),
