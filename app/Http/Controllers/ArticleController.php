@@ -101,7 +101,7 @@ class ArticleController extends Controller
                 'public'
             );
         } else
-            $new_file_path = config('app.name') . '/MAKALA/' . $request->title . '.' . $request->file('file')->getClientOriginalExtension();
+            $new_file_path = config('app.name') . '/MAKALA/' . $request->title . '.pdf';
         Storage::disk('public')->move($article->file, $new_file_path);
 
         $article->update([
