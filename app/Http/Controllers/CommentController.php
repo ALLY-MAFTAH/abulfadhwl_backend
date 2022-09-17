@@ -78,7 +78,7 @@ class CommentController extends Controller
 
         $comment->update([
             'full_name' => $request->input('full_name'),
-            'phone' => $request->input('phone'),
+            'phone' => ltrim($request->input('phone'), '+'),
             'message' => $request->input('message')
         ]);
         $comment->save();
