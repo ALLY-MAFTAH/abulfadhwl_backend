@@ -66,13 +66,12 @@
                                     <td>{{ $notification->created_at }}</td>
                                     <td style="min-width: 100px">{{ $notification->title }}</td>
                                     <td style="min-width: 120px">{{ $notification->body }}</td>
-
                                     <td>
-                                        {{-- <a href="{{ route('delete_notification', $notification->id) }}"
+                                        <a href="{{ route('delete-notification', $notification) }}"
                                             onclick="return confirm('This notification will be deleted')"
                                             class="btn btn-outline-danger">
-                                            <i class="fas fa-trash"> Delete</i>
-                                        </a> --}}
+                                            <i class="fas fa-trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

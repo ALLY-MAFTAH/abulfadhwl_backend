@@ -147,5 +147,6 @@ Route::group(['middleware' => 'auth'], function () {
     // NOTIFICATIONS ROUTES
     Route::post('send',[PushNotificationController::class, 'bulksend'])->name('bulksend');
     Route::get('notifications', [PushNotificationController::class, 'index'])->name('notifications');
+    Route::get('delete-notification/{notification}', [PushNotificationController::class, 'destroy'])->name('delete-notification');
 
 });

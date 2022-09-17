@@ -51,8 +51,11 @@ class PushNotificationController extends Controller
      * @param  \App\Models\PushNotification  $pushNotification
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PushNotification $pushNotification)
+    public function destroy(PushNotification $notification)
     {
-        //
+        // dd($notification->title);
+        $notification->delete();
+        return back()->with('success', 'Notification deleted successfully');
+
     }
 }
