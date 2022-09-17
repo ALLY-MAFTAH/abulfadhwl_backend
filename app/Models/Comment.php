@@ -12,7 +12,7 @@ class Comment extends Model
 
     protected $fillable=[
     'full_name',
-    'email',
+    'phone',
     'message'
     ];
 

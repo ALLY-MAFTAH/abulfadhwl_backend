@@ -6,6 +6,7 @@ use App\Models\Song;
 use App\Models\Album;
 use App\Models\Category;
 use App\Helpers\MP3File;
+use App\Helpers\UpdateMetadata;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Request as REQ;
 use Illuminate\Http\Request;
@@ -120,6 +121,10 @@ class SongController extends Controller
         }
         $songToDelete = $song->file;
         $category = Category::findOrFail($song->album->category_id);
+        $updateMetadataObject = new UpdateMetadata ();
+        $updatedAudio=  $updateMetadataObject->updateMetadata($song->file,$song->album->name);
+
+
         try {
             if ($request->hasFile('file')) {
 

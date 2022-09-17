@@ -32,7 +32,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Full Name</th>
-                                <th>Email</th>
+                                <th>Phone</th>
                                 <th>Message</th>
                                 <th></th>
                             </tr>
@@ -42,7 +42,7 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td style="min-width: 100px">{{ $comment->full_name }}</td>
-                                    <td style="min-width: 120px">{{ $comment->email }}</td>
+                                    <td style="min-width: 120px">{{ $comment->phone }}</td>
                                     <td>{{ $comment->message }}</td>
 
                                     <td>
