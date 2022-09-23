@@ -121,8 +121,8 @@ class SongController extends Controller
         }
         $songToDelete = $song->file;
         $category = Category::findOrFail($song->album->category_id);
-        $updateMetadataObject = new UpdateMetadata ();
-        $updatedAudio=  $updateMetadataObject->updateMetadata($song->file,$song->album->name);
+        // $updateMetadataObject = new UpdateMetadata ();
+        // $updatedAudio=  $updateMetadataObject->updateMetadata($song->file,$song->album->name);
 
 
         try {
@@ -161,7 +161,7 @@ class SongController extends Controller
                 $song->save();
             }
         } catch (\Throwable $th) {
-            dd($th);
+            // dd($th);
             if (REQ::is('api/*'))
                 return response()->json([
                     'Error occured! Try to check may be the title of the audio already existed in database'
