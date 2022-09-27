@@ -320,7 +320,7 @@
             }
         });
     </script>
-    {{-- <script>
+    <script>
         $(function() {
             $(document).ready(function() {
                 $('#fileUploadForm').ajaxForm({
@@ -340,7 +340,7 @@
                 });
             });
         });
-    </script> --}}
+    </script>
      <script>
         function loadPhoto(event) {
             var reader = new FileReader();

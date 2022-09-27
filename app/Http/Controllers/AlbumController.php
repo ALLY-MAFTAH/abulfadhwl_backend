@@ -22,6 +22,7 @@ class AlbumController extends Controller
             $album->songs;
         }
         if (REQ::is('api/*'))
+
             return response()->json([
                 'albums' => $albums
             ], 200, [], JSON_NUMERIC_CHECK);
