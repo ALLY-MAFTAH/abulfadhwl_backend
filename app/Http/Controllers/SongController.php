@@ -121,10 +121,6 @@ class SongController extends Controller
         }
         $songToDelete = $song->file;
         $category = Category::findOrFail($song->album->category_id);
-        // $updateMetadataObject = new UpdateMetadata ();
-        // $updatedAudio=  $updateMetadataObject->updateMetadata($song->file,$song->album->name);
-
-
         try {
             if ($request->hasFile('file')) {
 

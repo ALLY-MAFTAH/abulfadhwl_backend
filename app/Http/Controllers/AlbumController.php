@@ -24,7 +24,7 @@ class AlbumController extends Controller
         if (REQ::is('api/*'))
             return response()->json([
                 'albums' => $albums
-            ], 200);
+            ], 200, [], JSON_NUMERIC_CHECK);
         return view('turaath/audios/all_albums')->with(['albums' => $albums, 'categories' => $categories]);
     }
 
