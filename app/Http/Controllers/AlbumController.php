@@ -15,10 +15,11 @@ class AlbumController extends Controller
     // Get all albums
     public function getAllAlbums()
     {
-        $albums = Album::all();
+        $albums = Album::with(['category', 'songs'])->get();
         $categories = Category::all();
 
         foreach ($albums as $album) {
+            $album->category;
             $album->songs;
         }
         if (REQ::is('api/*'))

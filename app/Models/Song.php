@@ -14,9 +14,10 @@ class Song extends Model
         'duration',
         'size',
         'description',
+        'album_id',
     ];
 
     public function album(){
-        return $this->belongsTo(Album::class);
+        return $this->belongsTo(Album::class, 'album_id');
     }
 }

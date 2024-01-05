@@ -17,9 +17,13 @@ class SongController extends Controller
 {
     public function getAllSongs()
     {
-        $songs = Song::orderBy('title')->get();
+        $songs = Song::with('album')->orderBy('title')->get();
         $albums = Album::all();
         $categories = Category::all();
+
+        foreach ($songs as $song) {
+            $song->album;
+        }
         if (REQ::is('api/*'))
             return response()->json([
                 'songs' => $songs

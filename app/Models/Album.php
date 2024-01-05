@@ -11,7 +11,8 @@ class Album extends Model
 
     protected $fillable=[
         'name',
-        'description'
+        'description',
+        'category_id'
     ];
 
     protected $dates=[
@@ -25,6 +26,6 @@ class Album extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
