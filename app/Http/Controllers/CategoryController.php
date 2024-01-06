@@ -17,6 +17,10 @@ class CategoryController extends Controller
         foreach ($categories as $category) {
             foreach ($category->albums as $album) {
                 $album->songs;
+                $album->category;
+                foreach ( $album->songs as $song) {
+                    $song->album;
+                }
             }
             $category->albums;
         }
