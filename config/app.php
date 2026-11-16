@@ -17,6 +17,10 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    // Store links shown on the shared-link landing page (/app/{type}/{id}).
+    'ios_store_url' => env('IOS_STORE_URL', '#'),
+    'android_store_url' => env('ANDROID_STORE_URL', '#'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

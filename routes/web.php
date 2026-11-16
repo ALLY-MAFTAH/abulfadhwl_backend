@@ -33,6 +33,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// Landing page for links shared from the mobile app.
+Route::get('/app/{type}/{id?}', [App\Http\Controllers\AppLinkController::class, 'show'])
+    ->where('type', 'song|album|book|article|fatwa|stream|announcement|qna')
+    ->where('id', '[0-9A-Za-z_-]+');
+
 
 Route::group(['middleware' => 'auth'], function () {
 
