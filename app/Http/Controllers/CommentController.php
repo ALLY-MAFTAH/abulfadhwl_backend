@@ -33,16 +33,16 @@ class CommentController extends Controller
     public function postComment(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'full_name' => 'required',
-            'phone' => 'required',
-            'message' => 'required'
+            'full_name' => 'required|string|max:100',
+            'phone' => ['required', 'string', 'regex:/^(\+?255)?[0-9]{9,12}$/'],
+            'message' => 'required|string|max:500'
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors(),
                 'status' => false
-            ], 404);
+            ], 422);
         }
 
         $comment = new Comment();

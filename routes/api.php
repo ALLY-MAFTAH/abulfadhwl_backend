@@ -33,115 +33,115 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//  Routes for Album
+/*
+|--------------------------------------------------------------------------
+| Public, read-only (what the mobile app needs)
+|--------------------------------------------------------------------------
+| Content only. Nothing here exposes visitor data (comments, questions).
+*/
+Route::get('categories', [CategoryController::class,'getAllCategories']);
+Route::get('category/{categoryId}', [CategoryController::class,'getSingleCategory']);
+
 Route::get('albums', [AlbumController::class,'getAllAlbums']);
-Route::put('album/{albumId}', [AlbumController::class,'putAlbum']);
-Route::post('album/{categoryId}', [AlbumController::class,'postAlbum']);
 Route::get('album/{albumId}', [AlbumController::class,'getSingleAlbum']);
-Route::delete('album/{albumId}', [AlbumController::class,'deleteAlbum']);
 
-
-//  Routes for Song
 Route::get('song-names', [SongController::class,'getAllSongNames']);
 Route::get('songs', [SongController::class,'getAllSongs']);
-Route::put('song/{songId}', [SongController::class,'putSong']);
-Route::post('song/{albumId}', [SongController::class,'postSong']);
 Route::get('song/{songId}', [SongController::class,'getSingleSong']);
-Route::delete('song/{songId}', [SongController::class,'deleteSong']);
 Route::get('song/file/{songId}', [SongController::class,'viewSongFile']);
 
-//  Routes for Book
-Route::post('book', [BookController::class,'postBook']);
 Route::get('books', [BookController::class,'getAllBooks']);
-Route::put('book/{bookId}', [BookController::class,'putBook']);
 Route::get('book/{bookId}', [BookController::class,'getSingleBook']);
-Route::delete('book/{bookId}', [BookController::class,'deleteBook']);
 Route::get('book/file/{bookId}', [BookController::class,'viewBookFile']);
 Route::get('book/cover/{bookId}', [BookController::class,'viewBookCover']);
 
-
-
-//  Routes for Category
-Route::post('category', [CategoryController::class,'postCategory']);
-Route::get('categories', [CategoryController::class,'getAllCategories']);
-Route::put('category/{categoryId}', [CategoryController::class,'putCategory']);
-Route::get('category/{categoryId}', [CategoryController::class,'getSingleCategory']);
-Route::delete('category/{categoryId}', [CategoryController::class,'deleteCategory']);
-
-
-//  Routes for History
-Route::post('history', [HistoryController::class,'postHistory']);
-Route::get('histories', [HistoryController::class,'getAllHistories']);
-Route::put('history/{historyId}', [HistoryController::class,'putHistory']);
-Route::get('history/{historyId}', [HistoryController::class,'getSingleHistory']);
-Route::delete('history/{historyId}', [HistoryController::class,'deleteHistory']);
-
-
-//  Routes for Questions and Answers
-Route::get('answeredQuestions', [AnsweredQuestionController::class,'getAllAnsweredQuestions']);
-Route::post('question', [AnsweredQuestionController::class,'postQuestion']);
-Route::get('questions', [QuestionController::class,'getAllQuestions']);
-Route::get('answer/audioAns/{questionId}', [AnsweredQuestionController::class,'viewAudioAnswer']);
-
-
-//  Routes for Slides
-Route::post('slide', [SlideController::class,'postSlide']);
-Route::get('slides', [SlideController::class,'getAllSlides']);
-Route::get('slide/{slideId}', [SlideController::class,'getSingleSlide']);
-Route::delete('slide/{slideId}', [SlideController::class,'deleteSlide']);
-Route::get('slide/file/{slideId}', [SlideController::class,'viewSlideFile']);
-
-
-
-//  Routes for Articles
-Route::post('article', [ArticleController::class,'postArticle']);
 Route::get('articles', [ArticleController::class,'getAllArticles']);
-Route::put('article/{articleId}', [ArticleController::class,'putArticle']);
 Route::get('article/{articleId}', [ArticleController::class,'getSingleArticle']);
-Route::delete('article/{articleId}', [ArticleController::class,'deleteArticle']);
 Route::get('article/file/{articleId}', [ArticleController::class,'viewArticleFile']);
 
+Route::get('histories', [HistoryController::class,'getAllHistories']);
+Route::get('history/{historyId}', [HistoryController::class,'getSingleHistory']);
 
-//  Routes for Announcement
-Route::post('announcement', [AnnouncementController::class,'postAnnouncement']);
+Route::get('slides', [SlideController::class,'getAllSlides']);
+Route::get('slide/{slideId}', [SlideController::class,'getSingleSlide']);
+Route::get('slide/file/{slideId}', [SlideController::class,'viewSlideFile']);
+
 Route::get('announcements', [AnnouncementController::class,'getAllAnnouncements']);
-Route::put('announcement/{announcementId}', [AnnouncementController::class,'putAnnouncement']);
 Route::get('announcement/{announcementId}', [AnnouncementController::class,'getSingleAnnouncement']);
-Route::delete('announcement/{announcementId}', [AnnouncementController::class,'deleteAnnouncement']);
 
-
-//  Routes for Streams
-Route::post('stream', [StreamController::class,'postStream']);
 Route::get('streams', [StreamController::class,'getAllStreams']);
-Route::put('stream/{streamId}', [StreamController::class,'putStream']);
 Route::get('stream/{streamId}', [StreamController::class,'getSingleStream']);
-Route::delete('stream/{streamId}', [StreamController::class,'deleteStream']);
 Route::get('stream/timetable/{streamId}', [StreamController::class,'viewTimetableFile']);
 
-
-
-//  Routes for Links
-Route::post('link', [LinkController::class,'postLink']);
 Route::get('links', [LinkController::class,'getAllLinks']);
-Route::put('link/{linkId}', [LinkController::class,'putLink']);
 Route::get('link/{linkId}', [LinkController::class,'getSingleLink']);
-Route::delete('link/{linkId}', [LinkController::class,'deleteLink']);
 Route::get('link/icon/{linkId}', [LinkController::class,'viewIconFile']);
 
+Route::get('answeredQuestions', [AnsweredQuestionController::class,'getAllAnsweredQuestions']);
+Route::get('answer/audioAns/{questionId}', [AnsweredQuestionController::class,'viewAudioAnswer']);
 
-//  Routes for Comments
-Route::post('comment', [CommentController::class,'postComment']);
-Route::get('comments', [CommentController::class,'getAllComments']);
-Route::put('comment/{commentId}', [CommentController::class,'putComment']);
-Route::get('comment/{commentId}', [CommentController::class,'getSingleComment']);
-Route::delete('comment/{commentId}', [CommentController::class,'deleteComment']);
+/*
+|--------------------------------------------------------------------------
+| Public writes: the only two the app performs, rate limited
+|--------------------------------------------------------------------------
+| 'public-submit' = 5/minute and 30/day per IP (see RouteServiceProvider).
+*/
+Route::middleware('throttle:public-submit')->group(function () {
+    Route::post('question', [AnsweredQuestionController::class,'postQuestion']);
+    Route::post('comment', [CommentController::class,'postComment']);
+});
 
-// // Routes for Users
-//  Route::post('login', [UserController::class,'login']);
-// Route::post('logout', [UserController::class,'logout']);
-// Route::get('users', [UserController::class,'getAllUsers']);
-// Route::get('user/{userId}', [UserController::class,'getUser']);
-// Route::put('user/{userId}', [UserController::class,'putUser']);
-// Route::post('register', [UserController::class,'registerUser']);
-// Route::delete('user/{userId}', [UserController::class,'deleteUser']);
-// Route::post('user/{userId}', [UserController::class,'assignRole']);
+/*
+|--------------------------------------------------------------------------
+| Everything that changes or reveals private data requires authentication
+|--------------------------------------------------------------------------
+| The admin site does NOT use these: it uses the session-authenticated web
+| routes in routes/web.php. They stay available to a future token-based admin
+| client via Sanctum.
+*/
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('category', [CategoryController::class,'postCategory']);
+    Route::put('category/{categoryId}', [CategoryController::class,'putCategory']);
+    Route::delete('category/{categoryId}', [CategoryController::class,'deleteCategory']);
+
+    Route::put('album/{albumId}', [AlbumController::class,'putAlbum']);
+    Route::post('album/{categoryId}', [AlbumController::class,'postAlbum']);
+    Route::delete('album/{albumId}', [AlbumController::class,'deleteAlbum']);
+
+    Route::put('song/{songId}', [SongController::class,'putSong']);
+    Route::post('song/{albumId}', [SongController::class,'postSong']);
+    Route::delete('song/{songId}', [SongController::class,'deleteSong']);
+
+    Route::post('book', [BookController::class,'postBook']);
+    Route::put('book/{bookId}', [BookController::class,'putBook']);
+    Route::delete('book/{bookId}', [BookController::class,'deleteBook']);
+
+    Route::post('history', [HistoryController::class,'postHistory']);
+    Route::put('history/{historyId}', [HistoryController::class,'putHistory']);
+    Route::delete('history/{historyId}', [HistoryController::class,'deleteHistory']);
+
+    Route::post('slide', [SlideController::class,'postSlide']);
+    Route::delete('slide/{slideId}', [SlideController::class,'deleteSlide']);
+
+    Route::post('article', [ArticleController::class,'postArticle']);
+    Route::put('article/{articleId}', [ArticleController::class,'putArticle']);
+    Route::delete('article/{articleId}', [ArticleController::class,'deleteArticle']);
+
+    Route::post('announcement', [AnnouncementController::class,'postAnnouncement']);
+    Route::put('announcement/{announcementId}', [AnnouncementController::class,'putAnnouncement']);
+    Route::delete('announcement/{announcementId}', [AnnouncementController::class,'deleteAnnouncement']);
+
+    Route::post('stream', [StreamController::class,'postStream']);
+    Route::put('stream/{streamId}', [StreamController::class,'putStream']);
+    Route::delete('stream/{streamId}', [StreamController::class,'deleteStream']);
+
+    Route::post('link', [LinkController::class,'postLink']);
+    Route::put('link/{linkId}', [LinkController::class,'putLink']);
+    Route::delete('link/{linkId}', [LinkController::class,'deleteLink']);
+
+    // Visitor submissions contain names and phone numbers: never public.
+    Route::get('comments', [CommentController::class,'getAllComments']);
+    Route::get('comment/{commentId}', [CommentController::class,'getSingleComment']);
+    Route::put('comment/{commentId}', [CommentController::class,'putComment']);
+    Route::delete('comment/{commentId}', [CommentController::class,'deleteComment']);
+});

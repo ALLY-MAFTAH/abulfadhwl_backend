@@ -55,14 +55,14 @@ class AnsweredQuestionController extends Controller
     public function postQuestion(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'qn' => 'required',
+            'qn' => 'required|string|max:2000',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors(),
                 'status' => false
-            ], 404);
+            ], 422);
         }
         $question = new AnsweredQuestion();
         $question->qn = $request->input('qn');

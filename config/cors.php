@@ -19,7 +19,8 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    // The mobile app is native (no CORS). Only our own site may call from a browser.
+    'allowed_origins' => ['https://maftah.co.tz'],
 
     'allowed_origins_patterns' => [],
 
