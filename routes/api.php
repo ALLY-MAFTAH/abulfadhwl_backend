@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\LatestController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\StreamController;
 use App\Http\Controllers\UserController;
@@ -49,6 +50,9 @@ Route::get('song-names', [SongController::class,'getAllSongNames']);
 Route::get('songs', [SongController::class,'getAllSongs']);
 Route::get('song/{songId}', [SongController::class,'getSingleSong']);
 Route::get('song/file/{songId}', [SongController::class,'viewSongFile']);
+
+// Newest audio, books and articles together, for the app's "Vipya" button.
+Route::get('latest', [LatestController::class,'index']);
 
 Route::get('books', [BookController::class,'getAllBooks']);
 Route::get('book/{bookId}', [BookController::class,'getSingleBook']);
