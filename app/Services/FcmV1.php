@@ -82,6 +82,39 @@ class FcmV1
         }
     }
 
+    /**
+     * A silent "something changed, look again" message for the app's open
+     * screens (no notification is shown). Used when the live darsa is switched
+     * on/off or an announcement changes, so phones update at once instead of
+     * waiting for a pull-to-refresh. It never throws and is short on time:
+     * the admin's action must not wait on Firebase.
+     *
+     * @param string $scope streams | announcements | all
+     */
+    public static function signalRefresh(string $scope): void
+    {
+        try {
+            $cred = self::credentials();
+            $token = self::accessToken($cred);
+            Http::withToken($token)
+                ->timeout(5)
+                ->post(
+                    'https://fcm.googleapis.com/v1/projects/' . $cred['project_id'] . '/messages:send',
+                    ['message' => [
+                        'topic' => 'all',
+                        'data' => ['type' => 'refresh', 'scope' => $scope],
+                        'android' => ['priority' => 'HIGH', 'ttl' => '60s'],
+                        'apns' => [
+                            'headers' => ['apns-push-type' => 'background', 'apns-priority' => '5'],
+                            'payload' => ['aps' => ['content-available' => 1]],
+                        ],
+                    ]]
+                );
+        } catch (\Throwable $e) {
+            Log::warning('FCM refresh signal failed: ' . $e->getMessage());
+        }
+    }
+
     private static function credentials(): array
     {
         $path = env('FIREBASE_CREDENTIALS', storage_path('app/firebase-service-account.json'));

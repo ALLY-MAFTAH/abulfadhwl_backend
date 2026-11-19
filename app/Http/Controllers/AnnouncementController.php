@@ -52,6 +52,7 @@ class AnnouncementController extends Controller
         $announcement->date = $request->input('date');
 
         $announcement->save();
+        \App\Services\FcmV1::signalRefresh('announcements');
         if(REQ::is('api/*'))
 
         return response()->json([
@@ -75,6 +76,7 @@ class AnnouncementController extends Controller
             'date' => $request->input('date'),
         ]);
         $announcement->save();
+        \App\Services\FcmV1::signalRefresh('announcements');
         if(REQ::is('api/*'))
 
         return response()->json([
@@ -94,6 +96,7 @@ class AnnouncementController extends Controller
         }
 
         $announcement->delete();
+        \App\Services\FcmV1::signalRefresh('announcements');
         if(REQ::is('api/*'))
         return response()->json([
             'success' => 'Announcement deleted successfully'

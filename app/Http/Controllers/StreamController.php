@@ -51,6 +51,7 @@ class StreamController extends Controller
         );
         $attributes['status'] = true;
         Stream::create($attributes);
+        \App\Services\FcmV1::signalRefresh('streams');
 
         return back()->with('success', 'Stream Added successfully');
     }
@@ -76,6 +77,7 @@ class StreamController extends Controller
             );
         }
         $stream->update($attributes);
+        \App\Services\FcmV1::signalRefresh('streams');
         return back()->with('success', 'Stream edited successfully');
     }
 
@@ -85,6 +87,7 @@ class StreamController extends Controller
             'status' => $request->input('status'),
         ]);
         $stream->save();
+        \App\Services\FcmV1::signalRefresh('streams');
         return back()->with('success', 'Stream Switched Successfully');
     }
 
@@ -98,6 +101,7 @@ class StreamController extends Controller
         }
 
         $stream->delete();
+        \App\Services\FcmV1::signalRefresh('streams');
         if (REQ::is('api/*'))
             return response()->json([
                 'success' => 'Stream deleted successfully'
