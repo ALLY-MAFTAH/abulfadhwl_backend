@@ -83,11 +83,28 @@ class StreamController extends Controller
 
     public function toggleStatus(Request $request, Stream $stream)
     {
+        $was = (bool) $stream->status;
         $stream->update([
             'status' => $request->input('status'),
         ]);
         $stream->save();
-        \App\Services\FcmV1::signalRefresh('streams');
+        $now = (bool) $stream->status;
+
+        if ($now !== $was) {
+            // Going live or ending: a visible notification for everyone. It
+            // also makes open apps reload the darsa status (data.refresh).
+            \App\Services\FcmV1::sendToTopic(
+                'all',
+                $now ? 'Darsa ya moja kwa moja imeanza' : 'Darsa ya moja kwa moja imekwisha',
+                $now
+                    ? $stream->title . ' — bonyeza kusikiliza sasa'
+                    : $stream->title . ' imekwisha. Asanteni kwa kusikiliza.',
+                null,
+                ['link' => 'abulfadhwl://open/stream/' . $stream->id, 'refresh' => 'streams']
+            );
+        } else {
+            \App\Services\FcmV1::signalRefresh('streams');
+        }
         return back()->with('success', 'Stream Switched Successfully');
     }
 
