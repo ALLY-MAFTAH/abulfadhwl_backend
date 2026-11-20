@@ -1,88 +1,80 @@
 @extends('layouts.app')
 
+@section('page_title', 'Watumiaji')
+
+@section('style')
+<style>
+  .urow { display: grid; grid-template-columns: 46px 1fr auto; gap: 16px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--pro-line); }
+  .urow:last-child { border-bottom: 0; } .urow:hover { background: rgba(var(--fill),.03); }
+  .av { width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center; font: 700 17px "Inter Tight", sans-serif; color: #2b1d00; background: linear-gradient(135deg, var(--pro-gold-l), var(--pro-gold)); }
+  .urow b { font-size: 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; } .urow small { color: var(--pro-mut); }
+  .urow .acts { display: flex; gap: 6px; }
+  .pw-hint { color: var(--pro-dim); font-size: 12.5px; margin: -6px 0 12px; }
+</style>
+@endsection
+
 @section('content')
-    <div class=" py-3">
-        <div class="container">
-            @if (Session::has('error'))
-                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('error') }}
-                </p>
-            @endif
-            @if (Session::has('success'))
-                <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}
-                </p>
-            @endif
-            <!-- ACTIONS -->
+<div class="py-2"><div class="container">
+    @if (Session::has('error'))<p class="alert alert-danger">{{ Session::get('error') }}</p>@endif
+    @if (Session::has('success'))<p class="alert alert-success">{{ Session::get('success') }}</p>@endif
 
-            <section id="actions" class=" mb-2">
-                <div class="container">
-                    <div class="row"
-                        style="margin:2px;padding:10px;background-color: rgb(247, 232, 206); border-radius: 5px">
-                        <div class="col-6">
-                            <button onclick="history.back()" class="btn btn-primary btn-outline">
-                                <i class="fas fa-arrow-left"></i> Back
-                            </button>
-                        </div>
-                        <div class="col-6 text-right">
-                            <a href="#" class="btn btn-primary btn-outline" data-bs-toggle="modal"
-                                data-bs-target="#addUserModal">
-                                <i class="fas fa-plus"></i> Add User
-                            </a>
-                        </div>
-                    </div>
+    <div class="pro-head">
+        <div class="ph-tx">
+            <span class="pro-eyebrow">Mfumo</span>
+            <h1>Wasimamizi</h1>
+            <p>Watu wanaoweza kuingia kwenye dashibodi hii. Kila msimamizi anaona na kubadilisha kila kitu.</p>
+        </div>
+        <div class="ph-act"><button class="pbtn pbtn-gold" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="fas fa-user-plus"></i> Ongeza msimamizi</button></div>
+    </div>
+
+    <div class="pro-sheet">
+        @foreach ($users as $user)
+            <div class="urow">
+                <span class="av">{{ mb_strtoupper(mb_substr($user->name, 0, 1)) }}</span>
+                <div style="min-width:0">
+                    <b>{{ $user->name }} @if ($user->id === auth()->id())<span class="pchip gold">Wewe</span>@endif</b>
+                    <small>{{ $user->email }}</small>
                 </div>
-            </section>
-            <section id="users">
-                <div class="card bg-white">
-                    <div class="card-header">
-                        <h4>USERS ({{ $users->count() }})</h4>
-                    </div>
-                    <table class="table table-striped table-responsive-lg">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>#</th>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                {{-- <th></th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($users as $index => $user)
-                                <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-
-                                    {{-- <td>
-                                        <a href="{{ route('delete_user', $user->id) }}"
-                                            onclick="return confirm('This user will be deleted')"
-                                            class="btn btn-outline-danger">
-                                            <i class="fas fa-trash"> Delete</i>
-                                        </a>
-                                    </td> --}}
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-            <!-- ADD USER MODAL -->
-            <div class="modal fade" id="addUserModal">
-                <div class="modal-dialog modal-md">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title">Add User</h5>
-                            <button class="close" data-bs-dismiss="modal">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-
-                        </div>
-                    </div>
+                <div class="acts">
+                    <button type="button" class="iconbtn" title="Hariri" data-bs-toggle="modal" data-bs-target="#editUser-{{ $user->id }}"><i class="fas fa-pen"></i></button>
+                    @if ($user->id !== auth()->id())
+                        <button type="button" class="iconbtn del" title="Futa" onclick="AF.confirm({title:'Futa msimamizi huyu?',text:{{ json_encode($user->name) }} + ' hataweza kuingia tena.',ok:'Futa',danger:true}).then(function(y){if(y)location.href='{{ route('delete_user', $user->id) }}'})"><i class="fas fa-trash"></i></button>
+                    @endif
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
+
+    {{-- ADD --}}
+    <div class="modal fade" id="addUserModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+        <form method="POST" action="{{ route('add_user') }}" autocomplete="off">@csrf
+            <div class="modal-header"><h5 class="modal-title">Msimamizi mpya</h5><button type="button" class="close" data-bs-dismiss="modal">&times;</button></div>
+            <div class="modal-body">
+                <div class="pro-field"><span>Jina</span><input class="form-control" name="name" required value="{{ old('name') }}"></div>
+                <div class="pro-field"><span>Email</span><input type="email" class="form-control" name="email" required value="{{ old('email') }}"></div>
+                <div class="pro-field"><span>Nenosiri</span><input type="password" class="form-control" name="password" required minlength="8" autocomplete="new-password"></div>
+                <div class="pro-field"><span>Thibitisha nenosiri</span><input type="password" class="form-control" name="password_confirmation" required minlength="8" autocomplete="new-password"></div>
+                <div class="pw-hint">Angalau herufi 8.</div>
+            </div>
+            <div class="modal-footer"><button type="button" class="pbtn pbtn-ghost" data-bs-dismiss="modal">Funga</button><button class="pbtn pbtn-gold">Hifadhi</button></div>
+        </form>
+    </div></div></div>
+
+    {{-- EDIT --}}
+    @foreach ($users as $user)
+    <div class="modal fade" id="editUser-{{ $user->id }}" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+        <form method="POST" action="{{ route('edit_user', $user->id) }}" autocomplete="off">@csrf @method('PUT')
+            <div class="modal-header"><h5 class="modal-title">Hariri msimamizi</h5><button type="button" class="close" data-bs-dismiss="modal">&times;</button></div>
+            <div class="modal-body">
+                <div class="pro-field"><span>Jina</span><input class="form-control" name="name" required value="{{ $user->name }}"></div>
+                <div class="pro-field"><span>Email</span><input type="email" class="form-control" name="email" required value="{{ $user->email }}"></div>
+                <div class="pro-field"><span>Nenosiri jipya (hiari)</span><input type="password" class="form-control" name="password" minlength="8" autocomplete="new-password"></div>
+                <div class="pro-field"><span>Thibitisha nenosiri jipya</span><input type="password" class="form-control" name="password_confirmation" minlength="8" autocomplete="new-password"></div>
+                <div class="pw-hint">Acha wazi kama hutaki kubadilisha nenosiri.</div>
+            </div>
+            <div class="modal-footer"><button type="button" class="pbtn pbtn-ghost" data-bs-dismiss="modal">Funga</button><button class="pbtn pbtn-gold">Hifadhi</button></div>
+        </form>
+    </div></div></div>
+    @endforeach
+</div></div>
 @endsection

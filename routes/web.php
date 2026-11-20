@@ -89,6 +89,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     // HISTORIES ROUTES
     Route::get('histories', [HistoryController::class,'getAllHistories'])->name('histories');
+    Route::get('histories/new', [HistoryController::class,'create'])->name('history_new');
+    Route::get('histories/{historyId}/edit', [HistoryController::class,'edit'])->name('history_edit');
+    Route::put('history/{historyId}', [HistoryController::class,'putHistory'])->name('update_history');
     Route::post('history', [HistoryController::class,'postHistory'])->name('add_history');
     Route::get('edit_history/{historyId}', [HistoryController::class,'putHistory'])->name('edit_history');
     Route::get('history/{historyId}', [HistoryController::class,'getSingleHistory'])->name('history');
@@ -146,7 +149,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('allQuestions', [AnsweredQuestionController::class,'getAllQuestions'])->name('allQuestions');
     Route::get('answer/{answerId}', [AnsweredQuestionController::class,'getSingleAnswer'])->name('answer');
     Route::post('answer', [AnsweredQuestionController::class,'postAnswer'])->name('add_answer');
-    Route::get('delete_answer/{answerId}', [AnsweredQuestionController::class,'deleteAnswer'])->name('delete_answer');
+    Route::get('delete_answer/{answerId}', [AnsweredQuestionController::class,'deleteAnsweredQuestion'])->name('delete_answer');
     Route::put('edit_answer/{answerId}', [AnsweredQuestionController::class,'putAnsweredQuestion'])->name('edit_answer');
 
     // USERS ROUTES
@@ -158,6 +161,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // NOTIFICATIONS ROUTES
     Route::post('send',[PushNotificationController::class, 'bulksend'])->name('bulksend');
+    Route::post('notification/{notification}/resend',[PushNotificationController::class, 'resend'])->name('notification.resend');
     Route::get('notifications', [PushNotificationController::class, 'index'])->name('notifications');
     Route::get('delete-notification/{notification}', [PushNotificationController::class, 'destroy'])->name('delete-notification');
 

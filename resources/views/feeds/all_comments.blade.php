@@ -49,7 +49,7 @@
                                         <a href="{{ route('delete_comment', $comment->id) }}"
                                             onclick="return confirm('This comment will be deleted')"
                                             class="btn btn-outline-danger">
-                                            <i class="fas fa-trash"> Delete</i>
+                                            <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>

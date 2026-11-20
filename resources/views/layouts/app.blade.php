@@ -15,9 +15,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
     <link href="{{ asset('css/admin.css') }}?v=2" rel="stylesheet">
-    <link href="{{ asset('css/admin-pro.css') }}?v=3" rel="stylesheet">
+    <link href="{{ asset('css/admin-pro.css') }}?v=5" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-    <script>try { if (localStorage.getItem('af-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
+    <script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('af-theme') === 'light' ? 'light' : 'dark'); } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }</script>
     @yield('style')
 </head>
 
@@ -71,7 +71,6 @@
             </nav>
             <div class="rail-foot">
                 <div class="who">{{ Auth::user()->name }}<small>Msimamizi</small></div>
-                <button type="button" class="rail-btn" id="themeBtn" title="Mwanga / Giza"><i class="fas fa-adjust"></i></button>
                 <a class="rail-btn" href="{{ route('logout') }}" title="Toka"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                         class="fas fa-power-off"></i></a>
@@ -84,6 +83,11 @@
                 <button class="burger" type="button" id="burger" aria-label="Menu"><i class="fas fa-bars"></i></button>
                 <span class="title">@yield('page_title', 'Abul Fadhwl')</span>
                 <div class="right">
+                    <div class="seg" role="group" aria-label="Lugha / Language" data-no-i18n>
+                        <button type="button" data-setlang="sw" title="Kiswahili">SW</button>
+                        <button type="button" data-setlang="en" title="English">EN</button>
+                    </div>
+                    <button type="button" id="themeToggle" title="Mwanga / Giza" aria-label="Theme"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
                     <a class="btn btn-sm btn-outline" href="{{ url('/') }}" target="_blank" rel="noopener"><i class="fas fa-globe"></i> Tovuti</a>
                 </div>
             </header>
@@ -107,10 +111,10 @@
             if (document.body.classList.contains('rail-open') && !$(e.target).closest('#rail,#burger').length)
                 document.body.classList.remove('rail-open');
         });
-        $('#themeBtn').on('click', function() {
-            var d = document.documentElement, dark = d.getAttribute('data-theme') === 'dark';
-            if (dark) d.removeAttribute('data-theme'); else d.setAttribute('data-theme', 'dark');
-            try { localStorage.setItem('af-theme', dark ? 'light' : 'dark'); } catch (e) {}
+        $('#themeToggle').on('click', function() {
+            var d = document.documentElement, next = d.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            d.setAttribute('data-theme', next);
+            try { localStorage.setItem('af-theme', next); } catch (e) {}
         });
         $('form').submit(function() { $(this).find(':submit').attr('disabled', true); });
         $(function() { if ($('#example').length) $('#example').DataTable(); });
@@ -147,7 +151,11 @@
             });
         })();
     </script>
-    <script src="{{ asset('js/admin-pro.js') }}?v=1"></script>
+    <script src="{{ asset('js/admin-pro.js') }}?v=2"></script>
+    <script src="{{ asset('js/admin-i18n.js') }}?v=1"></script>
+    @if ($errors->any())
+        <script>document.addEventListener('DOMContentLoaded', function () { AF.toast(@json($errors->first()), 'err'); });</script>
+    @endif
     @yield('scripts')
 </body>
 

@@ -70,7 +70,7 @@
                                             <a href="{{ route('delete_article', $article->id) }}"
                                                 onclick="return confirm('This article will be deleted')"
                                                 class="btn btn-outline-danger">
-                                                <i class="fas fa-trash"> Delete</i>
+                                                <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -157,7 +157,7 @@
                                     <label for="file"
                                         class="col-md-4 col-form-label text-md-right">{{ __('File') }}</label>
                                     <div class="col-md-6">
-                                        <input id="file" type="file"
+                                        <input id="file" type="file" accept="application/pdf,.pdf"
                                             class="form-control @error('file') is-invalid @enderror" name="file"
                                             value="{{ old('file') }}" required autocomplete="file">
                                         @error('file')

@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('scripts')
+<script>
+    // Opened from the dashboard "Jibu" button: pop up that question's answer form straight away.
+    document.addEventListener('DOMContentLoaded', function () {
+        var id = new URLSearchParams(location.search).get('answer');
+        var el = id && document.getElementById('editAnswerModal-' + id);
+        if (el && window.bootstrap) { bootstrap.Modal.getOrCreateInstance(el).show(); }
+    });
+</script>
     <script>
         $("#filter-form").on("submit", function(e) {
             e.preventDefault();
@@ -147,7 +155,7 @@
                                                                     <label for="audioAns"
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Jibu la sauti') }}</label>
                                                                     <div class="col-md-6">
-                                                                        <input id="audioAns" type="file"
+                                                                        <input id="audioAns" type="file" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.opus,.amr,.flac"
                                                                             class="form-control @error('audioAns') is-invalid @enderror"
                                                                             name="audioAns" value=""
                                                                             autocomplete="audioAns">{{ old('audioAns', $answer->audioAns) }}
@@ -176,7 +184,7 @@
                                             <a href="{{ route('delete_answer', $answer->id) }}"
                                                 onclick="return confirm('This answer will be deleted')"
                                                 class="btn btn-outline-danger">
-                                                <i class="fas fa-trash"> Delete</i>
+                                                <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>

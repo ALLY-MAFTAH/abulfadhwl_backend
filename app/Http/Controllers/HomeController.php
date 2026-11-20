@@ -35,12 +35,13 @@ class HomeController extends Controller
             'books' => collect(),
             'stream' => Stream::where('status', 1)->latest()->first(),
             'histories' => collect(), // history lives inside the app only
-            'links' => Link::where('status', 1)->latest()->get(),
+            'links' => collect(), // social links live inside the app only
             'counts' => [
                 'songs' => Song::count(),
                 'books' => Book::count(),
                 'articles' => Article::count(),
                 'albums' => Album::count(),
+                'answers' => AnsweredQuestion::where(function ($q) { $q->whereNotNull('textAns')->orWhereNotNull('audioAns'); })->count(),
             ],
         ])->cookie('lang', $lang, 525600);
     }

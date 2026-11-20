@@ -41,7 +41,7 @@ class SlideController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'file' => 'required',
+            'file' => 'required|file|image|mimes:jpg,jpeg,png,webp,gif',
             'number' => 'required',
         ]);
 
@@ -53,7 +53,7 @@ class SlideController extends Controller
         }
 
         if ($request->hasFile('file')) {
-            $this->file_path = $request->file('file')->storeAs(config('app.name').'/PICHA/' ,
+            $this->file_path = $request->file('file')->storeAs(config('app.storage_dir').'/PICHA/' ,
            'Picha-'. $request->number . '.' . $request->file('file')->getClientOriginalExtension(),
             'public');        } else return response()->json([
             'success' => 'Add a slide file'

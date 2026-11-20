@@ -55,7 +55,7 @@
                                             <a href="{{ route('delete_album', $album->id) }}"
                                                 onclick="return confirm('This album will be deleted')"
                                                 class="btn btn-outline-danger">
-                                                <i class="fas fa-trash"> Delete</i>
+                                                <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>

@@ -10,7 +10,7 @@ return [
         'soon' => 'Inakuja karibuni',
         'f1' => 'Darsa ya live', 'f2' => 'Funga ya Sunnah', 'f3' => 'Vitabu & makala',
         'm_hijri' => 'Hijri', 'm_fast' => 'Funga ya kesho: Alhamisi', 'm_live' => 'Darsa ya moja kwa moja', 'm_lessons' => 'Darsa za hivi karibuni', 'm_books' => 'Vitabu', 'm_qa' => 'Maswali & Majibu',
-        'st_songs' => 'Darsa', 'st_books' => 'Vitabu', 'st_articles' => 'Makala', 'st_albums' => 'Albamu',
+        'st_songs' => 'Darsa', 'st_books' => 'Vitabu', 'st_articles' => 'Makala', 'st_albums' => 'Maswali yaliyojibiwa',
         'feat_eb' => 'Vipengele', 'feat_h' => 'Kila unachohitaji kwa elimu', 'feat_p' => 'Nyepesi, ya haraka na rahisi — kwa lugha tatu.',
         'feats' => [
             ['Darsa za sauti', 'Endelea ulipoachia, kasi ya sauti, kipima-muda, na pakua usikilize offline.'],
@@ -42,7 +42,7 @@ return [
         'soon' => 'Coming soon',
         'f1' => 'Live lesson', 'f2' => 'Sunnah fast', 'f3' => 'Books & articles',
         'm_hijri' => 'Hijri', 'm_fast' => 'Tomorrow\'s fast: Thursday', 'm_live' => 'Live lesson', 'm_lessons' => 'Latest lessons', 'm_books' => 'Books', 'm_qa' => 'Questions & Answers',
-        'st_songs' => 'Lessons', 'st_books' => 'Books', 'st_articles' => 'Articles', 'st_albums' => 'Albums',
+        'st_songs' => 'Lessons', 'st_books' => 'Books', 'st_articles' => 'Articles', 'st_albums' => 'Answered questions',
         'feat_eb' => 'Features', 'feat_h' => 'Everything you need to learn', 'feat_p' => 'Light, fast and simple — in three languages.',
         'feats' => [
             ['Audio lessons', 'Resume where you left off, playback speed, sleep timer, and download for offline listening.'],
@@ -74,7 +74,7 @@ return [
         'soon' => 'قريبًا',
         'f1' => 'درس مباشر', 'f2' => 'صيام سنة', 'f3' => 'كتب ومقالات',
         'm_hijri' => 'هجري', 'm_fast' => 'صيام الغد: الخميس', 'm_live' => 'درس مباشر', 'm_lessons' => 'أحدث الدروس', 'm_books' => 'الكتب', 'm_qa' => 'أسئلة وأجوبة',
-        'st_songs' => 'دروس', 'st_books' => 'كتب', 'st_articles' => 'مقالات', 'st_albums' => 'ألبومات',
+        'st_songs' => 'دروس', 'st_books' => 'كتب', 'st_articles' => 'مقالات', 'st_albums' => 'أسئلة مُجاب عنها',
         'feat_eb' => 'المزايا', 'feat_h' => 'كل ما تحتاجه لطلب العلم', 'feat_p' => 'خفيف وسريع وسهل — بثلاث لغات.',
         'feats' => [
             ['دروس صوتية', 'تابع من حيث توقفت، سرعة التشغيل، مؤقت النوم، والتحميل للاستماع بدون إنترنت.'],

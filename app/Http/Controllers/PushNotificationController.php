@@ -8,47 +8,75 @@ use Illuminate\Http\Request;
 
 class PushNotificationController extends Controller
 {
-     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private const TOPIC = 'all';
+
     public function index()
     {
-        $notifications = PushNotification::orderBy('created_at', 'desc')->get();
+        $notifications = PushNotification::orderBy('created_at', 'desc')->take(200)->get();
         return view('notifications.index', compact('notifications'));
     }
-    public function bulksend(Request $req){
-        $pushNotification = new PushNotification();
-        $pushNotification->title = $req->input('title');
-        $pushNotification->body = $req->input('body');
-        $pushNotification->img = $req->input('img');
-        $pushNotification->save();
 
-        $result = FcmV1::sendToTopic(
-            'all',
-            (string) $req->title,
-            (string) $req->body,
-            $req->img,
-            ['click_action' => 'FLUTTER_NOTIFICATION_CLICK', 'id' => $req->id, 'status' => 'done']
-        );
-        if (!$result['ok']) {
-            return redirect()->back()->with('error', 'Notification was saved but NOT sent: ' . $result['body']);
-        }
-        return redirect()->back()->with('success', 'Notification Sent successfully.');
+    /** New notification typed in the form. */
+    public function bulksend(Request $req)
+    {
+        $data = $req->validate([
+            'title' => 'required|string|max:120',
+            'body' => 'required|string|max:500',
+            'img' => 'nullable|url|max:500',
+        ]);
+
+        $n = PushNotification::create([
+            'title' => $data['title'],
+            'body' => $data['body'],
+            'img' => $data['img'] ?? null,
+            'topic' => self::TOPIC,
+            'status' => 'pending',
+        ]);
+
+        return $this->deliver($n);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\PushNotification  $pushNotification
-     * @return \Illuminate\Http\Response
-     */
+    /** Send an old notification again. It is logged as its own entry. */
+    public function resend(PushNotification $notification)
+    {
+        $n = PushNotification::create([
+            'title' => $notification->title,
+            'body' => $notification->body,
+            'img' => $notification->img,
+            'topic' => $notification->topic ?: self::TOPIC,
+            'status' => 'pending',
+            'resent_from' => $notification->id,
+        ]);
+
+        return $this->deliver($n);
+    }
+
+    /** Send and record exactly what Firebase answered. */
+    private function deliver(PushNotification $n)
+    {
+        $result = FcmV1::sendToTopic(
+            $n->topic,
+            (string) $n->title,
+            (string) $n->body,
+            $n->img,
+            ['click_action' => 'FLUTTER_NOTIFICATION_CLICK', 'id' => $n->id, 'status' => 'done']
+        );
+
+        $n->status = $result['ok'] ? 'sent' : 'failed';
+        $n->fcm_message_id = $result['message_id'] ?? null;
+        $n->error = $result['ok'] ? null : mb_substr((string) ($result['error'] ?? $result['body']), 0, 1000);
+        $n->sent_at = $result['ok'] ? now() : null;
+        $n->save();
+
+        if (!$result['ok']) {
+            return back()->with('error', 'Arifa HAIKUTUMWA: ' . $n->error . ' (imehifadhiwa kwenye historia, unaweza kujaribu tena)');
+        }
+        return back()->with('success', 'Firebase imekubali arifa (' . $n->topic . '). Kitambulisho: ' . basename($n->fcm_message_id));
+    }
+
     public function destroy(PushNotification $notification)
     {
-        // dd($notification->title);
         $notification->delete();
-        return back()->with('success', 'Notification deleted successfully');
-
+        return back()->with('success', 'Imefutwa kwenye historia');
     }
 }

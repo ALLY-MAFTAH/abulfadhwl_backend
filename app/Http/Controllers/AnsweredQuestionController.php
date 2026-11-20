@@ -12,30 +12,20 @@ class AnsweredQuestionController extends Controller
 
     public function getAllQuestions(Request $request)
     {
-        $type = 'all';
-        $questions = null;
-        $allQuestions = AnsweredQuestion::orderBy('updated_at', 'DESC')->get();
+        $type = $request->get('type', 'all');
+        $query = AnsweredQuestion::orderBy('updated_at', 'DESC');
 
-
-        $type = $request->get('type', $type);
-
-        if ($type == "answered") {
-            foreach ($allQuestions as $question) {
-                if ($question->textAns != null || $question->audioAns != null) {
-
-                    $answeredQuestions[] = $question;
-                }
-                $questions = $answeredQuestions;
-            }
-        } elseif ($type == "unanswered") {
-            foreach ($allQuestions as $question) {
-                $questions = $question->where(['textAns' => null, 'audioAns' => null])->get();
-            }
+        if ($type == 'answered') {
+            $query->where(function ($q) {
+                $q->whereNotNull('textAns')->orWhereNotNull('audioAns');
+            });
+        } elseif ($type == 'unanswered') {
+            $query->whereNull('textAns')->whereNull('audioAns');
         } else {
-
-            $questions = $allQuestions;
+            $type = 'all';
         }
-        return view('feeds/all_questions_and_answers')->with(['questions' => $questions, 'type' => $type]);
+
+        return view('feeds/all_questions_and_answers')->with(['questions' => $query->get(), 'type' => $type]);
     }
     public function getAllAnsweredQuestions()
     {
@@ -82,7 +72,7 @@ class AnsweredQuestionController extends Controller
         $attributes = $this->validate($request, [
             'qn' => 'required',
             'textAns' => 'nullable',
-            'audioAns' => 'sometimes|file|nullable',
+            'audioAns' => 'sometimes|nullable|file|mimes:mp3,m4a,aac,wav,ogg,oga,opus,amr,flac,wma,mp4,mpga',
         ]);
 
         if (isset($attributes['audioAns'])) {

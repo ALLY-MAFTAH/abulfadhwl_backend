@@ -3,15 +3,15 @@
 @section('style')
 <style>
   .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; padding: 20px; }
-  .tile { position: relative; display: block; padding: 20px; border-radius: 20px; text-decoration: none !important; color: var(--pro-text) !important; border: 1px solid var(--pro-line); background: linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.025)); transition: transform .25s, border-color .25s, box-shadow .25s; overflow: hidden; }
+  .tile { position: relative; display: block; padding: 20px; border-radius: 20px; text-decoration: none !important; color: var(--pro-text) !important; border: 1px solid var(--pro-line); background: linear-gradient(160deg, rgba(var(--fill),.08), rgba(var(--fill),.025)); transition: transform .25s, border-color .25s, box-shadow .25s; overflow: hidden; }
   .tile:hover { transform: translateY(-4px); border-color: var(--pro-gold); box-shadow: 0 24px 40px -24px rgba(233,178,60,.6); }
-  .tile .ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font-size: 18px; color: var(--pro-gold-l); background: rgba(233,178,60,.14); border: 1px solid rgba(233,178,60,.4); margin-bottom: 14px; }
+  .tile .ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font-size: 18px; color: var(--pro-gold-t); background: rgba(233,178,60,.14); border: 1px solid rgba(233,178,60,.4); margin-bottom: 14px; }
   .tile h3 { margin: 0 0 4px; font-size: 17px; font-weight: 700; word-break: break-word; }
   .tile p { margin: 0 0 14px; color: var(--pro-mut); font-size: 13px; min-height: 18px; }
   .tile .st { display: flex; gap: 8px; flex-wrap: wrap; }
   .tile .x { position: absolute; right: 12px; top: 12px; }
   .tile.add { display: grid; place-items: center; text-align: center; min-height: 170px; border-style: dashed; border-color: var(--pro-line2); background: transparent; cursor: pointer; color: var(--pro-mut) !important; }
-  .tile.add i { font-size: 26px; color: var(--pro-gold); margin-bottom: 8px; display: block; } .tile.add:hover { color: #fff !important; }
+  .tile.add i { font-size: 26px; color: var(--pro-gold); margin-bottom: 8px; display: block; } .tile.add:hover { color: var(--pro-hi) !important; }
 </style>
 @endsection
 @section('content')

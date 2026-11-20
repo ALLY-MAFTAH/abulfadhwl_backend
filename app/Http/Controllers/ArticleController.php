@@ -45,7 +45,7 @@ class ArticleController extends Controller
             'number' => 'required|min:1|unique:articles,number,NULL,id',
             'title' => 'required|min:1',
             'pub_year' => 'required',
-            'file' => 'required',
+            'file' => 'required|file|mimes:pdf',
         ]);
 
         if ($validator->fails()) {
@@ -54,7 +54,7 @@ class ArticleController extends Controller
 
         if ($request->hasFile('file')) {
             $this->file_path = $request->file('file')->storeAs(
-                config('app.name') . '/MAKALA/',
+                config('app.storage_dir') . '/MAKALA/',
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
             );
@@ -83,6 +83,7 @@ class ArticleController extends Controller
             'number' => 'required|unique:articles,number,' . $articleId . ',id',
             'title' => 'required',
             'pub_year' => 'required',
+            'file' => 'sometimes|nullable|file|mimes:pdf',
         ]);
 
         if ($validator->fails()) {
@@ -95,14 +96,14 @@ class ArticleController extends Controller
         }
         if ($request->hasFile('file')) {
             $new_file_path = $request->file('file')->storeAs(
-                config('app.name') . '/MAKALA/',
+                config('app.storage_dir') . '/MAKALA/',
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
             );
 
         } else {
 
-            $new_file_path = config('app.name') . '/MAKALA/' . $request->title . '.pdf';
+            $new_file_path = config('app.storage_dir') . '/MAKALA/' . $request->title . '.pdf';
         }
         Storage::disk('public')->move($article->file, $new_file_path);
 

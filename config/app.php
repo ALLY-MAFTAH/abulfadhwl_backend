@@ -62,6 +62,10 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    // Folder name under storage/app/public where uploads live. Keep fixed so
+    // changing the display name (APP_NAME) never moves or breaks uploaded files.
+    'storage_dir' => env('STORAGE_DIR', 'ABULFADHWL'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

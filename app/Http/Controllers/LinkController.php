@@ -42,7 +42,7 @@ class LinkController extends Controller
             'type' => 'required',
             'title' => 'required',
             'url' => 'required',
-            'icon' => ['required', 'file'],
+            'icon' => ['required', 'file', 'mimes:jpg,jpeg,png,webp,gif,svg'],
         ]);
 
         $icon = $attributes['icon'];
@@ -63,7 +63,7 @@ class LinkController extends Controller
         if (!$link) return back()->with('error', 'Stream not found');
 
         $attributes = $this->validate($request, [
-            'icon' => 'sometimes|file',
+            'icon' => 'sometimes|file|mimes:jpg,jpeg,png,webp,gif,svg',
             'url' => 'required',
             'title' => 'required',
             'type' => 'required'

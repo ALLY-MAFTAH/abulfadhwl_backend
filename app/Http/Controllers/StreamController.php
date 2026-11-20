@@ -37,7 +37,7 @@ class StreamController extends Controller
     public function postStream(Request $request)
     {
         $attributes = $this->validate($request, [
-            'timetable' => ['nullable', 'file'],
+            'timetable' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp,gif'],
             'url' => 'required',
             'title' => 'required',
             'description' => 'required'
@@ -64,7 +64,7 @@ class StreamController extends Controller
     /** One weekly timetable picture for every lesson. */
     public function setTimetable(Request $request)
     {
-        $request->validate(['timetable' => ['required', 'file', 'image']]);
+        $request->validate(['timetable' => ['required', 'file', 'image', 'mimes:jpg,jpeg,png,webp,gif']]);
         $file = $request->file('timetable');
         $path = $file->storeAs('streams', 'ratiba-' . time() . '.' . $file->getClientOriginalExtension(), 'public');
         Stream::query()->update(['timetable' => $path]);
@@ -78,7 +78,7 @@ class StreamController extends Controller
         if (!$stream) return back()->with('error', 'Stream not found');
 
         $attributes = $this->validate($request, [
-            'timetable' => 'sometimes|nullable|file',
+            'timetable' => 'sometimes|nullable|file|image|mimes:jpg,jpeg,png,webp,gif',
             'url' => 'required',
             'title' => 'required',
             'description' => 'required'

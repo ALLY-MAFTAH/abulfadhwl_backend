@@ -97,7 +97,7 @@
                 <div class="stat rv" style="--c1:#3b63d6;--c2:#1b2d63;--d:0.0s"><span class="ic"><i class="fas fa-headphones"></i></span><div><div class="n" data-n="{{ $c['songs'] }}">0</div><div class="l">{{ $t['st_songs'] }}</div></div></div>
                 <div class="stat rv" style="--c1:#e9b23c;--c2:#b98418;--d:0.06s"><span class="ic"><i class="fas fa-book"></i></span><div><div class="n" data-n="{{ $c['books'] }}">0</div><div class="l">{{ $t['st_books'] }}</div></div></div>
                 <div class="stat rv" style="--c1:#22c27a;--c2:#0e8f57;--d:0.12s"><span class="ic"><i class="fas fa-file-alt"></i></span><div><div class="n" data-n="{{ $c['articles'] }}">0</div><div class="l">{{ $t['st_articles'] }}</div></div></div>
-                <div class="stat rv" style="--c1:#8b6cf0;--c2:#5b3fc4;--d:0.18s"><span class="ic"><i class="fas fa-layer-group"></i></span><div><div class="n" data-n="{{ $c['albums'] }}">0</div><div class="l">{{ $t['st_albums'] }}</div></div></div>
+                <div class="stat rv" style="--c1:#8b6cf0;--c2:#5b3fc4;--d:0.18s"><span class="ic"><i class="fas fa-question-circle"></i></span><div><div class="n" data-n="{{ $c['answers'] ?? 0 }}">0</div><div class="l">{{ $t['st_albums'] }}</div></div></div>
                 
             </div>
 

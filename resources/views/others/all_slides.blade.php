@@ -40,7 +40,7 @@
                                 @foreach ($slides as $index => $slide)
                                     <div class="col-3 " style="padding: 2px;">
                                         <div>
-                                            <img src={{ asset('storage/' . $slide->file) }} alt="Slide file"
+                                            <img src="{{ asset('storage/' . implode('/', array_map('rawurlencode', explode('/', $slide->file)))) }}" alt="Slide file"
                                                 style="width: 100%;padding:5px">
                                             <div class="row" style="padding: 5px">
                                                 <div class="col-md-6">
@@ -100,7 +100,7 @@
                                     <label for="file"
                                         class="col-md-4 col-form-label text-md-right">{{ __('File') }}</label>
                                     <div class="col-md-6">
-                                        <input id="file" type="file"
+                                        <input id="file" type="file" accept="image/png,image/jpeg,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif"
                                             class="form-control @error('file') is-invalid @enderror" name="file"
                                             value="{{ old('file') }}" required autocomplete="file">
                                         @error('file')

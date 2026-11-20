@@ -180,7 +180,7 @@
                                         <label for="file"
                                             class="col-md-4 col-form-label text-md-right">{{ __('File') }}</label>
                                         <div class="col-md-6">
-                                            <input id="file" type="file"
+                                            <input id="file" type="file" accept="application/pdf,.pdf"
                                                 class="form-control @error('file') is-invalid @enderror" name="file"
                                                 value="{{ old('file') }}" autocomplete="file">
                                             @error('file')

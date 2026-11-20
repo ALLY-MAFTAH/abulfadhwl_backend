@@ -6,12 +6,13 @@ use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as REQ;
 use Illuminate\Support\Facades\Validator;
+use App\Support\HtmlCleaner;
 
 class HistoryController extends Controller
 {
     public function getAllHistories()
     {
-        $histories = History::all();
+        $histories = History::orderBy('section')->orderBy('id')->get();
         if (REQ::is('api/*'))
             return response()->json([
                 'histories' => $histories
@@ -37,64 +38,77 @@ class HistoryController extends Controller
 
     public function postHistory(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'section' => 'required',
-            'heading' => 'required',
-            'content' => 'required'
-        ]);
+        $rules = ['section' => 'nullable|integer|min:1|max:9999', 'heading' => 'required|string|max:190', 'content' => 'required'];
+        if (REQ::is('api/*')) {
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors(), 'status' => false], 404);
+            }
+        } else {
+            $request->validate($rules);
+        }
 
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
+        $content = HtmlCleaner::clean($request->input('content'));
+        if ($content === '') {
+            if (REQ::is('api/*')) return response()->json(['error' => 'content is empty', 'status' => false], 422);
+            return back()->withInput()->withErrors(['content' => 'Maudhui hayawezi kuwa tupu.']);
         }
 
         $history = new History();
-        $history->section = $request->input('section');
-        $history->heading = $request->input('heading');
-        $history->content = $request->input('content');
-
+        $history->section = $request->filled('section') ? (int) $request->input('section') : ((int) History::max('section')) + 1;
+        $history->heading = trim($request->input('heading'));
+        $history->content = $content;
         $history->save();
+
         if (REQ::is('api/*'))
-            return response()->json([
-                'history' => $history
-            ], 200);
-        return back()->with('success', 'History added successfully');
+            return response()->json(['history' => $history], 200);
+        return redirect()->route('histories')->with('success', 'Sehemu imeongezwa');
     }
 
     public function putHistory(Request $request, $historyId)
     {
         $history = History::find($historyId);
         if (!$history) {
-            return response()->json([
-                'error' => 'History not found'
-            ], 404);
+            if (REQ::is('api/*')) return response()->json(['error' => 'History not found'], 404);
+            return redirect()->route('histories')->with('error', 'Sehemu haipo');
         }
-        $validator = Validator::make($request->all(), [
-            'section' => 'required',
-            'heading' => 'required',
-            'content' => 'required'
-        ]);
+        $rules = ['section' => 'nullable|integer|min:1|max:9999', 'heading' => 'required|string|max:190', 'content' => 'required'];
+        if (REQ::is('api/*')) {
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors(), 'status' => false], 404);
+            }
+        } else {
+            $request->validate($rules);
+        }
 
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
+        $content = HtmlCleaner::clean($request->input('content'));
+        if ($content === '') {
+            if (REQ::is('api/*')) return response()->json(['error' => 'content is empty', 'status' => false], 422);
+            return back()->withInput()->withErrors(['content' => 'Maudhui hayawezi kuwa tupu.']);
         }
 
         $history->update([
-            'section' => $request->input('section'),
-            'heading' => $request->input('heading'),
-            'content' => $request->input('content')
+            'section' => $request->filled('section') ? (int) $request->input('section') : $history->section,
+            'heading' => trim($request->input('heading')),
+            'content' => $content,
         ]);
-        $history->save();
+
         if (REQ::is('api/*'))
-            return response()->json([
-                'history' => $history
-            ], 200);
-        return back()->with('success', 'History edited successfully');
+            return response()->json(['history' => $history], 200);
+        return redirect()->route('histories')->with('success', 'Sehemu imehifadhiwa');
+    }
+
+    // Rich editor pages (web only)
+    public function create()
+    {
+        return view('others/history/history_form', ['history' => null, 'nextSection' => ((int) History::max('section')) + 1]);
+    }
+
+    public function edit($historyId)
+    {
+        $history = History::findOrFail($historyId);
+        return view('others/history/history_form', ['history' => $history, 'nextSection' => $history->section]);
     }
 
     public function deleteHistory($historyId)

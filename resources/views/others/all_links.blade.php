@@ -166,7 +166,7 @@
                                                                     <label for="icon"
                                                                         class="col-md-4 col-form-label text-md-right">{{ __('Icon') }}</label>
                                                                     <div class="col-md-6">
-                                                                        <input id="icon" type="file"
+                                                                        <input id="icon" type="file" accept="image/png,image/jpeg,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif,.svg"
                                                                             class="form-control @error('icon') is-invalid @enderror"
                                                                             name="icon" value="{{ old('icon') }}"
                                                                             autocomplete="icon">{{ old('icon', $link->icon) }}
@@ -260,7 +260,7 @@
                                     <label for="icon"
                                         class="col-md-4 col-form-label text-md-right">{{ __('Icon') }}</label>
                                     <div class="col-md-6">
-                                        <input id="icon" type="file"
+                                        <input id="icon" type="file" accept="image/png,image/jpeg,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif,.svg"
                                             class="form-control @error('icon') is-invalid @enderror" name="icon"
                                             value="{{ old('icon') }}" required autocomplete="icon">
                                         @error('icon')

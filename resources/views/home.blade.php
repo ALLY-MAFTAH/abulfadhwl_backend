@@ -65,7 +65,7 @@
                         <div class="row-item">
                             <div style="min-width:0;flex:1"><div class="t">{{ \Illuminate\Support\Str::limit($q->qn, 90) }}</div>
                                 <small>{{ $q->created_at?->diffForHumans() }}</small></div>
-                            <a class="btn btn-sm btn-primary" href="{{ route('allQuestions') }}">Jibu</a>
+                            <a class="btn btn-sm btn-primary" href="{{ route('allQuestions', ['type' => 'unanswered', 'answer' => $q->id]) }}">Jibu</a>
                         </div>
                     @empty
                         <p class="text-muted mb-0">Hakuna maswali yanayosubiri. Alhamdulillah.</p>

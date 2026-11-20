@@ -80,7 +80,7 @@
                                                             <label for="file"
                                                                 class="col-md-4 col-form-label text-md-right">{{ __('Audio File') }}</label>
                                                             <div class="col-md-6">
-                                                                <input id="file" type="file"
+                                                                <input id="file" type="file" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.opus,.amr,.flac"
                                                                     class="form-control @error('file') is-invalid @enderror"
                                                                     name="file" autocomplete="file"
                                                                     autofocus>

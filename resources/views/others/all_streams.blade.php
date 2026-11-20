@@ -6,11 +6,11 @@
 <style>
   .lv-now { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border-radius: 22px; margin-bottom: 18px; border: 1px solid var(--pro-line2); background: var(--pro-sheet); }
   .lv-now.on { border-color: rgba(47,210,79,.6); background: linear-gradient(120deg, rgba(47,210,79,.16), rgba(47,210,79,.03) 60%); box-shadow: 0 0 50px -20px rgba(47,210,79,.6); }
-  .lv-now .ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; font-size: 22px; background: rgba(255,255,255,.07); color: var(--pro-mut); }
+  .lv-now .ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; font-size: 22px; background: rgba(var(--fill),.07); color: var(--pro-mut); }
   .lv-now.on .ic { background: var(--pro-em); color: #04210b; }
   .lv-now b { display: block; font-size: 18px; } .lv-now small { color: var(--pro-mut); }
   .lrow { display: grid; grid-template-columns: auto 1fr auto auto; gap: 18px; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--pro-line); transition: background .2s; }
-  .lrow:last-child { border-bottom: 0; } .lrow:hover { background: rgba(255,255,255,.03); }
+  .lrow:last-child { border-bottom: 0; } .lrow:hover { background: rgba(var(--fill),.03); }
   .lrow.live { background: linear-gradient(90deg, rgba(47,210,79,.12), transparent 70%); }
   .lrow .ix { width: 40px; height: 40px; border-radius: 13px; display: grid; place-items: center; font: 700 14px "JetBrains Mono", monospace; color: var(--pro-gold); background: rgba(233,178,60,.1); border: 1px solid rgba(233,178,60,.3); }
   .lrow.live .ix { color: #04210b; background: var(--pro-em); border-color: transparent; }
@@ -20,6 +20,8 @@
   .lrow .swl { display: grid; justify-items: center; gap: 4px; font: 600 10px "JetBrains Mono", monospace; letter-spacing: .12em; color: var(--pro-dim); text-transform: uppercase; }
   .lrow.live .swl { color: var(--pro-em-l); }
   .lrow .acts { display: flex; gap: 6px; }
+  .listen.on { background: var(--pro-em) !important; color: #04210b !important; border-color: transparent !important; }
+  #nowListen.on { background: #fff !important; }
   .tt { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding: 16px 20px; }
   .tt img { width: 120px; height: 80px; object-fit: cover; border-radius: 12px; border: 1px solid var(--pro-line2); cursor: zoom-in; }
   .tt .txt { flex: 1 1 240px; } .tt b { display: block; } .tt small { color: var(--pro-mut); }
@@ -53,12 +55,13 @@
             <b id="nowT">{{ $live ? $live->title : 'Hakuna darsa ya moja kwa moja sasa' }}</b>
             <small id="nowS">{{ $live ? 'Inarushwa sasa. Watumiaji wa app wanaiona.' : 'Washa swichi ya darsa ili kuanza kurusha.' }}</small>
         </div>
+        <button type="button" class="pbtn pbtn-gold pbtn-sm" id="nowListen" {{ $live ? '' : 'hidden' }} data-url="{{ $live ? $live->url : '' }}"><i class="fas fa-headphones"></i> <span>Sikiliza live</span></button>
         <span class="pchip live" id="nowC" {{ $live ? '' : 'hidden' }}>Live</span>
     </div>
 
     <div class="pro-sheet mb-3" id="rows">
         @forelse ($streams as $i => $s)
-            <div class="lrow {{ $s->status ? 'live' : '' }}" data-id="{{ $s->id }}" data-title="{{ $s->title }}">
+            <div class="lrow {{ $s->status ? 'live' : '' }}" data-id="{{ $s->id }}" data-title="{{ $s->title }}" data-url="{{ $s->url }}">
                 <span class="ix">{{ $i + 1 }}</span>
                 <div style="min-width:0">
                     <h3>{{ $s->title }} @if ($s->status)<span class="pchip live">Live</span>@endif</h3>
@@ -70,6 +73,7 @@
                     <span>{{ $s->status ? 'Live' : 'Zima' }}</span>
                 </div>
                 <div class="acts">
+                    <button type="button" class="pbtn pbtn-ghost pbtn-sm listen" title="Sikiliza darsa hii"><i class="fas fa-headphones"></i> <span>Sikiliza</span></button>
                     <button type="button" class="iconbtn" title="Hariri" data-bs-toggle="modal" data-bs-target="#edit-{{ $s->id }}"><i class="fas fa-pen"></i></button>
                     <button type="button" class="iconbtn del" title="Futa"><i class="fas fa-trash"></i></button>
                 </div>
@@ -136,7 +140,24 @@
     document.getElementById('nowT').textContent = liveId ? title : 'Hakuna darsa ya moja kwa moja sasa';
     document.getElementById('nowS').textContent = liveId ? 'Inarushwa sasa. Watumiaji wa app wanaiona.' : 'Washa swichi ya darsa ili kuanza kurusha.';
     document.getElementById('nowC').hidden = !liveId;
+    var nl = document.getElementById('nowListen'); nl.hidden = !liveId; var lr = liveId ? rows.querySelector('.lrow[data-id="' + liveId + '"]') : null; nl.dataset.url = lr ? lr.dataset.url : '';
   }
+
+  /* ---- listen in the browser ---- */
+  var player = new Audio(), cur = null; player.preload = 'none';
+  function reset() { [].forEach.call(document.querySelectorAll('.listen, #nowListen'), function (b) { b.classList.remove('on'); var sp = b.querySelector('span'); if (sp) sp.textContent = b.id === 'nowListen' ? 'Sikiliza live' : 'Sikiliza'; b.querySelector('i').className = 'fas fa-headphones'; }); }
+  function listen(btn, url) {
+    if (!url) return;
+    if (cur === btn) { player.pause(); player.removeAttribute('src'); player.load(); cur = null; reset(); return; }
+    reset(); cur = btn; player.src = url;
+    player.play().then(function () { btn.classList.add('on'); btn.querySelector('span').textContent = 'Simamisha'; btn.querySelector('i').className = 'fas fa-stop'; })
+      .catch(function () { cur = null; reset(); window.open(url, '_blank', 'noopener'); AF.toast('Link hii si ya sauti moja kwa moja. Imefunguliwa kwenye ukurasa mpya.', 'err'); });
+  }
+  player.addEventListener('error', function () { if (!cur) return; var u = player.src; cur = null; reset(); window.open(u, '_blank', 'noopener'); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.listen, #nowListen'); if (!b) return;
+    var row = b.closest('.lrow'); listen(b, row ? row.dataset.url : b.dataset.url);
+  });
   rows.addEventListener('change', function (e) {
     if (!e.target.classList.contains('sw')) return;
     var sw = e.target, row = sw.closest('.lrow'), id = +row.dataset.id, on = sw.checked, wrap = sw.closest('.pro-switch');

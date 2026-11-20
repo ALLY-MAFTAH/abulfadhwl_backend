@@ -67,6 +67,8 @@ class SongController extends Controller
     public function postSong(Request $request, $albumId)
     {
 
+        $request->validate(['file.*' => 'file|mimes:mp3,m4a,aac,wav,ogg,oga,opus,amr,flac,wma,mp4,mpga']);
+
         $album = Album::find($albumId);
         if (!$album) {
             return response()->json([
@@ -79,7 +81,7 @@ class SongController extends Controller
                 $songFiles = $request->file('file');
                 foreach ($songFiles as $songFile) {
                     $this->song_path = $songFile->storeAs(
-                        config('app.name') . '/SAUTI/' . $category->name . '/' . $album->name,
+                        config('app.storage_dir') . '/SAUTI/' . $category->name . '/' . $album->name,
                         $songFile->getClientOriginalName(),
                         'public'
                     );
@@ -119,6 +121,8 @@ class SongController extends Controller
     public function putSong(Request $request, $songId)
     {
 
+        $request->validate(['file' => 'sometimes|nullable|file|mimes:mp3,m4a,aac,wav,ogg,oga,opus,amr,flac,wma,mp4,mpga']);
+
         $song = Song::find($songId);
         if (!$song) {
             return back()->with(['error' => 'Song not found']);
@@ -130,7 +134,7 @@ class SongController extends Controller
 
                 $songFile = $request->file('file');
                 $this->song_path = $songFile->storeAs(
-                    config('app.name') . '/SAUTI/' . $category->name . '/' . $song->album->name,
+                    config('app.storage_dir') . '/SAUTI/' . $category->name . '/' . $song->album->name,
                     $songFile->getClientOriginalName(),
                     'public'
                 );
@@ -150,7 +154,7 @@ class SongController extends Controller
                 $song->save();
                 Storage::disk('public')->delete($songToDelete);
             } else {
-                $newPath = config('app.name') . '/SAUTI/' . $category->name . '/' . $song->album->name . '/' . $request->title;
+                $newPath = config('app.storage_dir') . '/SAUTI/' . $category->name . '/' . $song->album->name . '/' . $request->title;
                 Storage::disk('public')->move($song->file, $newPath);
 
                 $song->update([
@@ -212,7 +216,7 @@ class SongController extends Controller
     private function albumDir(Album $album): string
     {
         $category = Category::findOrFail($album->category_id);
-        return config('app.name') . '/SAUTI/' . $category->name . '/' . $album->name;
+        return config('app.storage_dir') . '/SAUTI/' . $category->name . '/' . $album->name;
     }
 
     /** One file per request, so the browser can show real progress for each. */
@@ -224,7 +228,7 @@ class SongController extends Controller
         }
 
         $v = Validator::make($request->all(), [
-            'file' => 'required|file',
+            'file' => 'required|file|mimes:mp3,m4a,aac,wav,ogg,oga,opus,amr,flac,wma,mp4,mpga',
             'title' => 'required|string|max:190',
         ]);
         if ($v->fails()) {

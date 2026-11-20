@@ -17,11 +17,11 @@
   function confirmBox(opts) {
     return new Promise(function (resolve) {
       var o = document.createElement('div');
-      o.style.cssText = 'position:fixed;inset:0;z-index:2100;display:grid;place-items:center;background:rgba(3,6,15,.72);backdrop-filter:blur(4px);padding:16px';
-      o.innerHTML = '<div style="width:min(420px,100%);background:linear-gradient(180deg,#131f4c,#0d173a);border:1px solid rgba(255,255,255,.16);border-radius:22px;padding:24px;box-shadow:0 40px 90px -30px #000;color:#eaf0ff">' +
-        '<h3 style="margin:0 0 8px;font-size:18px">' + esc(opts.title || 'Una uhakika?') + '</h3>' +
-        '<p style="margin:0 0 20px;color:#94a3cf">' + esc(opts.text || '') + '</p>' +
-        '<div style="display:flex;gap:10px;justify-content:flex-end"><button type="button" class="pbtn pbtn-ghost" data-r="0">Ghairi</button>' +
+      o.className = 'af-confirm-bg';
+      o.innerHTML = '<div class="af-confirm">' +
+        '<h3>' + esc(opts.title || 'Una uhakika?') + '</h3>' +
+        '<p>' + esc(opts.text || '') + '</p>' +
+        '<div class="row-b"><button type="button" class="pbtn pbtn-ghost" data-r="0">Ghairi</button>' +
         '<button type="button" class="pbtn ' + (opts.danger ? 'pbtn-danger' : 'pbtn-gold') + '" data-r="1">' + esc(opts.ok || 'Ndiyo') + '</button></div></div>';
       document.body.appendChild(o);
       function done(v) { o.remove(); resolve(v); }
@@ -39,6 +39,21 @@
       });
     });
   }
+
+  // Native confirm() on legacy delete links/buttons -> styled dialog
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('a[onclick*="confirm("], button[onclick*="confirm("]');
+    if (!el || el.dataset.afOk) return;
+    var m = (el.getAttribute('onclick') || '').match(/confirm\((['"])([\s\S]*?)\1\)/);
+    if (!m) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    var del = /delet|futa/i.test(m[2]);
+    confirmBox({ title: del ? 'Futa hii?' : 'Una uhakika?', text: m[2], ok: del ? 'Futa' : 'Ndiyo', danger: del }).then(function (y) {
+      if (!y) return;
+      if (el.tagName === 'A') { location.href = el.href; }
+      else { el.dataset.afOk = 1; el.click(); }
+    });
+  }, true);
 
   window.AF = { toast: toast, confirm: confirmBox, api: api, esc: esc, csrf: csrf };
 })();

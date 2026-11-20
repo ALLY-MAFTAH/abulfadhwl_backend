@@ -42,8 +42,8 @@ class BookController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'file' => 'required',
-            'cover' => 'required',
+            'file' => 'required|file|mimes:pdf,epub',
+            'cover' => 'required|file|image|mimes:jpg,jpeg,png,webp,gif',
             'title' => 'required|min:1|unique:books,title,NULL,id,deleted_at,NULL',
             'edition' => 'required',
             'pub_year' => 'required',
@@ -57,7 +57,7 @@ class BookController extends Controller
 
         if ($request->hasFile('file')) {
             $this->file_path = $request->file('file')->storeAs(
-                config('app.name') . '/VITABU/',
+                config('app.storage_dir') . '/VITABU/',
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
             );
@@ -67,7 +67,7 @@ class BookController extends Controller
 
         if ($request->hasFile('cover')) {
             $this->cover_path = $request->file('cover')->storeAs(
-                config('app.name') . '/BOOK-COVERS/',
+                config('app.storage_dir') . '/BOOK-COVERS/',
                 $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
                 'public'
             );
@@ -101,28 +101,33 @@ class BookController extends Controller
             ], 404);
         }
 
+        $request->validate([
+            'file' => 'sometimes|nullable|file|mimes:pdf,epub',
+            'cover' => 'sometimes|nullable|file|image|mimes:jpg,jpeg,png,webp,gif',
+        ]);
+
         $bookFileToDelete = $book->file;
         $bookCoverToDelete = $book->cover;
 
         if ($request->hasFile('file')) {
             $this->file_path = $request->file('file')->storeAs(
-                config('app.name') . '/VITABU/',
+                config('app.storage_dir') . '/VITABU/',
                 $request->title . '.' . $request->file('file')->getClientOriginalExtension(),
                 'public'
             );
         } else
 
-            $new_file_path = config('app.name') . '/VITABU/' . $request->title;
+            $new_file_path = config('app.storage_dir') . '/VITABU/' . $request->title;
         Storage::disk('public')->move($book->file, $new_file_path);
 
         if ($request->hasFile('cover')) {
             $this->cover_path = $request->file('cover')->storeAs(
-                config('app.name') . '/BOOK-COVERS/',
+                config('app.storage_dir') . '/BOOK-COVERS/',
                 $request->title . '.' . $request->file('cover')->getClientOriginalExtension(),
                 'public'
             );
         } else
-            $new_cover_path = config('app.name') . '/BOOK-COVERS/' . $request->title;
+            $new_cover_path = config('app.storage_dir') . '/BOOK-COVERS/' . $request->title;
         Storage::disk('public')->move($book->file, $new_cover_path);
 
         $book->update([

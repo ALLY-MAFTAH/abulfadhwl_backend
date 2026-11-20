@@ -71,14 +71,22 @@ class FcmV1
                 ]);
             }
 
+            // A real success is HTTP 200 *and* a message name back from Firebase.
+            // That name is Firebase's receipt that it accepted the message.
+            $json = $response->json() ?: [];
+            $messageId = $json['name'] ?? null;
+            $ok = $response->successful() && $messageId;
+
             return [
-                'ok' => $response->successful(),
+                'ok' => (bool) $ok,
                 'status' => $response->status(),
                 'body' => $response->body(),
+                'message_id' => $messageId,
+                'error' => $ok ? null : ($json['error']['message'] ?? ('HTTP ' . $response->status())),
             ];
         } catch (\Throwable $e) {
             Log::error('FCM v1 send error: ' . $e->getMessage());
-            return ['ok' => false, 'status' => 0, 'body' => $e->getMessage()];
+            return ['ok' => false, 'status' => 0, 'body' => $e->getMessage(), 'message_id' => null, 'error' => $e->getMessage()];
         }
     }
 

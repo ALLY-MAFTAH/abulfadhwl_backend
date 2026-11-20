@@ -194,7 +194,7 @@
                                         <label for="file"
                                             class="col-md-4 col-form-label text-md-right">{{ __('File') }}</label>
                                         <div class="col-md-6">
-                                            <input id="file" type="file"
+                                            <input id="file" type="file" accept="application/pdf,.pdf,.epub"
                                                 class="form-control @error('file') is-invalid @enderror" name="file"
                                                 value="{{ old('file') }}" autocomplete="file">
                                             @error('file')
@@ -208,7 +208,7 @@
                                         <label for="cover"
                                             class="col-md-4 col-form-label text-md-right">{{ __('Cover') }}</label>
                                         <div class="col-md-6">
-                                            <input id="cover" type="file"
+                                            <input id="cover" type="file" accept="image/png,image/jpeg,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif"
                                                 class="form-control @error('cover') is-invalid @enderror" name="cover"
                                                 value="{{ old('cover') }}" autocomplete="cover">
                                             @error('cover')
