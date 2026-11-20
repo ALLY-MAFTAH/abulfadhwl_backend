@@ -35,7 +35,7 @@
                         <div class="col">
                             <h4>Book Information <a href="#" class="btn btn btn-outline-primary"
                                     data-bs-toggle="modal" data-bs-target="#editBookModal">
-                                    <i class="fas fa-edit"></i>
+                                    <i class="fas fa-pen"></i>
                                 </a></h4>
                         </div>
                     </div>

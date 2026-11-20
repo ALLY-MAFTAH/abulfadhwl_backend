@@ -78,7 +78,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Swali</th>
-                                    <th>Jibu la maandihsi</th>
+                                    <th>Jibu la maandishi</th>
                                     <th>Jibu la sauti</th>
                                     <th></th>
                                     <th></th>
@@ -107,7 +107,7 @@
                                             <a href="#" target="modal" data-bs-toggle="modal"
                                                 data-bs-target="#editAnswerModal-{{ $answer->id }}"
                                                 class="btn btn-outline-primary">
-                                                <i class="fas fa-edit"></i>
+                                                <i class="fas fa-pen"></i>
                                             </a>
                                             <!-- EDIT ANSWER MODAL -->
                                             <div class="modal fade" id="editAnswerModal-{{ $answer->id }}">

@@ -241,7 +241,7 @@ html[data-theme="light"] .modal-content { box-shadow: 0 40px 90px -30px rgba(20,
 html[data-theme="light"] .modal-backdrop { --bs-backdrop-bg: #0b1740; --bs-backdrop-opacity: .45; }
 html[data-theme="light"] .af-confirm { box-shadow: 0 40px 90px -30px rgba(20,32,77,.6); }
 html[data-theme="light"] .af-toast { box-shadow: 0 14px 34px -14px rgba(20,32,77,.45); }
-html[data-theme="light"] .pro-switch i { background: rgba(20,32,77,.2); }
+html[data-theme="light"] .pro-switch input:not(:checked) + i { background: rgba(20,32,77,.2); }
 html[data-theme="light"] .pro-switch i::after { box-shadow: 0 3px 8px rgba(20,32,77,.35); }
 html[data-theme="light"] .pchip.live { color: #0b6b32; background: rgba(30,168,69,.14); border-color: rgba(30,168,69,.5); }
 html[data-theme="light"] .pchip.gold { background: rgba(209,154,26,.14); border-color: rgba(209,154,26,.5); }
@@ -257,3 +257,7 @@ html[data-theme="light"] .alert-danger, html[data-theme="light"] .pchip.red { co
 html[data-theme="light"] .alert-success { color: #0b6b32; }
 html[data-theme="light"] .af-toast.err i, html[data-theme="light"] .arow .meta .err { color: #c0271f; }
 html[data-theme="light"] .af-toast.ok i { color: #1ea845; }
+
+/* the side rail is dark in both themes: keep its hover text white (beats the global a:hover) */
+html .rail .nav-item:not(.active):hover, html .rail .rail-btn:hover, html .rail .rail-brand a:hover { color: #fff !important; }
+html .rail .nav-item.active, html .rail .nav-item.active:hover { color: #14224d !important; }

@@ -81,7 +81,7 @@
                                             <a href="#" role="alert" class="btn btn-outline-primary"
                                                 data-bs-toggle="modal" data-bs-target="#editLinkModal-{{ $link->id }}"
                                                 data-title="{{ $link->title }}" data-url="{{ $link->url }} ">
-                                                <i class="fas fa-edit"></i>
+                                                <i class="fas fa-pen"></i>
                                             </a>
                                         </td>
                                         <td>

@@ -73,7 +73,6 @@
                     <span>{{ $s->status ? 'Live' : 'Zima' }}</span>
                 </div>
                 <div class="acts">
-                    <button type="button" class="pbtn pbtn-ghost pbtn-sm listen" title="Sikiliza darsa hii"><i class="fas fa-headphones"></i> <span>Sikiliza</span></button>
                     <button type="button" class="iconbtn" title="Hariri" data-bs-toggle="modal" data-bs-target="#edit-{{ $s->id }}"><i class="fas fa-pen"></i></button>
                     <button type="button" class="iconbtn del" title="Futa"><i class="fas fa-trash"></i></button>
                 </div>

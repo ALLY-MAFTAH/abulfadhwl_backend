@@ -28,7 +28,7 @@
                         <div class="col-12">
                             <h4>History Information <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
                                     data-bs-target="#editHistoryModal">
-                                    <i class="fas fa-edit"></i>
+                                    <i class="fas fa-pen"></i>
                                 </a></h4>
                         </div>
 

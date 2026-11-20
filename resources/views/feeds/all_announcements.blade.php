@@ -56,7 +56,7 @@
                                         <td>
                                             <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
                                                 data-bs-target="#editAnnouncementModal-{{ $announcement->id }}">
-                                                <i class="fas fa-edit"></i>
+                                                <i class="fas fa-pen"></i>
                                             </a>
                                             <!-- EDIT ANNOUNCEMENT MODAL -->
                                             <div class="modal fade" id="editAnnouncementModal-{{ $announcement->id }}">

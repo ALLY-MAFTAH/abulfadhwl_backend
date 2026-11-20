@@ -42,7 +42,7 @@
                                     <td>
                                         <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
                                         data-bs-target="#editSongModal-{{ $song->id }}">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-pen"></i>
                                     </a>
                                     <!-- EDIT SONG MODAL -->
                                     <div class="modal fade" id="editSongModal-{{ $song->id }}">
