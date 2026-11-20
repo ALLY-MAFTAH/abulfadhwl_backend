@@ -204,4 +204,119 @@ class SongController extends Controller
         $pathToFile = storage_path('/app/public/' . $song->file);
         return response()->download($pathToFile);
     }
+
+    // ---------------------------------------------------------------
+    // JSON endpoints for the new bulk uploader / ordering UI
+    // ---------------------------------------------------------------
+
+    private function albumDir(Album $album): string
+    {
+        $category = Category::findOrFail($album->category_id);
+        return config('app.name') . '/SAUTI/' . $category->name . '/' . $album->name;
+    }
+
+    /** One file per request, so the browser can show real progress for each. */
+    public function uploadOne(Request $request, $albumId)
+    {
+        $album = Album::find($albumId);
+        if (!$album) {
+            return response()->json(['ok' => false, 'error' => 'Albamu haipo'], 404);
+        }
+
+        $v = Validator::make($request->all(), [
+            'file' => 'required|file',
+            'title' => 'required|string|max:190',
+        ]);
+        if ($v->fails()) {
+            return response()->json(['ok' => false, 'error' => $v->errors()->first()], 422);
+        }
+
+        $title = trim($request->input('title'));
+        if (Song::where('title', $title)->exists()) {
+            return response()->json(['ok' => false, 'error' => 'Jina hili tayari lipo. Litumie jina lingine.'], 422);
+        }
+
+        try {
+            $file = $request->file('file');
+            $ext = strtolower($file->getClientOriginalExtension() ?: 'mp3');
+            $base = trim(preg_replace('~[\\\\/:*?"<>|]+~', '-', $title)) ?: 'audio';
+            $name = $base . '.' . $ext;
+            $dir = $this->albumDir($album);
+            if (Storage::disk('public')->exists($dir . '/' . $name)) {
+                $name = $base . '-' . time() . '.' . $ext;
+            }
+            $size = round($file->getSize() / 1048576, 1);
+
+            $seconds = (int) round((float) $request->input('duration_sec', 0));
+            if ($seconds <= 0 && $ext === 'mp3') {
+                try {
+                    $seconds = (int) (new MP3File($file))->getDurationEstimate();
+                } catch (\Throwable $e) {
+                    $seconds = 0;
+                }
+            }
+
+            $path = $file->storeAs($dir, $name, 'public');
+
+            $position = $request->filled('position')
+                ? (int) $request->input('position')
+                : ((int) Song::where('album_id', $album->id)->max('position')) + 1;
+
+            $song = Song::create([
+                'album_id' => $album->id,
+                'title' => $title,
+                'file' => $path,
+                'duration' => MP3File::formatTime($seconds),
+                'size' => $size,
+                'position' => $position,
+                'active' => $request->boolean('active', true),
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['ok' => false, 'error' => 'Imeshindikana kupakia: ' . $th->getMessage()], 500);
+        }
+
+        return response()->json(['ok' => true, 'id' => $song->id]);
+    }
+
+    public function setActive(Request $request, $songId)
+    {
+        $song = Song::find($songId);
+        if (!$song) return response()->json(['ok' => false, 'error' => 'Sauti haipo'], 404);
+        $song->update(['active' => $request->boolean('active')]);
+        return response()->json(['ok' => true, 'active' => (bool) $song->active]);
+    }
+
+    public function renameJson(Request $request, $songId)
+    {
+        $song = Song::find($songId);
+        if (!$song) return response()->json(['ok' => false, 'error' => 'Sauti haipo'], 404);
+        $title = trim((string) $request->input('title'));
+        if ($title === '') return response()->json(['ok' => false, 'error' => 'Jina haliwezi kuwa tupu'], 422);
+        if (Song::where('title', $title)->where('id', '!=', $song->id)->exists()) {
+            return response()->json(['ok' => false, 'error' => 'Jina hili tayari lipo'], 422);
+        }
+        $song->update(['title' => $title]);
+        return response()->json(['ok' => true, 'title' => $song->title]);
+    }
+
+    public function reorder(Request $request, $albumId)
+    {
+        $ids = array_values(array_filter((array) $request->input('ids', []), 'is_numeric'));
+        foreach ($ids as $i => $id) {
+            Song::where('album_id', $albumId)->where('id', $id)->update(['position' => $i + 1]);
+        }
+        return response()->json(['ok' => true]);
+    }
+
+    public function destroyJson($songId)
+    {
+        $song = Song::find($songId);
+        if (!$song) return response()->json(['ok' => false, 'error' => 'Sauti haipo'], 404);
+        try {
+            Storage::disk('public')->delete($song->file);
+        } catch (\Throwable $e) {
+        }
+        $song->delete();
+        return response()->json(['ok' => true]);
+    }
 }

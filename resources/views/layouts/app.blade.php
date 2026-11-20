@@ -4,355 +4,151 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="theme-color" content="#0b1530">
+    <title>{{ config('app.name', 'Abul Fadhwl App') }}</title>
+    <link rel="icon" href="{{ asset('assets/images/logo.png') }}">
 
-    <title>{{ config('app.name', 'Abulfadhwl App') }}</title>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="https://maftah.co.tz/public/css/app.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-        integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-        crossorigin="anonymous" />
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
+    <link href="{{ asset('css/admin.css') }}?v=2" rel="stylesheet">
+    <link href="{{ asset('css/admin-pro.css') }}?v=3" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <script>try { if (localStorage.getItem('af-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
     @yield('style')
-
-    <style>
-        .card-header {
-            color: rgb(14, 24, 72);
-            width: 100%;
-            text-align: center;
-            font-weight: 900;
-            font-size: 18px;
-            background: rgb(250, 241, 221)
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: rgb(3, 22, 107);
-        }
-        .navbar-light .navbar-nav .nav-link:hover {
-            color: rgb(222, 161, 28);
-        }
-
-        .nav-items-2 {
-            justify-content: center;
-            color: rgb(3, 22, 107);
-            font-weight: 900;
-
-        }
-
-        .nav-items-2:hover {
-            color: rgb(222, 161, 28);
-            /* text-shadow: 2px 2px 4px #0a0263; */
-        }
-
-        .active {
-            color: rgb(222, 161, 28) !important;
-            font-weight: 900;
-        }
-
-
-        .zoom {
-            transition: transform .2s;
-        }
-
-        .zoom:hover {
-            transform: scale(1.1);
-            /* (110% zoom)*/
-        }
-
-        .row-height {
-            height: 15px;
-        }
-
-        .summary-cards {
-            box-shadow: 4px 4px 6px #e6b888;
-            border-radius: 12px;
-            width: 90%;
-            min-height: 100px;
-            max-height: 120px;
-            padding: 20px;
-            margin: 20px;
-            background: white;
-        }
-
-        .summary-cards:hover {
-            box-shadow: 4px 4px 6px #0505bb;
-            background: #df831a;
-        }
-
-        .summary-cards .summary-content {
-            color: rgb(5, 5, 105);
-            font-weight: bolder;
-            padding: 5px;
-            font-size: 12px;
-        }
-
-        .summary-cards:hover .summary-content {
-            color: var(--white);
-        }
-    </style>
 </head>
 
 <body>
-
-    <div id="app">
-        <nav id="navbar_top" class="navbar navbar-expand-md shadow-lg navbar-light"
-            style="background-color:rgb(246, 242, 237)">
-            <div class="container">
-                <a href="{{ route('home') }}" style="text-decoration:none">
-                    <h2 style=" color: rgb(6, 24, 158); text-shadow: 2px 2px 4px #f9a321;">
-                        <b>{{ config('app.name') }}</b>
-                    </h2>
-                </a>
-                <button class="navbar-toggler" style="background-color: rgb(255, 255, 255)" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    @guest
-                        @if (Route::has('login'))
-                            <div></div>
-                        @endif
-
-                        @if (Route::has('register'))
-                            <div></div>
-                        @endif
-                    @else
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item list-unstyled">
-                                <a class="nav-link  " href="{{ route('home') }}">
-                                    <p class="nav-items-2 {{ request()->routeIs('home') ? 'active' : '' }}"> Home
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item list-unstyled dropdown">
-                                <a class="nav-link nav-items-2 dropdown-toggle {{ request()->routeIs('songs') || request()->routeIs('albums') || request()->routeIs('album') || request()->routeIs('categories') || request()->routeIs('category') || request()->routeIs('articles') || request()->routeIs('article') || request()->routeIs('books') || request()->routeIs('book') ? 'active' : '' }}"
-                                    href="#" data-bs-toggle="dropdown">Turaath</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('songs') || request()->routeIs('albums') || request()->routeIs('album') || request()->routeIs('categories') || request()->routeIs('category') ? 'active' : '' }}"
-                                            href="{{ route('categories') }}">Audio</a></li>
-                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('books') || request()->routeIs('book') ? 'active' : '' }}"
-                                            href="{{ route('books') }}">Books</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('articles') }}">
-                                            <p
-                                                class="nav-items-2 {{ request()->routeIs('articles') || request()->routeIs('article') ? 'active' : '' }}">
-                                                Articles
-                                            </p>
-                                        </a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item list-unstyled dropdown">
-                                <a class="nav-link nav-items-2 dropdown-toggle  {{ request()->routeIs('announcements') || request()->routeIs('allQuestions') || request()->routeIs('comments') ? 'active' : '' }}"
-                                    href="#" data-bs-toggle="dropdown">Feeds</a>
-                                <ul class="dropdown-menu fade">
-                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('announcements') ? 'active' : '' }}"
-                                            href="{{ route('announcements') }}">Announcements</a></li>
-                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('allQuestions') ? 'active' : '' }}"
-                                            href="{{ route('allQuestions') }}">Questions & Answers</a></li>
-                                    <li><a class="dropdown-item nav-items-2 {{ request()->routeIs('comments') ? 'active' : '' }}"
-                                            href="{{ route('comments') }}">Comments</a></li>
-                                </ul>
-                            </li>
-
-                            <li class="nav-item  list-unstyled">
-                                <a class="nav-link   " href="{{ route('slides') }}">
-                                    <p class="nav-items-2 {{ request()->routeIs('slides') ? 'active' : '' }}">
-                                        Slides</p>
-                                </a>
-
-                            </li>
-                            <li class="nav-item  list-unstyled">
-
-                                <a class="nav-link" href="{{ route('histories') }}">
-                                    <p
-                                        class="nav-items-2 {{ request()->routeIs('histories') || request()->routeIs('history') ? 'active' : '' }}">
-                                        History</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item  list-unstyled">
-                                <a class="nav-link  " href="{{ route('streams') }}">
-
-                                    <p class="nav-items-2 {{ request()->routeIs('streams') ? 'active' : '' }}">
-                                        Streams</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item  list-unstyled">
-                                <a class="nav-link  " href="{{ route('links') }}">
-                                    <p class="nav-items-2 {{ request()->routeIs('links') ? 'active' : '' }}">
-                                        Links</p>
-                                </a>
-                            </li>
-                            <li class="nav-item  list-unstyled">
-                                <a class="nav-link  " href="{{ route('notifications') }}">
-                                    <p class="nav-items-2 {{ request()->routeIs('notifications') ? 'active' : '' }}">
-                                        Notify</p>
-                                </a>
-                            </li>
-                        </ul>
-                    @endguest
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            {{-- @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a style="color: blue" class="nav-link"
-                                        href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a style="color: blue" class="nav-link"
-                                        href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif --}}
-                        @else
-                            <li class="nav-item dropdown">
-                                <a style="color: rgb(25, 15, 165); font-size: 17px" id="navbarDropdown"
-                                    class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div style="background-color: white" class="fade dropdown-menu dropdown-menu-right"
-                                    aria-labelledby="navbarDropdown">
-                                    <a style="color: rgb(241, 10, 10)" class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-power-off"></i> {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <main>
-            <div style="min-height: 100vh">
+    @guest
+        <div class="auth-wrap">
+            <div style="width:100%;max-width:560px">
                 @yield('content')
             </div>
-        </main>
-        <footer id="main-footer" class="text-dark mb-3">
-            <div class="container">
-                <div class="col">
-                    <hr>
-                    <p class="lead text-center">
-                        &copy; <span id="year"></span> {{ config('app.name') }}
-                    </p>
-                </div>
+        </div>
+    @else
+        @php
+            $is = fn(...$r) => request()->routeIs(...$r) ? 'active' : '';
+            $nav = [
+                ['Mwanzo', null],
+                ['Dashibodi', 'home', 'fa-th-large', ['home']],
+                ['Turaath', null],
+                ['Sauti', 'categories', 'fa-headphones', ['categories', 'category', 'albums', 'album', 'songs', 'song']],
+                ['Vitabu', 'books', 'fa-book', ['books', 'book']],
+                ['Makala', 'articles', 'fa-file-alt', ['articles', 'article']],
+                ['Historia', 'histories', 'fa-landmark', ['histories', 'history']],
+                ['Slides', 'slides', 'fa-layer-group', ['slides', 'slide']],
+                ['Mawasiliano', null],
+                ['Matangazo', 'announcements', 'fa-bullhorn', ['announcements', 'announcement']],
+                ['Maswali & Majibu', 'allQuestions', 'fa-question-circle', ['allQuestions', 'questions', 'question']],
+                ['Maoni', 'comments', 'fa-comments', ['comments', 'comment']],
+                ['Arifa (Push)', 'notifications', 'fa-bell', ['notifications']],
+                ['Mfumo', null],
+                ['Live / Matangazo ya moja kwa moja', 'streams', 'fa-broadcast-tower', ['streams', 'stream']],
+                ['Viungo', 'links', 'fa-link', ['links', 'link']],
+                ['Watumiaji', 'users', 'fa-users', ['users', 'user']],
+            ];
+        @endphp
+
+        <aside class="rail" id="rail">
+            <a class="rail-brand" href="{{ route('home') }}">
+                <img src="{{ asset('assets/images/logo.png') }}" alt="">
+                <span><b>{{ config('app.name', 'Abul Fadhwl App') }}</b><small>Usimamizi / Admin</small></span>
+            </a>
+            <nav class="rail-nav">
+                @foreach ($nav as $n)
+                    @if ($n[1] === null)
+                        <div class="nav-heading">{{ $n[0] }}</div>
+                    @else
+                        <a class="nav-item {{ $is(...$n[3]) }}" href="{{ route($n[1]) }}">
+                            <span class="ico"><i class="fas {{ $n[2] }}"></i></span>
+                            <span>{{ $n[0] }}</span>
+                        </a>
+                    @endif
+                @endforeach
+            </nav>
+            <div class="rail-foot">
+                <div class="who">{{ Auth::user()->name }}<small>Msimamizi</small></div>
+                <button type="button" class="rail-btn" id="themeBtn" title="Mwanga / Giza"><i class="fas fa-adjust"></i></button>
+                <a class="rail-btn" href="{{ route('logout') }}" title="Toka"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                        class="fas fa-power-off"></i></a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
             </div>
-        </footer>
-    </div>
+        </aside>
+
+        <div class="main">
+            <header class="topbar">
+                <button class="burger" type="button" id="burger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+                <span class="title">@yield('page_title', 'Abul Fadhwl')</span>
+                <div class="right">
+                    <a class="btn btn-sm btn-outline" href="{{ url('/') }}" target="_blank" rel="noopener"><i class="fas fa-globe"></i> Tovuti</a>
+                </div>
+            </header>
+            <main class="page">
+                @yield('content')
+            </main>
+            <footer class="page-foot">&copy; <span id="year"></span> {{ config('app.name') }}</footer>
+        </div>
+    @endguest
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
     <script>
         $('#year').text(new Date().getFullYear());
-    </script>
-
-    <!-- Scripts -->
-    <script src="https://maftah.co.tz/public/js/app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js "></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 1) {
-                    document.getElementById('navbar_top').classList.add('fixed-top');
-                    // add padding top to show content behind navbar
-                    navbar_height = document.querySelector('.navbar').offsetHeight;
-                    document.body.style.paddingTop = navbar_height + 'px';
-                } else {
-                    document.getElementById('navbar_top').classList.remove('fixed-top');
-                    // remove padding top from body
-                    document.body.style.paddingTop = '0';
-                }
-            });
+        $('#burger').on('click', function() { document.body.classList.toggle('rail-open'); });
+        $(document).on('click', function(e) {
+            if (document.body.classList.contains('rail-open') && !$(e.target).closest('#rail,#burger').length)
+                document.body.classList.remove('rail-open');
         });
-    </script>
-    <script>
-        $('form').submit(function() {
-            $(this).find(':submit').attr('disabled', true);
+        $('#themeBtn').on('click', function() {
+            var d = document.documentElement, dark = d.getAttribute('data-theme') === 'dark';
+            if (dark) d.removeAttribute('data-theme'); else d.setAttribute('data-theme', 'dark');
+            try { localStorage.setItem('af-theme', dark ? 'light' : 'dark'); } catch (e) {}
         });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable();
-        });
-    </script>
+        $('form').submit(function() { $(this).find(':submit').attr('disabled', true); });
+        $(function() { if ($('#example').length) $('#example').DataTable(); });
 
-    <script>
-        $('#upload-file').bind('change', function() {
+        $('#upload-file').on('change', function() {
             var totalSize = 0;
-            for (let i = 0; i < this.files.length; i++) {
-                totalSize = totalSize + Math.round((this.files[i].size) / 1048576);
-            }
-            console.log(totalSize);
+            for (let i = 0; i < this.files.length; i++) totalSize += Math.round(this.files[i].size / 1048576);
             if (totalSize > 100) {
-                alert("Sorry, you can't upload files with " + totalSize + " MB at once");
+                alert("Samahani, huwezi kupakia faili zenye MB " + totalSize + " kwa mara moja");
                 $('form').find(':submit').attr('disabled', true);
             }
         });
-    </script>
-    <script>
         $(function() {
-            $(document).ready(function() {
-                $('#fileUploadForm').ajaxForm({
-                    beforeSend: function() {
-                        var percentage = '0';
-                    },
-                    uploadProgress: function(event, position, total, percentComplete) {
-                        var percentage = percentComplete;
-                        $('.progress .progress-bar').css("width", percentage + '%', function() {
-                            return $(this).attr("aria-valuenow", percentage) + '%';
-                        })
-                    },
-                    complete: function(xhr) {
-                        console.log('File has uploaded');
-                        location.reload();
-                    }
-                });
+            $('#fileUploadForm').ajaxForm({
+                uploadProgress: function(event, position, total, percentComplete) {
+                    $('.progress .progress-bar').css('width', percentComplete + '%').attr('aria-valuenow', percentComplete);
+                },
+                complete: function() { location.reload(); }
             });
         });
-    </script>
-     <script>
         function loadPhoto(event) {
             var reader = new FileReader();
-            reader.onload = function () {
-                var output = document.getElementById('photo');
-                output.src = reader.result;
-            };
+            reader.onload = function() { document.getElementById('photo').src = reader.result; };
             reader.readAsDataURL(event.target.files[0]);
         }
     </script>
+    <script>
+        /* Modals must live directly under <body>: the glass cards use backdrop-filter, which traps
+           position:fixed children and clips the dialog inside the card. */
+        (function () {
+            document.querySelectorAll('.modal').forEach(function (m) { document.body.appendChild(m); });
+            document.addEventListener('show.bs.modal', function (e) {
+                if (e.target && e.target.parentNode !== document.body) document.body.appendChild(e.target);
+            });
+        })();
+    </script>
+    <script src="{{ asset('js/admin-pro.js') }}?v=1"></script>
     @yield('scripts')
-
 </body>
 
 </html>

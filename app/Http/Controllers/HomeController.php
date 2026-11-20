@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use App\Models\Announcement;
-use App\Models\Answer;
 use App\Models\AnsweredQuestion;
 use App\Models\Article;
 use App\Models\Book;
@@ -12,46 +11,62 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\History;
 use App\Models\Link;
-use App\Models\Question;
 use App\Models\Slide;
 use App\Models\Song;
 use App\Models\Stream;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
-        $this->middleware('auth');
+        // Public landing page for guests; the dashboard needs a login.
+        $this->middleware('auth')->except('landing');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+    /** "/" — dashboard for admins, public landing page for everyone else. */
+    public function landing()
+    {
+        $lang = in_array(request('lang'), ['sw', 'en', 'ar'], true) ? request('lang')
+            : (in_array(request()->cookie('lang'), ['sw', 'en', 'ar'], true) ? request()->cookie('lang') : 'sw');
+        return response()->view('site', [
+            'lang' => $lang,
+            'songs' => Song::latest()->take(6)->get(),
+            'books' => Book::latest()->take(4)->get(),
+            'stream' => Stream::where('status', 1)->latest()->first(),
+            'histories' => History::orderBy('id')->take(10)->get(),
+            'links' => Link::where('status', 1)->latest()->get(),
+            'counts' => [
+                'songs' => Song::count(),
+                'books' => Book::count(),
+                'articles' => Article::count(),
+                'albums' => Album::count(),
+            ],
+        ])->cookie('lang', $lang, 525600);
+    }
+
     public function index()
     {
-        $categories = Category::all();
-        $albums = Album::all();
-        $songs = Song::all();
-        $books = Book::all();
-        $links = Link::all();
-        $articles = Article::all();
-        $streams = Stream::all();
-        $questions = AnsweredQuestion::all();
-        $slides = Slide::all();
-        $histories = History::all();
-        $announcements = Announcement::all();
-        $comments = Comment::all();
-        $users = User::all();
+        $stats = [
+            ['Sauti', Song::count(), 'fa-headphones', '#3b63d6', 'categories'],
+            ['Vitabu', Book::count(), 'fa-book', '#e9b23c', 'books'],
+            ['Makala', Article::count(), 'fa-file-alt', '#22c27a', 'articles'],
+            ['Matangazo', Announcement::count(), 'fa-bullhorn', '#f2762e', 'announcements'],
+            ['Maoni', Comment::count(), 'fa-comments', '#8b6cf0', 'comments'],
+            ['Watumiaji', User::count(), 'fa-users', '#3fc8e4', 'users'],
+        ];
 
-        return view('home')->with(['users' => $users, 'categories' => $categories, 'albums' => $albums, 'songs' => $songs, 'books' => $books, 'links' => $links, 'articles' => $articles, 'comments' => $comments, 'streams' => $streams, 'questions' => $questions, 'histories' => $histories, 'slides' => $slides, 'announcements' => $announcements,]);
+        $pendingQuestions = AnsweredQuestion::whereNull('textAns')->whereNull('audioAns')->latest()->take(5)->get();
+
+        return view('home', [
+            'stats' => $stats,
+            'liveStream' => Stream::where('status', 1)->first() ?: Stream::latest()->first(),
+            'pendingQuestions' => $pendingQuestions,
+            'pendingCount' => AnsweredQuestion::whereNull('textAns')->whereNull('audioAns')->count(),
+            'latestComments' => Comment::latest()->take(5)->get(),
+            'latestSongs' => Song::latest()->take(5)->get(),
+            'latestBooks' => Book::latest()->take(4)->get(),
+            'latestArticles' => Article::latest()->take(4)->get(),
+        ]);
     }
 }

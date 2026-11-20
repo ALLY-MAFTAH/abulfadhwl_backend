@@ -19,9 +19,31 @@ class Album extends Model
         'deletedAt'
     ];
 
+    /** What the app sees: active songs only, in the order the admin arranged. */
     public function songs()
     {
-        return $this->hasMany(Song::class)->orderBy('title');
+        $q = $this->hasMany(Song::class);
+        if (self::hasSongColumns()) {
+            $q->where('active', 1)->orderBy('position');
+        }
+        return $q->orderBy('title');
+    }
+
+    /** What the admin sees: every song, including the switched-off ones. */
+    public function allSongs()
+    {
+        $q = $this->hasMany(Song::class);
+        if (self::hasSongColumns()) {
+            $q->orderBy('position');
+        }
+        return $q->orderBy('title');
+    }
+
+    /** Safe before the migration has run on a server. */
+    private static function hasSongColumns(): bool
+    {
+        static $has = null;
+        return $has ??= \Illuminate\Support\Facades\Schema::hasColumn('songs', 'active');
     }
 
     public function category()

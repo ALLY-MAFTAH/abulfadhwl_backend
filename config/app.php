@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Abul Fadhwl App'),
 
     // Store links shown on the shared-link landing page (/app/{type}/{id}).
     'ios_store_url' => env('IOS_STORE_URL', '#'),

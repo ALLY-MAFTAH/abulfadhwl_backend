@@ -28,10 +28,11 @@ use App\Http\Controllers\PushNotificationController;
 |
 */
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'landing']);
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::redirect('/home', '/dashboard');
 
 // Landing page for links shared from the mobile app.
 Route::get('/app/{type}/{id?}', [App\Http\Controllers\AppLinkController::class, 'show'])
@@ -63,6 +64,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('song/{songId}', [SongController::class,'getSingleSong'])->name('song');
     Route::get('delete_song/{songId}', [SongController::class,'deleteSong'])->name('delete_song');
     Route::get('song/file/{songId}', [SongController::class,'viewSongFile'])->name('song_file');
+    Route::post('song/{albumId}/upload', [SongController::class,'uploadOne'])->name('song_upload');
+    Route::put('song/{songId}/active', [SongController::class,'setActive'])->name('song_active');
+    Route::put('song/{songId}/title', [SongController::class,'renameJson'])->name('song_title');
+    Route::post('album/{albumId}/reorder', [SongController::class,'reorder'])->name('album_reorder');
+    Route::delete('song/{songId}', [SongController::class,'destroyJson'])->name('song_destroy');
 
     // BOOKS ROUTES
     Route::get('books', [BookController::class,'getAllBooks'])->name('books');
@@ -111,6 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('delete_stream/{streamId}', [StreamController::class,'deleteStream'])->name('delete_stream');
     Route::get('stream/timetable/{streamId}', [StreamController::class,'viewTimetableFile'])->name('timetable');
     Route::put('stream/{stream}/status', [StreamController::class,'toggleStatus'])->name('stream.toggle_status');
+    Route::post('streams/timetable', [StreamController::class,'setTimetable'])->name('streams.timetable');
     Route::put('edit_stream/{streamId}', [StreamController::class,'putStream'])->name('edit_stream');
 
 

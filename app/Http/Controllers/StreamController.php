@@ -37,23 +37,39 @@ class StreamController extends Controller
     public function postStream(Request $request)
     {
         $attributes = $this->validate($request, [
-            'timetable' => ['required', 'file'],
+            'timetable' => ['nullable', 'file'],
             'url' => 'required',
             'title' => 'required',
             'description' => 'required'
         ]);
 
-        $timetable = $attributes['timetable'];
-        $attributes['timetable'] = $timetable->storeAs(
-            'streams',
-            time() . '.' . $timetable->getClientOriginalExtension(),
-            'public'
-        );
-        $attributes['status'] = true;
+        if ($request->hasFile('timetable')) {
+            $timetable = $request->file('timetable');
+            $attributes['timetable'] = $timetable->storeAs(
+                'streams',
+                time() . '.' . $timetable->getClientOriginalExtension(),
+                'public'
+            );
+        } else {
+            // every lesson shares the weekly timetable picture
+            $attributes['timetable'] = (string) Stream::where('timetable', '!=', '')->latest()->value('timetable');
+        }
+        $attributes['status'] = false;
         Stream::create($attributes);
         \App\Services\FcmV1::signalRefresh('streams');
 
-        return back()->with('success', 'Stream Added successfully');
+        return back()->with('success', 'Darsa imeongezwa');
+    }
+
+    /** One weekly timetable picture for every lesson. */
+    public function setTimetable(Request $request)
+    {
+        $request->validate(['timetable' => ['required', 'file', 'image']]);
+        $file = $request->file('timetable');
+        $path = $file->storeAs('streams', 'ratiba-' . time() . '.' . $file->getClientOriginalExtension(), 'public');
+        Stream::query()->update(['timetable' => $path]);
+        \App\Services\FcmV1::signalRefresh('streams');
+        return back()->with('success', 'Ratiba ya wiki imesasishwa');
     }
 
     public function putStream(Request $request, $streamId)
@@ -62,13 +78,13 @@ class StreamController extends Controller
         if (!$stream) return back()->with('error', 'Stream not found');
 
         $attributes = $this->validate($request, [
-            'timetable' => 'sometimes|file',
+            'timetable' => 'sometimes|nullable|file',
             'url' => 'required',
             'title' => 'required',
             'description' => 'required'
         ]);
 
-        if (isset($attributes['timetable'])) {
+        if ($request->hasFile('timetable')) {
             $timetable = $attributes['timetable'];
             $attributes['timetable'] = $timetable->storeAs(
                 'streams/timetable',
@@ -76,18 +92,22 @@ class StreamController extends Controller
                 'public'
             );
         }
+        if (!$request->hasFile('timetable')) unset($attributes['timetable']);
         $stream->update($attributes);
         \App\Services\FcmV1::signalRefresh('streams');
-        return back()->with('success', 'Stream edited successfully');
+        return back()->with('success', 'Darsa imehaririwa');
     }
 
     public function toggleStatus(Request $request, Stream $stream)
     {
+        $want = filter_var($request->input('status'), FILTER_VALIDATE_BOOLEAN);
         $was = (bool) $stream->status;
-        $stream->update([
-            'status' => $request->input('status'),
-        ]);
-        $stream->save();
+
+        if ($want) {
+            // only one lesson can be live: switch the others off quietly
+            Stream::where('id', '!=', $stream->id)->where('status', 1)->update(['status' => 0]);
+        }
+        $stream->update(['status' => $want]);
         $now = (bool) $stream->status;
 
         if ($now !== $was) {
@@ -105,7 +125,11 @@ class StreamController extends Controller
         } else {
             \App\Services\FcmV1::signalRefresh('streams');
         }
-        return back()->with('success', 'Stream Switched Successfully');
+
+        if ($request->expectsJson()) {
+            return response()->json(['ok' => true, 'live_id' => $now ? $stream->id : null]);
+        }
+        return back()->with('success', $now ? 'Darsa iko LIVE sasa' : 'Darsa imezimwa');
     }
 
     public function deleteStream($streamId)
@@ -135,6 +159,9 @@ class StreamController extends Controller
             ], 404);
         }
 
+        if (!$stream->timetable) {
+            return response()->json(['error' => 'Timetable not found'], 404);
+        }
         $pathToFile = storage_path('/app/public/' . $stream->timetable);
         return response()->download($pathToFile);
     }

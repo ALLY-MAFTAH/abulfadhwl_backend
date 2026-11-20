@@ -15,7 +15,11 @@ class Song extends Model
         'size',
         'description',
         'album_id',
+        'position',
+        'active',
     ];
+
+    protected $casts = ['active' => 'boolean', 'position' => 'integer'];
 
     public function album(){
         return $this->belongsTo(Album::class, 'album_id');
