@@ -1,0 +1,51 @@
+/* =====================================================================
+   CLASSIC LIGHT THEME (matches softbi-console / soft-ls-web: light glass page,
+   navy gradient hero cards, restrained gold accents). Overrides the night theme above.
+   ===================================================================== */
+body.lp { background: #eef2f9; color: #0f1d45;
+  background-image: radial-gradient(40vmax 40vmax at 12% 8%, rgba(59,99,214,.16), transparent 70%), radial-gradient(34vmax 34vmax at 92% 14%, rgba(233,178,60,.16), transparent 70%), radial-gradient(40vmax 40vmax at 70% 96%, rgba(34,194,122,.08), transparent 70%); background-attachment: fixed; }
+.lp h1, .lp h2, .lp h3 { color: #0f1d45; }
+.lp a { color: #b98418; }
+.lp-nav { background: rgba(255,255,255,.72); border-color: rgba(27,45,99,.1); box-shadow: 0 14px 34px -22px rgba(18,32,74,.5); }
+.lp-nav .brand { color: #0f1d45; } .lp-nav .links a { color: #34416a; } .lp-nav .links a:hover { color: #b98418; }
+.lp-nav .btn-login { color: #fff; background: linear-gradient(135deg, #3b63d6, #1b2d63); box-shadow: 0 12px 22px -12px #1b2d63; }
+
+.sky { background: radial-gradient(60% 50% at 80% 10%, rgba(255,217,138,.55), transparent 65%), radial-gradient(60% 60% at 10% 0%, rgba(124,155,240,.45), transparent 65%), linear-gradient(180deg, #dbe6fa 0%, #e9eefb 60%, #eef2f9 100%); }
+.sky::before { opacity: .9; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 60 60'%3E%3Cpath d='M30 4 L36 14 L47 13 L46 24 L56 30 L46 36 L47 47 L36 46 L30 56 L24 46 L13 47 L14 36 L4 30 L14 24 L13 13 L24 14 Z' fill='none' stroke='%231b2d63' stroke-opacity='0.06'/%3E%3C/svg%3E"); }
+#stars { display: none; }
+.moon { width: 110px; height: 110px; top: 118px; right: 10%; background: radial-gradient(circle at 35% 30%, #fff3cf, #ffd98a 55%, #e9b23c); box-shadow: 0 0 60px 18px rgba(255,217,138,.55), 0 0 160px 50px rgba(255,217,138,.3); }
+.cloud { background: rgba(255,255,255,.85); filter: blur(3px); }
+.bism { color: #b98418; text-shadow: none; }
+.logo-glow::before { background: radial-gradient(circle, rgba(233,178,60,.4), transparent 65%); }
+.logo-glow img { box-shadow: 0 18px 40px -16px rgba(18,32,74,.55), 0 0 0 1px rgba(27,45,99,.08); }
+.hero-title { color: #0f1d45; }
+.gold-text { background-image: linear-gradient(100deg, #b98418, #e9b23c 35%, #2b4bb5 70%, #b98418); }
+.hero-sub { color: #34416a; }
+.chip { color: #0f1d45; background: rgba(255,255,255,.75); border-color: rgba(27,45,99,.12); box-shadow: 0 8px 20px -14px rgba(18,32,74,.5); }
+.chip i { color: #b98418; }
+.float-chip { color: #0f1d45; background: rgba(255,255,255,.85); border-color: rgba(27,45,99,.1); box-shadow: 0 18px 36px -18px rgba(18,32,74,.6); }
+.float-chip i { color: #b98418; }
+.phone-stage::before { background: radial-gradient(circle, rgba(59,99,214,.35), transparent 65%); }
+.waves svg:nth-child(1) path { fill: rgba(59,99,214,.16); } .waves svg:nth-child(2) path { fill: rgba(59,99,214,.26); } .waves svg:nth-child(3) path { fill: #eef2f9; }
+.waves svg:nth-child(1), .waves svg:nth-child(2) { opacity: 1; }
+
+.sec.dark { background: transparent; } .sec.dark::before { opacity: .5; }
+.sec.dark .sec-head p, .sec-head p { color: #6b789f; } .sec.dark .eyebrow, .sec-head .eyebrow { color: #b98418; }
+.sec.light { background: transparent; }
+.showcase .cap { color: #0f1d45; } .showcase .cap small { color: #6b789f; }
+.live-big { background: linear-gradient(135deg, rgba(255,77,77,.14), rgba(255,255,255,.8)); border-color: rgba(255,77,77,.35); box-shadow: 0 24px 50px -28px rgba(255,77,77,.6); }
+.live-big b, .live-big p { color: #0f1d45 !important; }
+.row-l { background: rgba(255,255,255,.78); border-color: rgba(27,45,99,.1); box-shadow: 0 14px 30px -22px rgba(18,32,74,.5); } .row-l .t { color: #0f1d45; }
+.row-l .chip { background: linear-gradient(135deg, #3b63d6, #1b2d63); color: #fff; border: 0; } .row-l .chip i { color: #ffd98a; }
+.step .num { box-shadow: 0 0 0 6px #eef2f9, 0 14px 28px -8px var(--lp-gold); }
+
+/* navy hero-style cards (like the consoles' hero panels) */
+.dua { background: transparent; padding: 40px 20px; }
+.dua .wrap { padding: 54px 24px; border-radius: 30px; background: radial-gradient(90% 120% at 0% 0%, rgba(233,178,60,.28), transparent 55%), linear-gradient(135deg, #1b2d63, #0b1530); box-shadow: 0 40px 80px -36px rgba(6,11,29,.8); }
+.dua .ar { color: #ffd98a; } .dua p { color: #c9d3ee; }
+.cta { background: transparent; padding: 60px 20px 70px; } .cta .waves { display: none; }
+.cta .wrap { padding: 56px 24px; border-radius: 30px; position: relative; overflow: hidden; background: radial-gradient(90% 120% at 100% 0%, rgba(233,178,60,.3), transparent 55%), linear-gradient(135deg, #2b4bb5, #0b1530); box-shadow: 0 40px 80px -36px rgba(6,11,29,.8); }
+.cta h2 { color: #fff; } .cta p { color: #c9d3ee; }
+.lp-foot { background: transparent; color: #6b789f; } .lp-foot a { color: #b98418; }
+.stat { background: rgba(255,255,255,.85); }
+.b { background: rgba(255,255,255,.78); }

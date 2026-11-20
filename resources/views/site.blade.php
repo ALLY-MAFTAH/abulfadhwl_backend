@@ -105,7 +105,7 @@
             <div class="vframe">
                 <div class="bgvid" aria-hidden="true"><video muted playsinline preload="none" data-srcs="{{ asset('assets/video/lib1_hq.mp4') }}|{{ asset('assets/video/lib2_hq.mp4') }}" data-posters="{{ asset('assets/video/lib1_hq.jpg') }}|{{ asset('assets/video/lib2_hq.jpg') }}"></video></div>
                 <div class="vw w-live"><span class="dot"></span> {{ $t['f1'] }}</div>
-                <div class="vw w-play"><span class="pl"><i class="fas fa-play"></i></span><span class="tx"><b>{{ optional($songs->first())->title ?? $t['feats'][0][0] }}</b><i class="bar"><u></u></i></span></div>
+                <div class="vw w-play"><span class="pl"><i class="fas fa-play"></i></span><span class="tx"><b>{{ $t['feats'][0][0] }}</b><i class="bar"><u></u></i></span></div>
                 <div class="vw w-book"><i class="fas fa-book-open"></i> {{ $t['f3'] }}</div>
             </div>
             <div class="head rv"><span class="eb">{{ $t['feat_eb'] }}</span><h2>{{ $t['feat_h'] }}</h2><p>{{ $t['feat_p'] }}</p></div>
@@ -137,16 +137,6 @@
 
             @if ($stream)
                 <div class="livebox rv"><span class="dot" style="display:inline-block"></span> &nbsp;{{ $t['live_now'] }}</div>
-            @endif
-            @if ($songs->count() || $books->count())
-                <div class="list">
-                    @foreach ($songs as $s)
-                        <div class="row rv"><span class="ic"><i class="fas fa-headphones"></i></span><span class="t">{{ $s->title }}</span>@if ($s->file)<audio controls preload="none" src="{{ asset('storage/' . $s->file) }}"></audio>@endif</div>
-                    @endforeach
-                    @foreach ($books as $b)
-                        <div class="row rv"><span class="ic" style="background:linear-gradient(135deg,#e9b23c,#b98418)"><i class="fas fa-book"></i></span><span class="t">{{ $b->title }}</span>@if ($b->file)<a class="chip" href="{{ asset('storage/' . $b->file) }}"><i class="fas fa-download"></i> {{ $t['download'] }}</a>@endif</div>
-                    @endforeach
-                </div>
             @endif
             <div class="hist rv" id="historia">
                 <div class="head"><span class="eb mono">{{ $t['hs_eb'] }}</span><h2>{{ $t['hs_t'] }}</h2><p>{{ $t['hs_s'] }}</p></div>

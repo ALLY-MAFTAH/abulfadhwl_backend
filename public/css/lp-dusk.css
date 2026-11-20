@@ -1,0 +1,31 @@
+/* Dusk theme: between light and dark (no toggle). Mid navy-blue page, frosted glass cards, gold horizon glow. */
+:root { --dk: #1e3070; --tx: #f1f4fc; --tx2: #c3cdea; --glass: rgba(255,255,255,.10); --glass2: rgba(255,255,255,.16); --gl-line: rgba(255,255,255,.2); }
+body.lp { color: var(--tx); background-color: var(--dk);
+  background-image: radial-gradient(45vmax 45vmax at 8% 6%, rgba(124,155,240,.30), transparent 70%), radial-gradient(40vmax 40vmax at 96% 14%, rgba(233,178,60,.20), transparent 70%), radial-gradient(50vmax 40vmax at 50% 105%, rgba(63,200,228,.14), transparent 70%); }
+.lp a { color: var(--gold-l); }
+.nav { background: rgba(14,26,64,.55); border-color: var(--gl-line); box-shadow: 0 14px 34px -20px rgba(0,0,0,.6); }
+.nav .brand { color: #fff; } .nav .links a { color: var(--tx2); } .nav .links a:hover { color: var(--gold-l); }
+.nav .login { color: var(--n9); background: linear-gradient(135deg, var(--gold-l), var(--gold)); }
+
+.s1 { background: radial-gradient(70% 55% at 50% 100%, rgba(233,178,60,.38), transparent 70%), radial-gradient(55% 50% at 82% 14%, rgba(255,217,138,.28), transparent 65%), linear-gradient(180deg, #0e1a40 0%, #1b2d63 55%, #1e3070 100%); }
+.s1::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 60 60'%3E%3Cpath d='M30 4 L36 14 L47 13 L46 24 L56 30 L46 36 L47 47 L36 46 L30 56 L24 46 L13 47 L14 36 L4 30 L14 24 L13 13 L24 14 Z' fill='none' stroke='%23ffd98a' stroke-opacity='0.09'/%3E%3C/svg%3E"); }
+.sun { box-shadow: 0 0 50px 14px rgba(255,217,138,.5), 0 0 140px 50px rgba(233,178,60,.22); }
+.cloud { background: rgba(255,255,255,.14); filter: blur(3px); }
+h1.title { color: #fff; } .gold { background-image: linear-gradient(100deg, var(--gold-l), var(--gold) 35%, #fff 65%, var(--gold-l)); }
+.sub { color: var(--tx2); }
+.logo img { box-shadow: 0 16px 34px -14px rgba(0,0,0,.7), 0 0 0 1px var(--gl-line); }
+.chip { color: #fff; background: var(--glass); border-color: var(--gl-line); box-shadow: none; backdrop-filter: blur(8px); } .chip i { color: var(--gold-l); }
+.fchip { color: #fff; background: rgba(14,26,64,.6); border-color: var(--gl-line); backdrop-filter: blur(10px); box-shadow: 0 16px 30px -16px #000; } .fchip i { color: var(--gold-l); }
+.stage::before { background: radial-gradient(circle, rgba(124,155,240,.4), transparent 65%); }
+.waves svg:nth-child(1) path { fill: rgba(255,255,255,.07); } .waves svg:nth-child(2) path { fill: rgba(255,255,255,.12); } .waves svg:nth-child(3) path { fill: #1e3070; }
+
+.head h2 { color: #fff; } .head p { color: var(--tx2); } .head .eb { color: var(--gold-l); background: rgba(233,178,60,.18); }
+.stat { background: var(--glass); border-color: var(--gl-line); box-shadow: 0 20px 40px -26px #000; } .stat .l { color: var(--tx2); }
+.card { background: var(--glass); border-color: var(--gl-line); box-shadow: 0 18px 36px -26px #000; } .card:hover { background: var(--glass2); box-shadow: 0 24px 46px -22px var(--c1); }
+.card .ic { box-shadow: 0 10px 22px -8px var(--c1), 0 0 0 3px rgba(255,255,255,.18); } .card p { color: var(--tx2); } .card h3 { color: #fff; }
+.phones .cap { color: #fff; } .phones .cap small { color: var(--tx2); }
+.phone { box-shadow: 0 30px 60px -22px #000, 0 0 0 2px rgba(255,255,255,.14) inset; }
+.livebox { color: #fff; background: linear-gradient(135deg, rgba(255,77,77,.22), rgba(255,255,255,.06)); border-color: rgba(255,77,77,.45); }
+.row { background: var(--glass); border-color: var(--gl-line); } .row .t { color: #fff; } .row .chip { color: var(--n9); background: linear-gradient(135deg, var(--gold-l), var(--gold)); border: 0; } .row .chip i { color: var(--n9); }
+.panel { background: radial-gradient(90% 130% at 100% 0%, rgba(233,178,60,.34), transparent 55%), linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.05)); border: 1px solid var(--gl-line); backdrop-filter: blur(14px); box-shadow: 0 34px 70px -36px #000; }
+.foot { color: var(--tx2); } .foot a { color: var(--gold-l); } .foot img { box-shadow: 0 0 0 1px var(--gl-line); }

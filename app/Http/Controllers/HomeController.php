@@ -31,10 +31,10 @@ class HomeController extends Controller
             : (in_array(request()->cookie('lang'), ['sw', 'en', 'ar'], true) ? request()->cookie('lang') : 'sw');
         return response()->view('site', [
             'lang' => $lang,
-            'songs' => Song::latest()->take(6)->get(),
-            'books' => Book::latest()->take(4)->get(),
+            'songs' => collect(),
+            'books' => collect(),
             'stream' => Stream::where('status', 1)->latest()->first(),
-            'histories' => History::orderBy('id')->take(10)->get(),
+            'histories' => collect(), // history lives inside the app only
             'links' => Link::where('status', 1)->latest()->get(),
             'counts' => [
                 'songs' => Song::count(),
