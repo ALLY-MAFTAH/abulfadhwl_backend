@@ -199,6 +199,17 @@
     ['Tangazo limefutwa', 'Announcement deleted successfully'],
     ['Tangazo halipatikani', 'Announcement not found'],
     ['Tangazo halipo', 'Announcement does not exist'],
+    // ---- other languages ----
+    ['Lugha nyingine', 'Other languages'], ['(hiari — ukiacha wazi, Kiswahili kinatumika)', '(optional — if left empty, Kiswahili is used)'], ['Habari / Tangazo', 'News / Announcement'],
+    // ---- structured timetable ----
+    ['Kichwa cha live', 'Live title'], ['mf. LIVE - DARSA YA HADITHI', 'e.g. LIVE - DARSA YA HADITHI'], ['mf. الجوهر النقي الملتقط من أحاديث النبي ﷺ', 'e.g. الجوهر النقي الملتقط من أحاديث النبي ﷺ'],
+    ['Jina la kitabu kwenye ratiba (hiari)', 'Book name in the timetable (optional)'], ['mf. Al Jawharun Naqiyyu', 'e.g. Al Jawharun Naqiyyu'], ['Likiachwa wazi, kichwa cha juu kinatumika', 'If left empty, the main title is used'],
+    ['Kichwa kidogo (hiari)', 'Subtitle (optional)'], ['Kinaonekana chini ya kichwa ukiwa live', 'Shown under the title while live'],
+    ['Siku', 'Day'], ['Muda', 'Time'], ['Mwalimu', 'Teacher'], ['— Chagua siku —', '— Choose a day —'], ['Ratiba ya wiki', 'Weekly timetable'],
+    ['Hivi ndivyo ratiba inavyoonekana kwenye app. Chagua siku na mwalimu kwenye kila darsa.', 'This is how the timetable looks in the app. Pick a day and teacher on each lesson.'],
+    ['Ratiba bado haina siku', 'The timetable has no days yet'], ['Hariri kila darsa uchague siku (na mwalimu), kisha ratiba itatokea hapa na kwenye app.', 'Edit each lesson and pick a day (and teacher); the timetable will then appear here and in the app.'],
+    ['Jumatatu', 'Monday'], ['Jumanne', 'Tuesday'], ['Jumatano', 'Wednesday'], ['Alhamisi', 'Thursday'], ['Ijumaa', 'Friday'], ['Jumamosi', 'Saturday'], ['Jumapili', 'Sunday'],
+    ['mf. Baada ya Magharibi', 'e.g. After Maghrib'], ['mf. Abul Fadhwl', 'e.g. Abul Fadhwl'],
     // ---- server flash messages ----
     ['Msimamizi ameongezwa', 'Administrator added'], ['Msimamizi amefutwa', 'Administrator deleted'], ['Taarifa zimehifadhiwa', 'Details saved'], ['Sehemu imeongezwa', 'Section added'], ['Sehemu imehifadhiwa', 'Section saved'],
     ['Huwezi kujifuta mwenyewe.', 'You cannot delete yourself.'], ['Lazima abaki msimamizi angalau mmoja.', 'At least one administrator must remain.'], ['Ratiba ya wiki imesasishwa', 'Weekly timetable updated'],

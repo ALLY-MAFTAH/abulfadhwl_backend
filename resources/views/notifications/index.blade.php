@@ -41,6 +41,7 @@
                 <div class="pro-field"><span>Kichwa</span><input class="form-control" id="f-title" name="title" maxlength="120" required placeholder="mf. Darsa inaanza sasa" value="{{ old('title') }}"></div>
                 <div class="pro-field"><span>Ujumbe</span><textarea class="form-control" id="f-body" name="body" rows="3" maxlength="500" required placeholder="Maelezo mafupi">{{ old('body') }}</textarea></div>
                 <div class="pro-field"><span>Link ya picha (hiari)</span><input type="url" class="form-control" id="f-img" name="img" placeholder="https://" value="{{ old('img') }}"></div>
+                @include('partials.lang_tabs', ['uid' => 'push-new', 'tr' => null, 'fields' => [['title','Kichwa','input'],['body','Ujumbe','textarea']]])
                 <div class="prev"><span class="ic"><i class="fas fa-bell"></i></span><div><b id="p-title">Kichwa cha arifa</b><span id="p-body">Ujumbe utaonekana hapa kama kwenye simu.</span></div></div>
                 <button class="pbtn pbtn-gold w-100" id="sendBtn" type="submit"><i class="fas fa-paper-plane"></i> Tuma kwa wote</button>
             </form>
@@ -54,7 +55,7 @@
                     $st = $n->status ?? 'unknown';
                     $chip = ['sent' => ['live', 'Imetumwa'], 'failed' => ['red', 'Imeshindwa'], 'pending' => ['gold', 'Inasubiri'], 'unknown' => ['', 'Haijathibitishwa']][$st] ?? ['', $st];
                 @endphp
-                <div class="nrow" data-title="{{ $n->title }}" data-body="{{ $n->body }}" data-img="{{ $n->img }}">
+                <div class="nrow" data-title="{{ $n->title }}" data-body="{{ $n->body }}" data-img="{{ $n->img }}" data-tr="{{ json_encode($n->translations ?? new stdClass) }}">
                     <div style="min-width:0">
                         <h3>{{ $n->title }}</h3>
                         <p>{{ $n->body }}</p>
@@ -87,6 +88,12 @@
 <script>
 (function () {
   var $ = function (i) { return document.getElementById(i); };
+  function fillTr(json) {
+    var tr = {}; try { tr = JSON.parse(json || '{}') || {}; } catch (e) {}
+    document.querySelectorAll('#sendForm [name^="tr["]').forEach(function (el) {
+      var m = el.name.match(/^tr\[(\w+)\]\[(\w+)\]$/); el.value = (m && tr[m[1]] && tr[m[1]][m[2]]) || '';
+    });
+  }
   function preview() { $('p-title').textContent = $('f-title').value || 'Kichwa cha arifa'; $('p-body').textContent = $('f-body').value || 'Ujumbe utaonekana hapa kama kwenye simu.'; }
   ['f-title', 'f-body'].forEach(function (i) { $(i).addEventListener('input', preview); }); preview();
 
@@ -98,7 +105,7 @@
   document.addEventListener('click', function (e) {
     var row = e.target.closest('.nrow'); if (!row) return;
     if (e.target.closest('.reuse')) {
-      $('f-title').value = row.dataset.title; $('f-body').value = row.dataset.body; $('f-img').value = row.dataset.img || ''; preview();
+      $('f-title').value = row.dataset.title; $('f-body').value = row.dataset.body; $('f-img').value = row.dataset.img || ''; fillTr(row.dataset.tr); preview();
       window.scrollTo({ top: 0, behavior: 'smooth' }); $('f-title').focus(); AF.toast('Imewekwa kwenye fomu. Hariri kisha tuma.');
     } else if (e.target.closest('.resend')) {
       var b = e.target.closest('.resend');

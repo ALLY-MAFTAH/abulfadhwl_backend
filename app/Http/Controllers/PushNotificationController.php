@@ -31,6 +31,7 @@ class PushNotificationController extends Controller
             'img' => $data['img'] ?? null,
             'topic' => self::TOPIC,
             'status' => 'pending',
+            'translations' => \App\Support\Translations::collect($req, ['title', 'body']),
         ]);
 
         return $this->deliver($n);
@@ -46,6 +47,7 @@ class PushNotificationController extends Controller
             'topic' => $notification->topic ?: self::TOPIC,
             'status' => 'pending',
             'resent_from' => $notification->id,
+            'translations' => $notification->translations,
         ]);
 
         return $this->deliver($n);
@@ -54,10 +56,15 @@ class PushNotificationController extends Controller
     /** Send and record exactly what Firebase answered. */
     private function deliver(PushNotification $n)
     {
-        $result = FcmV1::sendToTopic(
-            $n->topic,
-            (string) $n->title,
-            (string) $n->body,
+        $variants = ['sw' => [(string) $n->title, (string) $n->body]];
+        foreach (['en', 'ar'] as $lang) {
+            $t = $n->translations[$lang] ?? [];
+            if (!empty($t['title']) || !empty($t['body'])) {
+                $variants[$lang] = [$t['title'] ?? $n->title, $t['body'] ?? $n->body];
+            }
+        }
+        $result = FcmV1::sendLocalized(
+            $variants,
             $n->img,
             ['click_action' => 'FLUTTER_NOTIFICATION_CLICK', 'id' => $n->id, 'status' => 'done']
         );
@@ -71,7 +78,7 @@ class PushNotificationController extends Controller
         if (!$result['ok']) {
             return back()->with('error', 'Arifa HAIKUTUMWA: ' . $n->error . ' (imehifadhiwa kwenye historia, unaweza kujaribu tena)');
         }
-        return back()->with('success', 'Firebase imekubali arifa (' . $n->topic . '). Kitambulisho: ' . basename($n->fcm_message_id));
+        return back()->with('success', 'Firebase imekubali arifa (' . implode(', ', array_map('strtoupper', $result['langs'] ?? [])) . '). Kitambulisho: ' . basename(explode(',', (string) $n->fcm_message_id)[0]));
     }
 
     public function destroy(PushNotification $notification)

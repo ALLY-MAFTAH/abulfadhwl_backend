@@ -22,6 +22,13 @@
   .lrow .acts { display: flex; gap: 6px; }
   .listen.on { background: var(--pro-em) !important; color: #04210b !important; border-color: transparent !important; }
   #nowListen.on { background: #fff !important; }
+  .rt { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; padding: 18px 20px 20px; }
+  .rd { border-radius: 18px; overflow: hidden; border: 1px solid var(--pro-line2); background: rgba(var(--fill),.03); }
+  .rd-h { padding: 10px 14px; font: 700 13px "JetBrains Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: #fff; display: flex; justify-content: space-between; }
+  .rd-i { padding: 11px 14px; border-top: 1px solid var(--pro-line); display: grid; gap: 2px; }
+  .rd-i b { font-size: 14.5px; } .rd-i small { color: var(--pro-mut); }
+  .rd-i.live { background: rgba(47,210,79,.14); } .rd-i.live b::after { content: " · LIVE"; color: var(--pro-em-l); font-size: 11px; }
+  .dchip { font: 600 11px "JetBrains Mono", monospace; letter-spacing: .06em; padding: 3px 9px; border-radius: 99px; border: 1px solid var(--pro-line2); color: var(--pro-mut); }
   .tt { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding: 16px 20px; }
   .tt img { width: 120px; height: 80px; object-fit: cover; border-radius: 12px; border: 1px solid var(--pro-line2); cursor: zoom-in; }
   .tt .txt { flex: 1 1 240px; } .tt b { display: block; } .tt small { color: var(--pro-mut); }
@@ -32,7 +39,9 @@
 @section('content')
 @php
     $live = $streams->firstWhere('status', true);
-    $tt = $streams->where('timetable', '!=', '')->first();
+    $days = \App\Models\Stream::DAYS;
+    $dayColors = ['mon' => '#2b4bb5', 'tue' => '#0e7c4c', 'wed' => '#8b6cf0', 'thu' => '#d4780f', 'fri' => '#b3261e', 'sat' => '#0f8aa6', 'sun' => '#a8860f'];
+    $byDay = $streams->groupBy(fn ($x) => $x->day ?: '');
 @endphp
 <div class="py-2"><div class="container">
 
@@ -65,7 +74,7 @@
                 <span class="ix">{{ $i + 1 }}</span>
                 <div style="min-width:0">
                     <h3>{{ $s->title }} @if ($s->status)<span class="pchip live">Live</span>@endif</h3>
-                    <p>{{ $s->description }}</p>
+                    <p>@if ($s->day)<span class="dchip">{{ $days[$s->day] ?? $s->day }}</span> @endif{{ $s->time_label ?: $s->description }}@if ($s->teacher) · {{ $s->teacher }}@endif</p>
                     <span class="url">{{ $s->url }}</span>
                 </div>
                 <div class="swl">
@@ -83,14 +92,26 @@
     </div>
 
     <div class="pro-sheet">
-        <div class="pro-sheet-h"><h2>Ratiba ya wiki (picha)</h2><small>Picha moja inayoonekana kwa darsa zote kwenye app</small></div>
-        <form class="tt" method="POST" action="{{ route('streams.timetable') }}" enctype="multipart/form-data">
-            @csrf
-            @if ($tt)<a href="{{ asset('storage/' . $tt->timetable) }}" target="_blank"><img src="{{ asset('storage/' . $tt->timetable) }}" alt="Ratiba"></a>@endif
-            <div class="txt"><b>{{ $tt ? 'Badilisha picha ya ratiba' : 'Pakia picha ya ratiba' }}</b><small>Itatumika na darsa zote.</small></div>
-            <input type="file" name="timetable" class="form-control" accept="image/*" required style="max-width:300px">
-            <button class="pbtn pbtn-ghost">Hifadhi</button>
-        </form>
+        <div class="pro-sheet-h"><h2>Ratiba ya wiki</h2><small>Hivi ndivyo ratiba inavyoonekana kwenye app. Chagua siku na mwalimu kwenye kila darsa.</small></div>
+        @if ($streams->whereNotNull('day')->count())
+            <div class="rt">
+                @foreach ($days as $k => $label)
+                    @if (isset($byDay[$k]))
+                        <div class="rd">
+                            <div class="rd-h" style="background: {{ $dayColors[$k] }}"><span>{{ $label }}</span><span>{{ $byDay[$k]->count() }}</span></div>
+                            @foreach ($byDay[$k] as $x)
+                                <div class="rd-i {{ $x->status ? 'live' : '' }}">
+                                    <b>{{ $x->book ?: $x->title }}</b>
+                                    <small>{{ $x->time_label }}@if ($x->time_label && $x->teacher) · @endif{{ $x->teacher }}</small>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        @else
+            <div class="pro-empty"><i class="fas fa-calendar-week"></i><b>Ratiba bado haina siku</b>Hariri kila darsa uchague siku (na mwalimu), kisha ratiba itatokea hapa na kwenye app.</div>
+        @endif
     </div>
 
     {{-- ADD --}}
@@ -98,9 +119,18 @@
         <form method="POST" action="{{ route('add_stream') }}">@csrf
             <div class="modal-header"><h5 class="modal-title">Darsa mpya</h5><button type="button" class="close" data-bs-dismiss="modal">&times;</button></div>
             <div class="modal-body">
-                <div class="pro-field"><span>Kitabu / Kichwa</span><input class="form-control" name="title" required placeholder="mf. Sharhu Thalathatil Usul"></div>
-                <div class="pro-field"><span>Siku na wakati</span><input class="form-control" name="description" required placeholder="mf. Jumatatu baada ya Magharibi"></div>
-                <div class="pro-field"><span>Link ya live (YouTube / nyingine)</span><input class="form-control" name="url" required placeholder="https://"></div>
+                <div class="pro-field"><span>Kichwa cha live</span><input class="form-control" name="title" required placeholder="mf. LIVE - DARSA YA HADITHI"></div>
+                <div class="pro-field"><span>Jina la kitabu kwenye ratiba (hiari)</span><input class="form-control" name="book" placeholder="mf. Al Jawharun Naqiyyu"></div>
+                <div class="pro-field"><span>Siku</span>
+                    <select class="form-select" name="day">
+                        <option value="">— Chagua siku —</option>
+                        @foreach ($days as $k => $label)<option value="{{ $k }}">{{ $label }}</option>@endforeach
+                    </select></div>
+                <div class="pro-field"><span>Kichwa kidogo (hiari)</span><input class="form-control" name="description" placeholder="mf. الجوهر النقي الملتقط من أحاديث النبي ﷺ"></div>
+                <div class="pro-field"><span>Muda</span><input class="form-control" name="time_label" placeholder="mf. Baada ya Magharibi"></div>
+                <div class="pro-field"><span>Mwalimu</span><input class="form-control" name="teacher" placeholder="mf. Abul Fadhwl"></div>
+                <div class="pro-field"><span>Link ya live (YouTube / nyingine)</span><input class="form-control" name="url" required placeholder="https://" value="{{ optional($streams->sortByDesc('id')->first())->url }}"></div>
+                            @include('partials.lang_tabs', ['uid' => 'add-stream', 'tr' => null, 'fields' => [['title','Kichwa cha live','input','mf. LIVE LESSON - HADITH'],['description','Kichwa kidogo','input'],['book','Jina la kitabu kwenye ratiba','input'],['time_label','Muda','input','e.g. After Maghrib'],['teacher','Mwalimu','input']]])
             </div>
             <div class="modal-footer"><button type="button" class="pbtn pbtn-ghost" data-bs-dismiss="modal">Funga</button><button class="pbtn pbtn-gold">Hifadhi</button></div>
         </form>
@@ -112,9 +142,18 @@
         <form method="POST" action="{{ route('edit_stream', $s->id) }}">@csrf @method('PUT')
             <div class="modal-header"><h5 class="modal-title">Hariri darsa</h5><button type="button" class="close" data-bs-dismiss="modal">&times;</button></div>
             <div class="modal-body">
-                <div class="pro-field"><span>Kitabu / Kichwa</span><input class="form-control" name="title" required value="{{ $s->title }}"></div>
-                <div class="pro-field"><span>Siku na wakati</span><input class="form-control" name="description" required value="{{ $s->description }}"></div>
+                <div class="pro-field"><span>Kichwa cha live</span><input class="form-control" name="title" required placeholder="mf. LIVE - DARSA YA HADITHI" value="{{ $s->title }}"></div>
+                <div class="pro-field"><span>Jina la kitabu kwenye ratiba (hiari)</span><input class="form-control" name="book" value="{{ $s->book }}" placeholder="Likiachwa wazi, kichwa cha juu kinatumika"></div>
+                <div class="pro-field"><span>Siku</span>
+                    <select class="form-select" name="day">
+                        <option value="">— Chagua siku —</option>
+                        @foreach ($days as $k => $label)<option value="{{ $k }}" @selected($s->day === $k)>{{ $label }}</option>@endforeach
+                    </select></div>
+                <div class="pro-field"><span>Kichwa kidogo (hiari)</span><input class="form-control" name="description" value="{{ $s->description }}" placeholder="mf. الجوهر النقي الملتقط من أحاديث النبي ﷺ"></div>
+                <div class="pro-field"><span>Muda</span><input class="form-control" name="time_label" value="{{ $s->time_label }}"></div>
+                <div class="pro-field"><span>Mwalimu</span><input class="form-control" name="teacher" value="{{ $s->teacher }}"></div>
                 <div class="pro-field"><span>Link ya live</span><input class="form-control" name="url" required value="{{ $s->url }}"></div>
+                            @include('partials.lang_tabs', ['uid' => 'edit-stream-'.$s->id, 'tr' => $s->translations, 'fields' => [['title','Kichwa cha live','input','mf. LIVE LESSON - HADITH'],['description','Kichwa kidogo','input'],['book','Jina la kitabu kwenye ratiba','input'],['time_label','Muda','input','e.g. After Maghrib'],['teacher','Mwalimu','input']]])
             </div>
             <div class="modal-footer"><button type="button" class="pbtn pbtn-ghost" data-bs-dismiss="modal">Funga</button><button class="pbtn pbtn-gold">Hifadhi</button></div>
         </form>

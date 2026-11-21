@@ -50,6 +50,7 @@ class AnnouncementController extends Controller
         $announcement = new Announcement();
         $announcement->news = $request->input('news');
         $announcement->date = $request->input('date');
+        $announcement->translations = \App\Support\Translations::collect($request, ['news']);
 
         $announcement->save();
         \App\Services\FcmV1::signalRefresh('announcements');
@@ -74,6 +75,7 @@ class AnnouncementController extends Controller
         $announcement->update([
             'news' => $request->input('news'),
             'date' => $request->input('date'),
+            'translations' => \App\Support\Translations::collect($request, ['news']),
         ]);
         $announcement->save();
         \App\Services\FcmV1::signalRefresh('announcements');

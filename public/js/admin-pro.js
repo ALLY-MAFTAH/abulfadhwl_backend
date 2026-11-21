@@ -57,3 +57,34 @@
 
   window.AF = { toast: toast, confirm: confirmBox, api: api, esc: esc, csrf: csrf };
 })();
+
+/* Show/hide password button on every password field */
+(function () {
+  var EYE = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var OFF = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.9 10.9 0 0 1 12 20C5 20 1 12 1 12a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.1 9.1 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>';
+  function wrap(inp) {
+    if (inp.dataset.pwEye) return;
+    inp.dataset.pwEye = '1';
+    var box = document.createElement('div');
+    box.className = 'pw-wrap';
+    inp.parentNode.insertBefore(box, inp);
+    box.appendChild(inp);
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pw-eye';
+    b.setAttribute('aria-label', 'Show password');
+    b.innerHTML = EYE;
+    b.addEventListener('click', function () {
+      var show = inp.type === 'password';
+      inp.type = show ? 'text' : 'password';
+      b.innerHTML = show ? OFF : EYE;
+      b.classList.toggle('on', show);
+    });
+    box.appendChild(b);
+  }
+  function scan() {
+    document.querySelectorAll('input[type="password"]').forEach(wrap);
+  }
+  document.addEventListener('DOMContentLoaded', scan);
+  new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+})();

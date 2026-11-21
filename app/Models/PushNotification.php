@@ -9,7 +9,7 @@ class PushNotification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'img', 'topic', 'status', 'fcm_message_id', 'error', 'sent_at', 'resent_from'];
+    protected $fillable = ['title', 'body', 'img', 'topic', 'status', 'fcm_message_id', 'error', 'sent_at', 'resent_from', 'translations'];
 
-    protected $casts = ['sent_at' => 'datetime'];
+    protected $casts = ['sent_at' => 'datetime', 'translations' => 'array'];
 }

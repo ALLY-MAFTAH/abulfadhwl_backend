@@ -3,7 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Abul Fadhwl: {{ $label }}</title>
+    <title>{{ $title }} — Abul Fadhwl</title>
+    <meta name="description" content="{{ $desc }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Abul Fadhwl">
+    <meta property="og:title" content="{{ $title }}">
+    <meta property="og:description" content="{{ $desc }}">
+    <meta property="og:image" content="{{ asset('assets/images/logo.png') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta name="twitter:card" content="summary">
     <style>
         body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
              background:linear-gradient(160deg,#060b1d,#12204a);color:#eaf0ff;
@@ -20,8 +28,15 @@
 <body>
 <div class="card">
     <h1>Abul Fadhwl</h1>
-    <p>{{ $label }}: fungua kwenye app</p>
+    <p><b>{{ $title }}</b><br>{{ $label }}: fungua kwenye app</p>
     <a class="btn primary" href="{{ $deepLink }}">Fungua kwenye App</a>
+    @if(!empty($fileUrl))
+        @if($isAudio)
+            <audio controls preload="none" src="{{ $fileUrl }}" style="width:100%;margin:6px 0 4px"></audio>
+        @else
+            <a class="btn store" href="{{ $fileUrl }}" target="_blank" rel="noopener">Fungua faili kwenye browser</a>
+        @endif
+    @endif
     @if($androidUrl && $androidUrl !== '#')
         <a class="btn store" href="{{ $androidUrl }}">Pakua kwa Android</a>
     @endif

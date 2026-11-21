@@ -41,7 +41,8 @@ class FcmV1
             $data = array_map(fn ($v) => (string) ($v ?? ''), $data);
 
             $message = [
-                'topic' => $topic,
+                // a plain topic name, or a condition such as "'lang_en' in topics"
+                (str_contains($topic, ' in topics') ? 'condition' : 'topic') => $topic,
                 'notification' => $notification,
                 'data' => (object) $data,
                 'android' => [
@@ -88,6 +89,47 @@ class FcmV1
             Log::error('FCM v1 send error: ' . $e->getMessage());
             return ['ok' => false, 'status' => 0, 'body' => $e->getMessage(), 'message_id' => null, 'error' => $e->getMessage()];
         }
+    }
+
+    /**
+     * Who gets which language. Everyone is on `all`; phones set to English or
+     * Arabic are also on `lang_en` / `lang_ar`. Kiswahili is whoever is left,
+     * which also covers older app versions that only know `all`. Nobody is hit twice.
+     */
+    public static function langTarget(string $lang): string
+    {
+        return match ($lang) {
+            'en' => "'lang_en' in topics",
+            'ar' => "'lang_ar' in topics",
+            default => "'all' in topics && !('lang_en' in topics) && !('lang_ar' in topics)",
+        };
+    }
+
+    /**
+     * Sends one notification per language. $variants = ['sw' => [title, body], 'en' => [...], 'ar' => [...]];
+     * only Kiswahili is required. Returns the usual result; ok only if every send was accepted.
+     */
+    public static function sendLocalized(array $variants, ?string $image = null, array $data = []): array
+    {
+        $results = [];
+        foreach (['sw', 'en', 'ar'] as $lang) {
+            $v = $variants[$lang] ?? null;
+            if (!$v || trim((string) $v[0]) === '' ) continue;
+            $r = self::sendToTopic(self::langTarget($lang), (string) $v[0], (string) ($v[1] ?? ''), $image, $data + ['lang' => $lang]);
+            $results[$lang] = $r;
+        }
+        if (!$results) return ['ok' => false, 'status' => 0, 'body' => '', 'message_id' => null, 'error' => 'Hakuna ujumbe wa kutuma'];
+
+        $failed = array_filter($results, fn ($r) => !$r['ok']);
+        $first = reset($results);
+        return [
+            'ok' => !$failed,
+            'status' => $first['status'],
+            'body' => json_encode(array_map(fn ($r) => $r['body'], $results)),
+            'message_id' => implode(', ', array_filter(array_map(fn ($r) => $r['message_id'] ?? null, $results))) ?: null,
+            'error' => $failed ? implode(' | ', array_map(fn ($l, $r) => strtoupper($l) . ': ' . ($r['error'] ?? 'imeshindwa'), array_keys($failed), $failed)) : null,
+            'langs' => array_keys($results),
+        ];
     }
 
     /**

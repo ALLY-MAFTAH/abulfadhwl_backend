@@ -11,7 +11,7 @@ class StreamController extends Controller
 {
     public function getAllStreams()
     {
-        $streams = Stream::all();
+        $streams = Stream::timetableOrder();
         if (REQ::is('api/*'))
             return response()->json([
                 'streams' => $streams
@@ -40,8 +40,15 @@ class StreamController extends Controller
             'timetable' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp,gif'],
             'url' => 'required',
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'nullable|string|max:300',
+            'time_label' => 'nullable|string|max:120',
+            'book' => 'nullable|string|max:160',
+            'day' => ['nullable', 'in:' . implode(',', array_keys(Stream::DAYS))],
+            'teacher' => 'nullable|string|max:120',
         ]);
+        $attributes['description'] = $attributes['description'] ?? '';
+        $attributes['position'] = (int) Stream::max('position') + 1;
+        $attributes['translations'] = \App\Support\Translations::collect($request, ['title', 'description', 'book', 'time_label', 'teacher']);
 
         if ($request->hasFile('timetable')) {
             $timetable = $request->file('timetable');
@@ -81,8 +88,15 @@ class StreamController extends Controller
             'timetable' => 'sometimes|nullable|file|image|mimes:jpg,jpeg,png,webp,gif',
             'url' => 'required',
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'nullable|string|max:300',
+            'time_label' => 'nullable|string|max:120',
+            'book' => 'nullable|string|max:160',
+            'day' => ['nullable', 'in:' . implode(',', array_keys(Stream::DAYS))],
+            'teacher' => 'nullable|string|max:120',
         ]);
+
+        $attributes['description'] = $attributes['description'] ?? '';
+        $attributes['translations'] = \App\Support\Translations::collect($request, ['title', 'description', 'book', 'time_label', 'teacher']);
 
         if ($request->hasFile('timetable')) {
             $timetable = $attributes['timetable'];
@@ -113,15 +127,17 @@ class StreamController extends Controller
         if ($now !== $was) {
             // Going live or ending: a visible notification for everyone. It
             // also makes open apps reload the darsa status (data.refresh).
-            \App\Services\FcmV1::sendToTopic(
-                'all',
-                $now ? 'Darsa ya moja kwa moja imeanza' : 'Darsa ya moja kwa moja imekwisha',
-                $now
-                    ? $stream->title . ' — bonyeza kusikiliza sasa'
-                    : $stream->title . ' imekwisha. Asanteni kwa kusikiliza.',
-                null,
-                ['link' => 'abulfadhwl://open/stream/' . $stream->id, 'refresh' => 'streams']
-            );
+            $t = fn (string $lang) => \App\Support\Translations::pick($stream, 'title', $lang);
+            $link = ['link' => 'abulfadhwl://open/stream/' . $stream->id, 'refresh' => 'streams'];
+            \App\Services\FcmV1::sendLocalized($now ? [
+                'sw' => ['Darsa ya moja kwa moja imeanza', $t('sw') . ' — bonyeza kusikiliza sasa'],
+                'en' => ['The live lesson has started', $t('en') . ' — tap to listen now'],
+                'ar' => ['بدأ الدرس المباشر', $t('ar') . ' — اضغط للاستماع الآن'],
+            ] : [
+                'sw' => ['Darsa ya moja kwa moja imekwisha', $t('sw') . ' imekwisha. Asanteni kwa kusikiliza.'],
+                'en' => ['The live lesson has ended', $t('en') . ' has ended. Thank you for listening.'],
+                'ar' => ['انتهى الدرس المباشر', 'انتهى ' . $t('ar') . '. شكراً لاستماعكم.'],
+            ], null, $link);
         } else {
             \App\Services\FcmV1::signalRefresh('streams');
         }

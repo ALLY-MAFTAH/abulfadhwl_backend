@@ -12,8 +12,11 @@ class Announcement extends Model
 
     protected $fillable=[
         'news',
-        'date'
+        'date',
+        'translations',
     ];
+
+    protected $casts = ['translations' => 'array'];
     protected $dates=[
         'deleted_at'
     ];

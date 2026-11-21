@@ -692,3 +692,7 @@ body.lp { background-image:
   linear-gradient(180deg, rgba(255,214,130,.10), rgba(255,214,130,0) 40%, rgba(233,178,60,.14)) !important; background-attachment: fixed; }
 .s1 { background: radial-gradient(75% 60% at 50% 100%, rgba(255,196,80,.78), transparent 70%), radial-gradient(60% 55% at 88% 8%, rgba(255,226,150,.62), transparent 65%), radial-gradient(40% 40% at 6% 92%, rgba(60,225,90,.34), transparent 72%), linear-gradient(180deg, #2a4aa0 0%, #4a64b8 50%, #8a7a86 82%, #d8a64a 100%) !important; }
 .sun { box-shadow: 0 0 70px 24px rgba(255,217,138,.7), 0 0 190px 80px rgba(233,178,60,.38); }
+
+/* video edge: rounded outer corners */
+.vframe .bgvid, .vframe .bgvid video { border-radius: 0 30px 30px 0 !important; overflow: hidden; }
+[dir="rtl"] .vframe .bgvid, [dir="rtl"] .vframe .bgvid video { border-radius: 30px 0 0 30px !important; }

@@ -24,7 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Amiri+Quran&family=Scheherazade+New:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     @if ($shot('home-l') ?: $shot('home'))<link rel="preload" as="image" href="{{ $shot('home-l') ?: $shot('home') }}">@endif
-    <link href="{{ asset('css/site.css') }}?v=48" rel="stylesheet">
+    <link href="{{ asset('css/site.css') }}?v=49" rel="stylesheet">
 </head>
 <body class="lp">
     <div class="bism-bar">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>

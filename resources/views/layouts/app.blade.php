@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
     <link href="{{ asset('css/admin.css') }}?v=2" rel="stylesheet">
-    <link href="{{ asset('css/admin-pro.css') }}?v=7" rel="stylesheet">
+    <link href="{{ asset('css/admin-pro.css') }}?v=9" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('af-theme') === 'light' ? 'light' : 'dark'); } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }</script>
     @yield('style')
@@ -151,8 +151,8 @@
             });
         })();
     </script>
-    <script src="{{ asset('js/admin-pro.js') }}?v=2"></script>
-    <script src="{{ asset('js/admin-i18n.js') }}?v=2"></script>
+    <script src="{{ asset('js/admin-pro.js') }}?v=3"></script>
+    <script src="{{ asset('js/admin-i18n.js') }}?v=7"></script>
     @if ($errors->any())
         <script>document.addEventListener('DOMContentLoaded', function () { AF.toast(@json($errors->first()), 'err'); });</script>
     @endif

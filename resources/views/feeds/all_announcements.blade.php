@@ -106,6 +106,7 @@
                                                                     </div>
                                                                 </div>
 
+                                                                @include('partials.lang_tabs', ['uid' => 'ann-edit-'.$announcement->id, 'tr' => $announcement->translations, 'fields' => [['news','Habari / Tangazo','textarea']]])
                                                                 <div class="form-group row mb-0">
                                                                     <div class="col-md-6 offset-md-4">
                                                                         <button type="submit" class="btn btn-primary">
@@ -176,6 +177,7 @@
                                     </div>
                                 </div>
 
+                                @include('partials.lang_tabs', ['uid' => 'ann-add', 'tr' => null, 'fields' => [['news','Habari / Tangazo','textarea']]])
                                 <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">
                                         <button type="submit" class="btn btn-primary">

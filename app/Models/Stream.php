@@ -17,8 +17,25 @@ class Stream extends Model
         'timetable',
         'title',
         'description',
-        'status'
+        'status',
+        'day',
+        'teacher',
+        'time_label',
+        'book',
+        'translations',
+        'position',
     ];
+    public const DAYS = ['mon' => 'Jumatatu', 'tue' => 'Jumanne', 'wed' => 'Jumatano', 'thu' => 'Alhamisi', 'fri' => 'Ijumaa', 'sat' => 'Jumamosi', 'sun' => 'Jumapili'];
+
+    /** Streams in timetable order: weekday, then the order the admin gave. Un-dayed lessons go last. */
+    public static function timetableOrder()
+    {
+        $idx = array_flip(array_keys(self::DAYS));
+        return static::all()->sortBy(fn ($s) => [$idx[$s->day] ?? 99, (int) $s->position, $s->id])->values();
+    }
+
+    protected $casts = ['translations' => 'array'];
+
     protected $dates=[
         'deleted_at'
     ];
