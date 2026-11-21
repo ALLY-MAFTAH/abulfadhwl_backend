@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PlainText;
+use App\Rules\SafeName;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -58,7 +60,8 @@ class CategoryController extends Controller
 
         // Validate if the request sent contains this parameters
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:1|unique:categories,name,NULL,id,deleted_at,NULL',
+            'name' => ['required', 'string', 'min:1', 'max:190', 'unique:categories,name,NULL,id,deleted_at,NULL', new SafeName()],
+            'description' => ['nullable', 'string', 'max:2000', new PlainText()],
 
         ]);
 
@@ -92,6 +95,11 @@ class CategoryController extends Controller
                 'error' => "Category not found"
             ], 404);
         }
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:190', new SafeName()],
+            'description' => ['nullable', 'string', 'max:2000', new PlainText()],
+        ]);
 
         $category->update([
             'name' => $request->input('name'),

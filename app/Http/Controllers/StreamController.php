@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PlainText;
 use App\Models\Stream;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -38,13 +39,13 @@ class StreamController extends Controller
     {
         $attributes = $this->validate($request, [
             'timetable' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp,gif'],
-            'url' => 'required',
-            'title' => 'required',
-            'description' => 'nullable|string|max:300',
-            'time_label' => 'nullable|string|max:120',
-            'book' => 'nullable|string|max:160',
+            'url' => ['required', 'url', 'max:500', 'starts_with:http://,https://'],
+            'title' => ['required', 'string', 'max:160', new PlainText()],
+            'description' => ['nullable', 'string', 'max:300', new PlainText()],
+            'time_label' => ['nullable', 'string', 'max:120', new PlainText()],
+            'book' => ['nullable', 'string', 'max:160', new PlainText()],
             'day' => ['nullable', 'in:' . implode(',', array_keys(Stream::DAYS))],
-            'teacher' => 'nullable|string|max:120',
+            'teacher' => ['nullable', 'string', 'max:120', new PlainText()],
         ]);
         $attributes['description'] = $attributes['description'] ?? '';
         $attributes['position'] = (int) Stream::max('position') + 1;
@@ -86,13 +87,13 @@ class StreamController extends Controller
 
         $attributes = $this->validate($request, [
             'timetable' => 'sometimes|nullable|file|image|mimes:jpg,jpeg,png,webp,gif',
-            'url' => 'required',
-            'title' => 'required',
-            'description' => 'nullable|string|max:300',
-            'time_label' => 'nullable|string|max:120',
-            'book' => 'nullable|string|max:160',
+            'url' => ['required', 'url', 'max:500', 'starts_with:http://,https://'],
+            'title' => ['required', 'string', 'max:160', new PlainText()],
+            'description' => ['nullable', 'string', 'max:300', new PlainText()],
+            'time_label' => ['nullable', 'string', 'max:120', new PlainText()],
+            'book' => ['nullable', 'string', 'max:160', new PlainText()],
             'day' => ['nullable', 'in:' . implode(',', array_keys(Stream::DAYS))],
-            'teacher' => 'nullable|string|max:120',
+            'teacher' => ['nullable', 'string', 'max:120', new PlainText()],
         ]);
 
         $attributes['description'] = $attributes['description'] ?? '';

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PersonName;
+use App\Rules\PlainText;
+use App\Rules\RealPhone;
+use App\Support\InputRules;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -33,9 +37,9 @@ class CommentController extends Controller
     public function postComment(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'full_name' => 'required|string|max:100',
-            'phone' => ['required', 'string', 'regex:/^(\+?255)?[0-9]{9,12}$/'],
-            'message' => 'required|string|max:500'
+            'full_name' => ['required', 'string', 'max:100', new PersonName()],
+            'phone' => ['required', 'string', 'max:25', new RealPhone()],
+            'message' => ['required', 'string', 'min:3', 'max:500', new PlainText()],
         ]);
 
         if ($validator->fails()) {
@@ -46,9 +50,9 @@ class CommentController extends Controller
         }
 
         $comment = new Comment();
-        $comment->full_name = $request->input('full_name');
-        $comment->phone = $request->input('phone');
-        $comment->message = $request->input('message');
+        $comment->full_name = InputRules::cleanText($request->input('full_name'));
+        $comment->phone = InputRules::normalizePhone($request->input('phone'));
+        $comment->message = InputRules::cleanText($request->input('message'));
 
         $comment->save();
         return response()->json(['comment' => $comment], 200);
@@ -64,9 +68,9 @@ class CommentController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'full_name' => 'required',
-            'phone' => 'required',
-            'message' => 'required'
+            'full_name' => ['required', 'string', 'max:100', new PersonName()],
+            'phone' => ['required', 'string', 'max:25', new RealPhone()],
+            'message' => ['required', 'string', 'max:500', new PlainText()],
         ]);
 
         if ($validator->fails()) {

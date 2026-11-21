@@ -28,7 +28,7 @@
                             <form action="{{ 'https://maftah.co.tz/public/storage/' . $article->file }}" target="_blank"
                                 style="padding-bottom: 5px">
                                 <button type="submit" class="btn btn-outline-primary">
-                                    <i class="fas fa-file"> Open</i>
+                                    <i class="fas fa-file"></i> <span>Open</span>
                                 </button>
                             </form>
                         </div>

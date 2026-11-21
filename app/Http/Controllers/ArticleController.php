@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PlainText;
+use App\Rules\SafeName;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as REQ;
@@ -42,9 +44,9 @@ class ArticleController extends Controller
     public function postArticle(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'number' => 'required|min:1|unique:articles,number,NULL,id',
-            'title' => 'required|min:1',
-            'pub_year' => 'required',
+            'number' => ['required', 'string', 'min:1', 'max:20', 'unique:articles,number,NULL,id', new PlainText()],
+            'title' => ['required', 'string', 'min:1', 'max:190', new SafeName()],
+            'pub_year' => ['required', 'string', 'max:20', new PlainText()],
             'file' => 'required|file|mimes:pdf',
         ]);
 
@@ -80,9 +82,9 @@ class ArticleController extends Controller
     public function putArticle(Request $request, $articleId)
     {
         $validator = Validator::make($request->all(), [
-            'number' => 'required|unique:articles,number,' . $articleId . ',id',
-            'title' => 'required',
-            'pub_year' => 'required',
+            'number' => ['required', 'string', 'max:20', 'unique:articles,number,' . $articleId . ',id', new PlainText()],
+            'title' => ['required', 'string', 'max:190', new SafeName()],
+            'pub_year' => ['required', 'string', 'max:20', new PlainText()],
             'file' => 'sometimes|nullable|file|mimes:pdf',
         ]);
 

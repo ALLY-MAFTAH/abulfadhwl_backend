@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\SafeName;
 use App\Models\Song;
 use App\Models\Album;
 use App\Models\Category;
@@ -121,7 +122,10 @@ class SongController extends Controller
     public function putSong(Request $request, $songId)
     {
 
-        $request->validate(['file' => 'sometimes|nullable|file|mimes:mp3,m4a,aac,wav,ogg,oga,opus,amr,flac,wma,mp4,mpga']);
+        $request->validate([
+            'file' => 'sometimes|nullable|file|mimes:mp3,m4a,aac,wav,ogg,oga,opus,amr,flac,wma,mp4,mpga',
+            'title' => ['nullable', 'string', 'max:190', new SafeName()],
+        ]);
 
         $song = Song::find($songId);
         if (!$song) {
@@ -229,7 +233,7 @@ class SongController extends Controller
 
         $v = Validator::make($request->all(), [
             'file' => 'required|file|mimes:mp3,m4a,aac,wav,ogg,oga,opus,amr,flac,wma,mp4,mpga',
-            'title' => 'required|string|max:190',
+            'title' => ['required', 'string', 'max:190', new SafeName()],
         ]);
         if ($v->fails()) {
             return response()->json(['ok' => false, 'error' => $v->errors()->first()], 422);

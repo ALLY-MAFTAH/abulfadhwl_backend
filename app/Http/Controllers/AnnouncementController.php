@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PlainText;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -35,8 +36,8 @@ class AnnouncementController extends Controller
     public function postAnnouncement(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'news' => 'required',
-            'date' => 'required',
+            'news' => ['required', 'string', 'max:3000', new PlainText()],
+            'date' => ['required', 'string', 'max:60', new PlainText()],
 
         ]);
 
@@ -71,6 +72,11 @@ class AnnouncementController extends Controller
                 'error' => 'Announcement not found'
             ], 404);
         }
+
+        $request->validate([
+            'news' => ['required', 'string', 'max:3000', new PlainText()],
+            'date' => ['required', 'string', 'max:60', new PlainText()],
+        ]);
 
         $announcement->update([
             'news' => $request->input('news'),

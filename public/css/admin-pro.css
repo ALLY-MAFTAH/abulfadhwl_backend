@@ -271,3 +271,26 @@ html .rail .nav-item.active, html .rail .nav-item.active:hover { color: #14224d 
 .pw-wrap > input { width: 100%; padding-right: 40px !important; }
 .pw-eye { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; display: grid; place-items: center; border: 0; border-radius: 8px; background: transparent; color: rgba(var(--fill, 148,163,184), .6); cursor: pointer; padding: 0; }
 .pw-eye:hover, .pw-eye.on { color: var(--pro-gold-t, #e9b23c); background: rgba(233,178,60,.12); }
+
+/* ---------- every delete control is red, on every page ----------
+   (placed last, with extra specificity: the grey table-cell icon rule used to win) */
+html body .iconbtn.del, html body .btn-outline-danger, html body .btn-danger, html body .pbtn-danger,
+html body td .btn-outline-danger, html body td .btn-danger,
+html body .btn:has(> i.fa-trash), html body button:has(> i.fa-trash), html body a:has(> i.fa-trash:only-child),
+html body td .btn:has(> i.fa-trash:only-child), html body td a.btn-outline-danger:has(> i:only-child) {
+  color: #ff6b6b !important; background: rgba(255,90,90,.14) !important; border: 1px solid rgba(255,90,90,.55) !important; }
+html body .iconbtn.del i, html body .btn-outline-danger i, html body .btn-danger i, html body .pbtn-danger i { color: inherit !important; }
+html body .iconbtn.del:hover, html body .btn-outline-danger:hover, html body .btn-danger:hover, html body .pbtn-danger:hover,
+html body td .btn-outline-danger:hover, html body td .btn-danger:hover,
+html body .btn:has(> i.fa-trash):hover, html body button:has(> i.fa-trash):hover, html body a:has(> i.fa-trash:only-child):hover,
+html body td .btn:has(> i.fa-trash:only-child):hover {
+  color: #fff !important; background: #e5484d !important; border-color: #e5484d !important; }
+html[data-theme="light"] body .iconbtn.del, html[data-theme="light"] body .btn-outline-danger, html[data-theme="light"] body .btn-danger, html[data-theme="light"] body .pbtn-danger,
+html[data-theme="light"] body td .btn-outline-danger, html[data-theme="light"] body td .btn-danger,
+html[data-theme="light"] body .btn:has(> i.fa-trash), html[data-theme="light"] body button:has(> i.fa-trash), html[data-theme="light"] body a:has(> i.fa-trash:only-child),
+html[data-theme="light"] body td .btn:has(> i.fa-trash:only-child) {
+  color: #c0271f !important; background: rgba(214,52,44,.10) !important; border-color: rgba(214,52,44,.5) !important; }
+html[data-theme="light"] body .iconbtn.del:hover, html[data-theme="light"] body .btn-outline-danger:hover, html[data-theme="light"] body .btn-danger:hover, html[data-theme="light"] body .pbtn-danger:hover,
+html[data-theme="light"] body td .btn-outline-danger:hover, html[data-theme="light"] body .btn:has(> i.fa-trash):hover, html[data-theme="light"] body button:has(> i.fa-trash):hover,
+html[data-theme="light"] body a:has(> i.fa-trash:only-child):hover, html[data-theme="light"] body td .btn:has(> i.fa-trash:only-child):hover {
+  color: #fff !important; background: #d6342c !important; border-color: #d6342c !important; }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PersonName;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +17,8 @@ class UserController extends Controller
     public function postUser(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:120',
-            'email' => 'required|email|max:190|unique:users,email',
+            'name' => ['required', 'string', 'max:120', new PersonName()],
+            'email' => 'required|email:rfc|max:190|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -34,8 +35,8 @@ class UserController extends Controller
     {
         $user = User::findOrFail($userId);
         $data = $request->validate([
-            'name' => 'required|string|max:120',
-            'email' => 'required|email|max:190|unique:users,email,' . $user->id,
+            'name' => ['required', 'string', 'max:120', new PersonName()],
+            'email' => 'required|email:rfc|max:190|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 

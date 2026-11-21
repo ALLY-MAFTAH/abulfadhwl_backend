@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
     <link href="{{ asset('css/admin.css') }}?v=2" rel="stylesheet">
-    <link href="{{ asset('css/admin-pro.css') }}?v=9" rel="stylesheet">
+    <link href="{{ asset('css/admin-pro.css') }}?v=10" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('af-theme') === 'light' ? 'light' : 'dark'); } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }</script>
     @yield('style')

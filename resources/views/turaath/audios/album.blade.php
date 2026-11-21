@@ -25,6 +25,11 @@
   .arow .meta .err { color: #ff9b9b; } .arow .meta .okc { color: var(--pro-em-l); } .arow .meta .warn { color: var(--pro-gold-t); }
   .arow .sz { font: 500 12px "JetBrains Mono", monospace; color: var(--pro-mut); white-space: nowrap; }
   .arow .acts { display: flex; gap: 6px; align-items: center; }
+  .arow .seek { display: flex; align-items: center; gap: 8px; padding: 6px 9px 2px; }
+  .arow .seek input[type=range] { flex: 1; min-width: 80px; height: 18px; accent-color: var(--pro-gold); cursor: pointer; background: transparent !important; border: 0 !important; padding: 0 !important; }
+  .arow .seek .tm { font: 500 11.5px "JetBrains Mono", monospace; color: var(--pro-mut); white-space: nowrap; min-width: 92px; text-align: center; }
+  .arow .seek .sk { height: 26px; padding: 0 8px; border-radius: 8px; border: 1px solid var(--pro-line2); background: rgba(var(--fill),.05); color: var(--pro-mut); font: 600 11px "JetBrains Mono", monospace; cursor: pointer; }
+  .arow .seek .sk:hover { color: var(--pro-gold-t); border-color: var(--pro-gold); }
   .arow.off { opacity: .5; } .arow.off .nm input { text-decoration: line-through; text-decoration-color: rgba(var(--fill),.3); }
   .arow.drag { opacity: .35; } .arow.dropbefore { box-shadow: inset 0 3px 0 var(--pro-gold); } .arow.dropafter { box-shadow: inset 0 -3px 0 var(--pro-gold); }
   .arow .bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: linear-gradient(90deg, var(--pro-gold), var(--pro-em)); transition: width .15s; }
@@ -216,13 +221,42 @@
       });
     } else if (e.target.closest('.play')) {
       var btn = e.target.closest('.play');
-      if (playing === row) { audio.pause(); btn.classList.remove('on'); btn.innerHTML = '<i class="fas fa-play"></i>'; playing = null; return; }
+      if (playing === row) {
+        // Same row: pause / resume in place; the seek bar stays so it can be scrubbed.
+        if (audio.paused) { audio.play().catch(function () {}); btn.classList.add('on'); btn.innerHTML = '<i class="fas fa-pause"></i>'; }
+        else { audio.pause(); btn.classList.remove('on'); btn.innerHTML = '<i class="fas fa-play"></i>'; }
+        return;
+      }
       $$('.play.on', songsBox).forEach(function (b) { b.classList.remove('on'); b.innerHTML = '<i class="fas fa-play"></i>'; });
+      hideSeek();
       audio.src = row.dataset.src; audio.play().catch(function () { AF.toast('Imeshindwa kucheza faili hili', 'err'); });
-      btn.classList.add('on'); btn.innerHTML = '<i class="fas fa-pause"></i>'; playing = row;
+      btn.classList.add('on'); btn.innerHTML = '<i class="fas fa-pause"></i>'; playing = row; showSeek(row);
     }
   });
-  audio.addEventListener('ended', function () { $$('.play.on', songsBox).forEach(function (b) { b.classList.remove('on'); b.innerHTML = '<i class="fas fa-play"></i>'; }); playing = null; });
+  audio.addEventListener('ended', function () { $$('.play.on', songsBox).forEach(function (b) { b.classList.remove('on'); b.innerHTML = '<i class="fas fa-play"></i>'; }); hideSeek(); playing = null; });
+  /* ---------- seek bar on the playing row: scrub to any minute, or jump 30 s ---------- */
+  function clock(sec) { sec = Math.max(0, Math.floor(sec || 0)); var h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), x = sec % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(x).padStart(2, '0'); }
+  var seekEl = null, scrubbing = false;
+  function showSeek(row) {
+    hideSeek();
+    seekEl = document.createElement('div'); seekEl.className = 'seek';
+    seekEl.innerHTML = '<button type="button" class="sk" data-d="-30" title="Rudi sekunde 30">\u221230s</button>' +
+      '<input type="range" min="0" max="1000" step="1" value="0" aria-label="Sogeza sauti">' +
+      '<button type="button" class="sk" data-d="30" title="Ruka sekunde 30">+30s</button>' +
+      '<span class="tm">0:00 / 0:00</span>';
+    $('.nm', row).appendChild(seekEl);
+    var rng = $('input', seekEl);
+    rng.addEventListener('input', function () { scrubbing = true; if (audio.duration) { $('.tm', seekEl).textContent = clock(rng.value / 1000 * audio.duration) + ' / ' + clock(audio.duration); } });
+    rng.addEventListener('change', function () { if (audio.duration) audio.currentTime = rng.value / 1000 * audio.duration; scrubbing = false; });
+    seekEl.addEventListener('click', function (e) { var b = e.target.closest('.sk'); if (!b || !audio.duration) return; audio.currentTime = Math.min(audio.duration, Math.max(0, audio.currentTime + (+b.dataset.d))); });
+  }
+  function hideSeek() { if (seekEl) { seekEl.remove(); seekEl = null; } scrubbing = false; }
+  function tick() {
+    if (!seekEl || scrubbing || !audio.duration) return;
+    $('input', seekEl).value = Math.round(audio.currentTime / audio.duration * 1000);
+    $('.tm', seekEl).textContent = clock(audio.currentTime) + ' / ' + clock(audio.duration);
+  }
+  audio.addEventListener('timeupdate', tick); audio.addEventListener('loadedmetadata', tick);
   $('#filter').addEventListener('input', function () { var q = this.value.trim().toLowerCase(); $$('.arow', songsBox).forEach(function (r) { r.style.display = !q || $('input', r).value.toLowerCase().indexOf(q) > -1 ? '' : 'none'; }); });
   $('#sortAz').onclick = function () {
     var rows = $$('.arow', songsBox).sort(function (a, b) { return $('input', a).value.localeCompare($('input', b).value, undefined, { numeric: true, sensitivity: 'base' }); });

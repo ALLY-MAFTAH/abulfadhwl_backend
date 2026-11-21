@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PlainText;
 use App\Models\Link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as REQ;
@@ -39,9 +40,9 @@ class LinkController extends Controller
     public function postLink(Request $request)
     {
         $attributes = $this->validate($request, [
-            'type' => 'required',
-            'title' => 'required',
-            'url' => 'required',
+            'type' => ['required', 'string', 'max:60', new PlainText()],
+            'title' => ['required', 'string', 'max:160', new PlainText()],
+            'url' => ['required', 'url', 'max:500', 'starts_with:http://,https://'],
             'icon' => ['required', 'file', 'mimes:jpg,jpeg,png,webp,gif,svg'],
         ]);
 
@@ -64,9 +65,9 @@ class LinkController extends Controller
 
         $attributes = $this->validate($request, [
             'icon' => 'sometimes|file|mimes:jpg,jpeg,png,webp,gif,svg',
-            'url' => 'required',
-            'title' => 'required',
-            'type' => 'required'
+            'url' => ['required', 'url', 'max:500', 'starts_with:http://,https://'],
+            'title' => ['required', 'string', 'max:160', new PlainText()],
+            'type' => ['required', 'string', 'max:60', new PlainText()]
         ]);
 
         if (isset($attributes['icon'])) {

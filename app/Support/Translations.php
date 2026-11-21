@@ -19,7 +19,7 @@ class Translations
         $out = [];
         foreach (array_keys(self::LANGS) as $lang) {
             foreach ($fields as $f) {
-                $v = trim((string) ($in[$lang][$f] ?? ''));
+                $v = InputRules::cleanText(strip_tags((string) ($in[$lang][$f] ?? '')));
                 if ($v !== '') $out[$lang][$f] = mb_substr($v, 0, 1000);
             }
         }

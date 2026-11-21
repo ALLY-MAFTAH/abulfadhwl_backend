@@ -68,8 +68,7 @@
 
                                         <td>
                                             <a href="{{ route('book', $book->id) }}" class="btn btn-outline-primary">
-                                                <i class="fas fa-info-circle">
-                                                    View</i>
+                                                <i class="fas fa-info-circle"></i> <span>View</span>
                                             </a>
                                         </td>
                                         <td>

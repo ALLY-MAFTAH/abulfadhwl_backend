@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PlainText;
+use App\Support\InputRules;
 use App\Models\AnsweredQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -45,7 +47,7 @@ class AnsweredQuestionController extends Controller
     public function postQuestion(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'qn' => 'required|string|max:2000',
+            'qn' => ['required', 'string', 'min:5', 'max:2000', new PlainText()],
         ]);
 
         if ($validator->fails()) {
@@ -55,7 +57,7 @@ class AnsweredQuestionController extends Controller
             ], 422);
         }
         $question = new AnsweredQuestion();
-        $question->qn = $request->input('qn');
+        $question->qn = InputRules::cleanText($request->input('qn'));
         $question->status = false;
 
         $question->save();

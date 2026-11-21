@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PlainText;
+use App\Rules\SafeName;
 use App\Models\Album;
 use App\Models\Song;
 use App\Models\Category;
@@ -61,7 +63,7 @@ class AlbumController extends Controller
 
         // Validate if the request sent contains these parameters
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:1|unique:albums,name,NULL,id,deleted_at,NULL'
+            'name' => ['required', 'string', 'min:1', 'max:190', 'unique:albums,name,NULL,id,deleted_at,NULL', new SafeName()],
 
         ]);
 
@@ -97,8 +99,8 @@ class AlbumController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'description' => 'required',
+            'name' => ['required', 'string', 'max:190', new SafeName()],
+            'description' => ['required', 'string', 'max:2000', new PlainText()],
 
         ]);
 

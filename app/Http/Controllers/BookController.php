@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PlainText;
+use App\Rules\SafeName;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -44,10 +46,10 @@ class BookController extends Controller
         $validator = Validator::make($request->all(), [
             'file' => 'required|file|mimes:pdf,epub',
             'cover' => 'required|file|image|mimes:jpg,jpeg,png,webp,gif',
-            'title' => 'required|min:1|unique:books,title,NULL,id,deleted_at,NULL',
-            'edition' => 'required',
-            'pub_year' => 'required',
-            'description' => 'required',
+            'title' => ['required', 'string', 'min:1', 'max:190', 'unique:books,title,NULL,id,deleted_at,NULL', new SafeName()],
+            'edition' => ['required', 'string', 'max:60', new PlainText()],
+            'pub_year' => ['required', 'string', 'max:20', new PlainText()],
+            'description' => ['required', 'string', 'max:5000', new PlainText()],
 
         ]);
 
@@ -104,6 +106,10 @@ class BookController extends Controller
         $request->validate([
             'file' => 'sometimes|nullable|file|mimes:pdf,epub',
             'cover' => 'sometimes|nullable|file|image|mimes:jpg,jpeg,png,webp,gif',
+            'title' => ['required', 'string', 'max:190', new SafeName()],
+            'edition' => ['nullable', 'string', 'max:60', new PlainText()],
+            'pub_year' => ['nullable', 'string', 'max:20', new PlainText()],
+            'description' => ['nullable', 'string', 'max:5000', new PlainText()],
         ]);
 
         $bookFileToDelete = $book->file;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\PlainText;
 use App\Models\PushNotification;
 use App\Services\FcmV1;
 use Illuminate\Http\Request;
@@ -20,8 +21,8 @@ class PushNotificationController extends Controller
     public function bulksend(Request $req)
     {
         $data = $req->validate([
-            'title' => 'required|string|max:120',
-            'body' => 'required|string|max:500',
+            'title' => ['required', 'string', 'max:120', new PlainText()],
+            'body' => ['required', 'string', 'max:500', new PlainText()],
             'img' => 'nullable|url|max:500',
         ]);
 
