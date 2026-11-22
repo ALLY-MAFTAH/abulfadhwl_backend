@@ -113,6 +113,31 @@ class StreamController extends Controller
         return back()->with('success', 'Darsa imehaririwa');
     }
 
+    /**
+     * Dashboard switch. OFF: end whichever lesson is live. ON: go live with
+     * the lesson scheduled for today (by its timetable day).
+     */
+    public function toggleLive(Request $request)
+    {
+        $want = filter_var($request->input('status'), FILTER_VALIDATE_BOOLEAN);
+
+        if (!$want) {
+            $response = back();
+            foreach (Stream::where('status', 1)->get() as $live) {
+                $response = $this->toggleStatus($request, $live);
+            }
+            return $response;
+        }
+
+        $today = Stream::forToday();
+        if (!$today) {
+            $msg = 'Hakuna darsa iliyopangwa leo (' . (Stream::DAYS[Stream::todayKey()] ?? '') . '). Weka siku kwenye darsa kwanza.';
+            if ($request->expectsJson()) return response()->json(['ok' => false, 'error' => $msg], 422);
+            return back()->with('error', $msg);
+        }
+        return $this->toggleStatus($request, $today);
+    }
+
     public function toggleStatus(Request $request, Stream $stream)
     {
         $want = filter_var($request->input('status'), FILTER_VALIDATE_BOOLEAN);

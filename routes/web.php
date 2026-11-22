@@ -9,6 +9,7 @@ use App\Http\Controllers\StreamController;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\LinkController;
+use App\Http\Controllers\HijriMonthController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SlideController;
@@ -119,10 +120,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('stream/{streamId}', [StreamController::class,'getSingleStream'])->name('stream');
     Route::get('delete_stream/{streamId}', [StreamController::class,'deleteStream'])->name('delete_stream');
     Route::get('stream/timetable/{streamId}', [StreamController::class,'viewTimetableFile'])->name('timetable');
+    Route::put('streams/live', [StreamController::class,'toggleLive'])->name('stream.toggle_live');
     Route::put('stream/{stream}/status', [StreamController::class,'toggleStatus'])->name('stream.toggle_status');
     Route::post('streams/timetable', [StreamController::class,'setTimetable'])->name('streams.timetable');
     Route::put('edit_stream/{streamId}', [StreamController::class,'putStream'])->name('edit_stream');
 
+
+    // HIJRI CALENDAR (month starts after the moon is sighted)
+    Route::get('hijri', [HijriMonthController::class,'index'])->name('hijri');
+    Route::post('hijri', [HijriMonthController::class,'store'])->name('add_hijri');
+    Route::delete('hijri/{id}', [HijriMonthController::class,'destroy'])->name('delete_hijri');
 
     // LINKS ROUTES
     Route::get('links', [LinkController::class,'getAllLinks'])->name('links');

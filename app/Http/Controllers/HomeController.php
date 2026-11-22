@@ -61,7 +61,7 @@ class HomeController extends Controller
 
         return view('home', [
             'stats' => $stats,
-            'liveStream' => Stream::where('status', 1)->first() ?: Stream::latest()->first(),
+            'liveStream' => Stream::where('status', 1)->first() ?: Stream::forToday(),
             'pendingQuestions' => $pendingQuestions,
             'pendingCount' => AnsweredQuestion::whereNull('textAns')->whereNull('audioAns')->count(),
             'latestComments' => Comment::latest()->take(5)->get(),

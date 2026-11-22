@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\LinkController;
+use App\Http\Controllers\HijriMonthController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SlideController;
@@ -76,6 +77,8 @@ Route::get('announcement/{announcementId}', [AnnouncementController::class,'getS
 Route::get('streams', [StreamController::class,'getAllStreams']);
 Route::get('stream/{streamId}', [StreamController::class,'getSingleStream']);
 Route::get('stream/timetable/{streamId}', [StreamController::class,'viewTimetableFile']);
+
+Route::get('hijri-months', [HijriMonthController::class,'index']);
 
 Route::get('links', [LinkController::class,'getAllLinks']);
 Route::get('link/{linkId}', [LinkController::class,'getSingleLink']);

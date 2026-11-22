@@ -47,6 +47,7 @@
                 ['Arifa (Push)', 'notifications', 'fa-bell', ['notifications']],
                 ['Mfumo', null],
                 ['Live / Matangazo ya moja kwa moja', 'streams', 'fa-broadcast-tower', ['streams', 'stream']],
+                ['Kalenda ya Hijri', 'hijri', 'fa-moon', ['hijri']],
                 ['Viungo', 'links', 'fa-link', ['links', 'link']],
                 ['Watumiaji', 'users', 'fa-users', ['users', 'user']],
             ];

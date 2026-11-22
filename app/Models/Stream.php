@@ -34,6 +34,18 @@ class Stream extends Model
         return static::all()->sortBy(fn ($s) => [$idx[$s->day] ?? 99, (int) $s->position, $s->id])->values();
     }
 
+    /** Weekday key (mon..sun) for "today" in the congregation's timezone (East Africa). */
+    public static function todayKey(): string
+    {
+        return strtolower(now('Africa/Dar_es_Salaam')->format('D'));
+    }
+
+    /** The lesson scheduled for today (first in timetable order), or null. */
+    public static function forToday(): ?self
+    {
+        return static::where('day', self::todayKey())->orderBy('position')->orderBy('id')->first();
+    }
+
     protected $casts = ['translations' => 'array'];
 
     protected $dates=[

@@ -22,18 +22,20 @@
             <p>
                 @if ($liveStream)
                     {{ $liveStream->title }} — {{ $liveStream->status ? 'Inarushwa sasa. Watumiaji wanaiona kwenye app.' : 'Haijawashwa.' }}
+                @elseif (\App\Models\Stream::count())
+                    Hakuna darsa iliyopangwa leo ({{ \App\Models\Stream::DAYS[\App\Models\Stream::todayKey()] }}). <a style="color:var(--gold-light)" href="{{ route('streams') }}">Simamia ratiba</a>
                 @else
                     Bado hujaweka kiungo cha live. <a style="color:var(--gold-light)" href="{{ route('streams') }}">Weka sasa</a>
                 @endif
             </p>
         </div>
-        @if ($liveStream)
+        @if (\App\Models\Stream::count())
             <div class="state">
-                <form method="post" action="{{ route('stream.toggle_status', $liveStream) }}">
+                <form method="post" action="{{ route('stream.toggle_live') }}">
                     @csrf @method('put')
                     <div class="switch">
                         <input type="hidden" name="status" value="0">
-                        <input type="checkbox" name="status" id="live-switch" value="1" @checked($liveStream->status)
+                        <input type="checkbox" name="status" id="live-switch" value="1" @checked($liveStream && $liveStream->status)
                             onclick="this.form.submit()">
                         <label for="live-switch" class="cr"></label>
                     </div>
