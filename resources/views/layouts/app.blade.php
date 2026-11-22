@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
     <link href="{{ asset('css/admin.css') }}?v=2" rel="stylesheet">
-    <link href="{{ asset('css/admin-pro.css') }}?v=10" rel="stylesheet">
+    <link href="{{ asset('css/admin-pro.css') }}?v=11" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('af-theme') === 'light' ? 'light' : 'dark'); } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }</script>
     @yield('style')
@@ -51,6 +51,13 @@
                 ['Viungo', 'links', 'fa-link', ['links', 'link']],
                 ['Watumiaji', 'users', 'fa-users', ['users', 'user']],
             ];
+            // Breadcrumb for the top bar: section heading > current page.
+            $crumb = [];
+            $heading = null;
+            foreach ($nav as $n) {
+                if ($n[1] === null) { $heading = $n[0]; continue; }
+                if (request()->routeIs(...$n[3])) { $crumb = array_filter([$heading, $n[0]]); break; }
+            }
         @endphp
 
         <aside class="rail" id="rail">
@@ -82,7 +89,14 @@
         <div class="main">
             <header class="topbar">
                 <button class="burger" type="button" id="burger" aria-label="Menu"><i class="fas fa-bars"></i></button>
-                <span class="title">@yield('page_title', 'Abul Fadhwl')</span>
+                <span class="title crumb">
+                    @forelse ($crumb as $i => $c)
+                        @if ($i > 0)<i class="fas fa-chevron-right sep"></i>@endif
+                        <span class="{{ $loop->last ? 'cur' : 'dim' }}">{{ $c }}</span>
+                    @empty
+                        <span class="cur">@yield('page_title', '')</span>
+                    @endforelse
+                </span>
                 <div class="right">
                     <div class="seg" role="group" aria-label="Lugha / Language" data-no-i18n>
                         <button type="button" data-setlang="sw" title="Kiswahili">SW</button>

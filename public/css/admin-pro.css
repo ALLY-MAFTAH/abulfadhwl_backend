@@ -294,3 +294,10 @@ html[data-theme="light"] body .iconbtn.del:hover, html[data-theme="light"] body 
 html[data-theme="light"] body td .btn-outline-danger:hover, html[data-theme="light"] body .btn:has(> i.fa-trash):hover, html[data-theme="light"] body button:has(> i.fa-trash):hover,
 html[data-theme="light"] body a:has(> i.fa-trash:only-child):hover, html[data-theme="light"] body td .btn:has(> i.fa-trash:only-child):hover {
   color: #fff !important; background: #d6342c !important; border-color: #d6342c !important; }
+
+/* Top bar breadcrumb: section > current page */
+.topbar .title.crumb { display: flex; align-items: center; gap: 10px; }
+.topbar .title.crumb .dim { opacity: .55; font-weight: 600; }
+.topbar .title.crumb .cur { font-weight: 800; }
+.topbar .title.crumb .sep { font-size: 10px; opacity: .45; }
+html[dir="rtl"] .topbar .title.crumb .sep { transform: scaleX(-1); }

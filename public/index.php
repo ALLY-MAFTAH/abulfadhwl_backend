@@ -3,6 +3,11 @@
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
+// PHP 8.5 prints deprecation notices from older packages (Carbon, PDO constant).
+// They are harmless; keep them off the page.
+error_reporting(E_ALL & ~E_DEPRECATED);
+ini_set('display_errors', '0');
+
 define('LARAVEL_START', microtime(true));
 
 /*
