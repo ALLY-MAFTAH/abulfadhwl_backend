@@ -42,7 +42,7 @@ class HijriMonthController extends Controller
             ['starts_on' => $data['starts_on'], 'note' => $data['note'] ?? null]
         );
 
-        return back()->with('success', 'Imehifadhiwa: ' . HijriMonth::NAMES[(int) $data['hijri_month']] . ' ' . $data['hijri_year']);
+        return back()->with('success', 'Imehifadhiwa: mwezi ' . (int) $data['hijri_month'] . ', ' . $data['hijri_year'] . 'H');
     }
 
     public function destroy($id)

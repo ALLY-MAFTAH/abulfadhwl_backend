@@ -16,8 +16,8 @@
                 <div class="card-body">
                     <p class="mb-3" style="line-height:1.7">
                         Mwezi ukishaonekana (au idadi ya siku 30 kukamilika), ingiza hapa tarehe ya kawaida
-                        (Gregorian) ya <b>siku ya kwanza</b> ya mwezi huo wa Hijri. Programu itatumia tarehe hii
-                        badala ya hesabu. Miezi ambayo haijaingizwa inaonyeshwa kama <b>makadirio</b>.
+                        (Gregorian) ya siku ya kwanza ya mwezi huo wa Hijri. Programu itatumia tarehe hii
+                        badala ya hesabu. Miezi ambayo haijaingizwa inaonyeshwa kama makadirio.
                     </p>
                     <form method="POST" action="{{ route('add_hijri') }}" class="form-row align-items-end">
                         @csrf

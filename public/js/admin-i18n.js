@@ -210,6 +210,14 @@
     ['Ratiba bado haina siku', 'The timetable has no days yet'], ['Hariri kila darsa uchague siku (na mwalimu), kisha ratiba itatokea hapa na kwenye app.', 'Edit each lesson and pick a day (and teacher); the timetable will then appear here and in the app.'],
     ['Jumatatu', 'Monday'], ['Jumanne', 'Tuesday'], ['Jumatano', 'Wednesday'], ['Alhamisi', 'Thursday'], ['Ijumaa', 'Friday'], ['Jumamosi', 'Saturday'], ['Jumapili', 'Sunday'],
     ['mf. Baada ya Magharibi', 'e.g. After Maghrib'], ['mf. Abul Fadhwl', 'e.g. Abul Fadhwl'],
+    // ---- Hijri calendar ----
+    ['Kalenda ya Hijri', 'Hijri Calendar'], ['KALENDA YA HIJRI: Mwanzo wa mwezi (kwa kuonekana mwezi)', 'HIJRI CALENDAR: Start of the month (by moon sighting)'],
+    ['Mwezi ukishaonekana (au idadi ya siku 30 kukamilika), ingiza hapa tarehe ya kawaida (Gregorian) ya siku ya kwanza ya mwezi huo wa Hijri. Programu itatumia tarehe hii badala ya hesabu. Miezi ambayo haijaingizwa inaonyeshwa kama makadirio.', 'Once the moon has been sighted (or 30 days are complete), enter the Gregorian date of the first day of that Hijri month. The app uses this date instead of calculation. Months not entered are shown as estimates.'],
+    ['Mwezi wa Hijri', 'Hijri month'], ['Mwaka (H)', 'Year (H)'], ['Siku ya 1 (tarehe ya kawaida)', 'Day 1 (Gregorian date)'], ['Maelezo (si lazima)', 'Note (optional)'],
+    ['mf. Mwezi umeonekana Tanga', 'e.g. Moon sighted in Tanga'], ['Miezi iliyothibitishwa ({})', 'Confirmed months ({})'], ['Mwezi', 'Month'], ['Mwaka', 'Year'],
+    ['Ulianza (siku ya 1)', 'Started (day 1)'], ['Kufuta mwezi huu?', 'Delete this month?'], ['Bado hakuna mwezi uliothibitishwa.', 'No confirmed month yet.'],
+    ['Imehifadhiwa: mwezi {}, {}H', 'Saved: month {}, {}H'],
+    ['{}. Swafar', '{}. Safar'], ['{}. Rabiul Awwal', '{}. Rabi al-Awwal'], ['{}. Rabiul Thaani', '{}. Rabi al-Thani'], ['{}. Jumaadal Uulaa', '{}. Jumada al-Awwal'], ['{}. Jumaadal Aakhira', '{}. Jumada al-Thani'], ['{}. Shaaban', '{}. Sha\'ban'], ['{}. Ramadhani', '{}. Ramadan'], ['{}. Shawwaal', '{}. Shawwal'],
     // ---- server flash messages ----
     ['Msimamizi ameongezwa', 'Administrator added'], ['Msimamizi amefutwa', 'Administrator deleted'], ['Taarifa zimehifadhiwa', 'Details saved'], ['Sehemu imeongezwa', 'Section added'], ['Sehemu imehifadhiwa', 'Section saved'],
     ['Huwezi kujifuta mwenyewe.', 'You cannot delete yourself.'], ['Lazima abaki msimamizi angalau mmoja.', 'At least one administrator must remain.'], ['Ratiba ya wiki imesasishwa', 'Weekly timetable updated'],
