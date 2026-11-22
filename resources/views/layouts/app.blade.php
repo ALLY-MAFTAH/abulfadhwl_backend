@@ -153,7 +153,7 @@
         })();
     </script>
     <script src="{{ asset('js/admin-pro.js') }}?v=3"></script>
-    <script src="{{ asset('js/admin-i18n.js') }}?v=7"></script>
+    <script src="{{ asset('js/admin-i18n.js') }}?v=8"></script>
     @if ($errors->any())
         <script>document.addEventListener('DOMContentLoaded', function () { AF.toast(@json($errors->first()), 'err'); });</script>
     @endif
